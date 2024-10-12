@@ -7,8 +7,6 @@ services:
     command: ./.docker/entrypoint.sh
     volumes:
     - .:/home/python/app
-    - ./.docker/zsh/powerlevel10k/.p10k.zsh:/home/python/.p10k.zsh:delegated
-    - ./.docker/zsh/history:/home/python/zsh:delegated
     ports:
     - "8000:8000"
   
