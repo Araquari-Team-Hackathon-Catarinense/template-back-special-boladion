@@ -10,3 +10,15 @@ class CompanyListSerializer(serializers.Serializer):
     person_type = serializers.CharField(read_only=True)
     document_member = serializers.CharField(read_only=True)
     is_active = serializers.BooleanField(read_only=True)
+
+
+class CompanyCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = [
+            "name",
+            "trade_name",
+            "person_type",
+            "document_number",
+            "is_active",
+        ]

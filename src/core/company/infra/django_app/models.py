@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 from core.company.domain.value_objects import PersonType
@@ -9,7 +10,7 @@ class Company(models.Model):
         (person_type.name, person_type.value) for person_type in PersonType
     ]
 
-    id = models.UUIDField(primary_key=True, editable=True)
+    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
     name = models.CharField(max_length=255)
     trade_name = models.CharField(max_length=255, blank=True, null=True)
     person_type = models.CharField(max_length=2, choices=PERSON_TYPE_CHOICES)

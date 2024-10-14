@@ -6,24 +6,6 @@ from rest_framework.test import APIClient
 from core.company.infra.django_app.models import Company
 
 
-# @pytest.fixture
-# def company_item():
-#     return {"id": ""}
-
-
-# @pytest.fixture
-# def category_documentary():
-#     return Category(
-#         name="Documentary",
-#         description="Documentary description",
-#     )
-
-
-# @pytest.fixture
-# def category_repository() -> DjangoORMCategoryRepository:
-#     return DjangoORMCategoryRepository()
-
-
 @pytest.mark.django_db
 class TestListAPI:
     def test_list_categories(self) -> None:
