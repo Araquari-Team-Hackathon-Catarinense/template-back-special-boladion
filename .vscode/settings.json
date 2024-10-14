@@ -37,8 +37,8 @@
         "__pypackages__",
         "-s"
     ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": true,
+    "python.testing.pytestEnabled": false,
     "workbench.colorCustomizations": {
         "activityBar.activeBorder": "#441b30",
         "activityBar.activeBackground": "#345a81",
@@ -58,5 +58,12 @@
         "titleBar.activeForeground": "#e7e7e7",
         "titleBar.inactiveBackground": "#25415d99",
         "titleBar.inactiveForeground": "#e7e7e799"
-    }
+    },
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./src",
+        "-p",
+        "test*.py"
+    ]
 }
