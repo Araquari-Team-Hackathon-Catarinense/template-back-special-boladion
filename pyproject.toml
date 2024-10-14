@@ -21,9 +21,15 @@ license = {text = "MIT"}
 [tool.pdm]
 distribution = false
 
+[tool.pdm.scripts]
+manage = "python ./src/django_app/manage.py"
+runserver = "pdm run manage runserver 0.0.0.0:8000"
+test = "pytest --ignore __pypackages__"
+
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest>=8.3.3",
     "pytest-django>=4.9.0",
     "colorama>=0.4.6",
+    "model-bakery>=1.20.0",
 ]
