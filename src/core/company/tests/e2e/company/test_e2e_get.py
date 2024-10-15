@@ -1,6 +1,7 @@
 import json
-from model_bakery import baker
+
 import pytest
+from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.company.infra.django_app.models import Company
@@ -14,17 +15,27 @@ class TestListAPI:
         url = "/api/companies/"
         response = APIClient().get(url)
 
-        expected_data = [
-            {
-                "id": str(company.id),
-                "name": company.name,
-                "trade_name": company.trade_name,
-                "person_type": company.person_type,
-                "is_active": company.is_active,
-            }
-            for company in created_companies
-        ]
+        expected_data = {
+            "total": 3,
+            "num_pages": 1,
+            "page_number": 1,
+            "page_size": 20,
+            "links": {
+                "next": None,
+                "previous": None,
+            },
+            "results": [
+                {
+                    "id": str(company.id),
+                    "name": company.name,
+                    "trade_name": company.trade_name,
+                    "person_type": company.person_type,
+                    "is_active": company.is_active,
+                }
+                for company in created_companies
+            ],
+        }
 
         assert response.status_code == 200
-        assert len(json.loads(response.content)) == 3
+        assert len(response.json()["results"]) == 3
         assert json.loads(response.content) == expected_data
