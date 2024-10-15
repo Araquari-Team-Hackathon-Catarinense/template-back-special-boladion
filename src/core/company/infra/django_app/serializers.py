@@ -36,6 +36,9 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
             "person_type",
             "document_number",
             "is_active",
+            "address",
+            "contacts",
+            "system_admin",
         ]
         read_only_fields = ["id"]
 
