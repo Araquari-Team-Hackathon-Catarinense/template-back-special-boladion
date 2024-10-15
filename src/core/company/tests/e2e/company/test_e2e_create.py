@@ -29,45 +29,30 @@ class TestListAPI:
 
         assert response.status_code == 201
 
-    def test_if_a_new_uuid_is_generated_with_more_companies(self) -> None:
-        companies = [
-            {
-                "name": "Company 1",
-                "trade_name": "Trade Name 1",
-                "person_type": "PJ",
-                "is_active": True,
-                "document_number": "12345678901234",
-            },
-            {
-                "name": "Company 2",
-                "trade_name": "Trade Name 2",
-                "person_type": "PF",
-                "is_active": True,
-                "document_number": "12345678911",
-            },
-        ]
-
+    def test_if_throw_a_error_with_invalid_person_type(self) -> None:
         url = "/api/companies/"
-        response1 = APIClient().post(
+        company = {
+            "name": "Company 1",
+            "trade_name": "Trade Name 1",
+            "person_type": "invalid",
+            "is_active": True,
+            "document_number": "12345678901234",
+        }
+
+        response = APIClient().post(
             url,
             {
-                "name": companies[0]["name"],
-                "trade_name": companies[0]["trade_name"],
-                "person_type": companies[0]["person_type"],
-                "is_active": companies[0]["is_active"],
-                "document_number": companies[0]["document_number"],
-            },
-        )
-        response2 = APIClient().post(
-            url,
-            {
-                "name": companies[1]["name"],
-                "trade_name": companies[1]["trade_name"],
-                "person_type": companies[1]["person_type"],
-                "is_active": companies[1]["is_active"],
-                "document_number": companies[1]["document_number"],
+                "name": company["name"],
+                "trade_name": company["trade_name"],
+                "person_type": company["person_type"],
+                "is_active": company["is_active"],
+                "document_number": company["document_number"],
             },
         )
 
-        assert response1.status_code == 201
-        assert response2.status_code == 201
+        assert response.status_code == 400
+        assert "person_type" in response.json()
+        assert (
+            f'"{company["person_type"]}" is not a valid choice.'
+            in response.json()["person_type"][0]
+        )

@@ -66,3 +66,27 @@ class TestCompanyCreateSerializer:
             f'"{data["person_type"]}" is not a valid choice.'
             in serializer.errors["person_type"]
         )
+
+    def test_if_a_new_uuid_is_generated_with_more_companies(self) -> None:
+        companies = [
+            {
+                "name": "Company 1",
+                "trade_name": "Trade Name 1",
+                "person_type": "PJ",
+                "is_active": True,
+                "document_number": "12345678901234",
+            },
+            {
+                "name": "Company 2",
+                "trade_name": "Trade Name 2",
+                "person_type": "PF",
+                "is_active": True,
+                "document_number": "12345678911",
+            },
+        ]
+
+        serializer = CompanyCreateSerializer(data=companies[0])
+        assert serializer.is_valid() is True
+
+        serializer = CompanyCreateSerializer(data=companies[1])
+        assert serializer.is_valid() is True
