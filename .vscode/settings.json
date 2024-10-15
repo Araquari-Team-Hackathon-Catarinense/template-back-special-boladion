@@ -1,10 +1,4 @@
 {
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
-    "python.linting.pylintPath": "pylint",
-    "python.linting.pylintArgs": [
-        "--disable=C0111"
-    ],
     "python.autoComplete.extraPaths": [
         "${workspaceFolder}/__pypackages__/3.12/lib"
     ],
@@ -30,6 +24,15 @@
             "includeAllSymbols": true,
             "depth": 10
         },
+    ],
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always"
+    },
+    "isort.args": [
+        "--profile",
+        "black"
     ],
     "peacock.remoteColor": "#25415d",
     "python.testing.unittestEnabled": false,
@@ -57,11 +60,4 @@
     "python.testing.pytestArgs": [
         "src"
     ]
-    // "python.testing.unittestArgs": [
-    //     "-v",
-    //     "-s",
-    //     "./src",
-    //     "-p",
-    //     "test*.py"
-    // ]
 }

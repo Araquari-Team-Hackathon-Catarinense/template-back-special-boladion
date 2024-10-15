@@ -9,7 +9,11 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"ms-python.python"
+				"ms-python.python",
+				"ms-python.black-formatter",
+				"tamasfe.even-better-toml",
+				"ms-python.isort",
+				"ms-python.pylint"
 			],
 			"settings": {
 				"files.insertFinalNewline": true,
