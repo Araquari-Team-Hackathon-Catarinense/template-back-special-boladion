@@ -12,6 +12,7 @@ dependencies = [
     "django-safedelete>=1.4.0",
     "drf-spectacular>=0.27.2",
     "setuptools>=75.1.0",
+    "cpf-cnpj-validate>=1.4",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
