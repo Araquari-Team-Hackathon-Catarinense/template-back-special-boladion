@@ -14,6 +14,18 @@ class CompanyListSerializer(serializers.Serializer):
     is_active = serializers.BooleanField(read_only=True)
 
 
+class CompanyDetailSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    name = serializers.CharField(read_only=True)
+    trade_name = serializers.CharField(read_only=True)
+    person_type = serializers.CharField(read_only=True)
+    document_number = serializers.CharField(read_only=True)
+    is_active = serializers.BooleanField(read_only=True)
+    address = serializers.JSONField(read_only=True)
+    contacts = serializers.JSONField(read_only=True)
+    system_admin = serializers.BooleanField(read_only=True)
+
+
 class CompanyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
