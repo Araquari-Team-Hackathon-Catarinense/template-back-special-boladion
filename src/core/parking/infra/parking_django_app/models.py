@@ -4,8 +4,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from src.core import parking
-from src.core.company.infra.company_django_app.models import Company
+from core.company.infra.company_django_app.models import Company
 
 
 class Parking(models.Model):

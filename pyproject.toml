@@ -15,7 +15,8 @@ dependencies = [
     "cpf-cnpj-validate>=1.4",
     "Pillow>=11.0.0",
     "python-magic>=0.4.27; sys_platform == \"linux\"",
-    "django-cors-headers>=4.5.0"
+    "django-cors-headers>=4.5.0",
+    "pytest>=8.3.3",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"

@@ -21,9 +21,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "core.company.infra.django_app",
-    "core.uploader",
     "corsheaders",
+    "core.uploader",
+    "core.company.infra.company_django_app",
+    "core.parking.infra.parking_django_app",
 ]
 
 MIDDLEWARE = [

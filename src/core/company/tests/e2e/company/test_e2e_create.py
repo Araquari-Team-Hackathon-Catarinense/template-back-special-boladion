@@ -2,7 +2,7 @@ import pytest
 from pycpfcnpj import gen
 from rest_framework.test import APIClient
 
-from core.company.infra.django_app.models import Company
+from core.company.infra.company_django_app.models import Company
 
 
 @pytest.mark.django_db

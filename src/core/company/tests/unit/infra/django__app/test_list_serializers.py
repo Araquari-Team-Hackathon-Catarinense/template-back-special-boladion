@@ -1,7 +1,8 @@
-from core.company.infra.django_app.models import Company
-from core.company.infra.django_app.serializers import CompanyListSerializer
-from model_bakery import baker
 import pytest
+from model_bakery import baker
+
+from core.company.infra.company_django_app.models import Company
+from core.company.infra.company_django_app.serializers import CompanyListSerializer
 
 
 @pytest.mark.django_db

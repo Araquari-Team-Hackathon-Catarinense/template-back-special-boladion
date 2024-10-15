@@ -1,8 +1,10 @@
 # pylint: disable=no-member,protected-access
 import unittest
+
 import pytest
 from django.db import models
-from core.company.infra.django_app.models import Company
+
+from core.company.infra.company_django_app.models import Company
 
 
 @pytest.mark.django_db()

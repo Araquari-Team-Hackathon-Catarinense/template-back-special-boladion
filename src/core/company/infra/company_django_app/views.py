@@ -1,9 +1,10 @@
-from core.company.infra.django_app.serializers import (
+from rest_framework.viewsets import ModelViewSet
+
+from core.company.infra.company_django_app.serializers import (
     CompanyCreateSerializer,
     CompanyDetailSerializer,
     CompanyListSerializer,
 )
-from rest_framework.viewsets import ModelViewSet
 
 from .models import Company
 
