@@ -26,8 +26,10 @@ distribution = false
 profile = "black"
 
 [tool.pdm.scripts]
-manage = "python ./src/django_app/manage.py"
-runserver = "pdm run manage runserver 0.0.0.0:8000"
+manage = "python src/manage.py"
+makemigrations = "pdm run manage makemigrations"
+migrate = "pdm run manage migrate"
+dev = "pdm run manage runserver 0.0.0.0:8000"
 test = "pytest --ignore __pypackages__"
 
 [tool.pdm.dev-dependencies]
