@@ -6,6 +6,6 @@
 # @receiver(post_save, sender=ParkingSector)
 # def update_parking_slots(sender, instance, **kwargs):
 #     parking = instance.parking
-#     total_slots = parking.parkingsector_set.aggregate(slots=Sum('slots'))['slots']
+#     total_slots = parking.sectors_set.aggregate(slots=Sum('qty_slots'))['slots']
 #     parking.slots = total_slots
 #     parking.save()
