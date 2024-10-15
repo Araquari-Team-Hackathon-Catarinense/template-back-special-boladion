@@ -1,3 +1,5 @@
+from uuid import UUID
+from attr.validators import instance_of
 from core.company.infra.django_app.models import Company
 from core.company.infra.django_app.serializers import (
     CompanyCreateSerializer,
@@ -91,6 +93,12 @@ class TestCompanyCreateSerializer:
 
         serializer = CompanyCreateSerializer(data=companies[0])
         assert serializer.is_valid() is True
+        company1 = serializer.save()
+        assert company1.id is not None
 
         serializer = CompanyCreateSerializer(data=companies[1])
         assert serializer.is_valid() is True
+        company2 = serializer.save()
+
+        assert company2.id is not None
+        assert company1.id != company2.id

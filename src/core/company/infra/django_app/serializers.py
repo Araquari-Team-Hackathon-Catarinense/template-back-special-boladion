@@ -1,3 +1,4 @@
+from os import read
 from pycpfcnpj import cpf, cnpj, cpfcnpj
 from rest_framework import serializers
 
@@ -17,15 +18,16 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = [
+            "id",
             "name",
             "trade_name",
             "person_type",
             "document_number",
             "is_active",
         ]
+        read_only_fields = ["id"]
 
     def validate_document_number(self, value: str) -> str:
-        # validate based on person_type value
         if self.initial_data["person_type"] == "PJ":
             if not cnpj.validate(value):
                 raise serializers.ValidationError("Invalid CNPJ.")

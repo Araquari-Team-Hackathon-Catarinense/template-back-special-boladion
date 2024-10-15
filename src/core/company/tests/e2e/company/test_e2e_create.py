@@ -30,6 +30,12 @@ class TestListAPI:
         )
 
         assert response.status_code == 201
+        assert response.json()["name"] == company["name"]
+        assert response.json()["trade_name"] == company["trade_name"]
+        assert response.json()["person_type"] == company["person_type"]
+        assert response.json()["document_number"] == company["document_number"]
+        assert response.json()["is_active"] == company["is_active"]
+        assert "id" in response.json()
 
     def test_if_throw_error_with_invalid_document_number(self) -> None:
         url = "/api/companies/"
