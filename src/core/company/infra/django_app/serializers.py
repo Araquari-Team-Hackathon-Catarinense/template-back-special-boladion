@@ -1,3 +1,4 @@
+from pycpfcnpj import cpf, cnpj, cpfcnpj
 from rest_framework import serializers
 
 from .models import Company
@@ -22,3 +23,15 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
             "document_number",
             "is_active",
         ]
+
+    def validate_document_number(self, value: str) -> str:
+        # validate based on person_type value
+        if self.initial_data["person_type"] == "PJ":
+            if not cnpj.validate(value):
+                raise serializers.ValidationError("Invalid CNPJ.")
+        elif self.initial_data["person_type"] == "PF":
+            if not cpf.validate(value):
+                raise serializers.ValidationError("Invalid CPF.")
+        elif not cpfcnpj.validate(value):
+            raise serializers.ValidationError("Invalid document number.")
+        return value

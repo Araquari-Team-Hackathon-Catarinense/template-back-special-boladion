@@ -4,6 +4,7 @@ from core.company.infra.django_app.serializers import (
     CompanyListSerializer,
 )
 from model_bakery import baker
+from pycpfcnpj import gen
 import pytest
 
 
@@ -43,10 +44,11 @@ class TestCompanyListSerializer:
 @pytest.mark.django_db
 class TestCompanyCreateSerializer:
     def test_create_serializer_with_valid_data(self) -> None:
+        cnpj = gen.cnpj()
         data = {
             "name": "Company",
             "person_type": "PJ",
-            "document_number": "12345678901234",
+            "document_number": cnpj,
         }
         serializer = CompanyCreateSerializer(data=data)
         assert serializer.is_valid() is True
@@ -68,20 +70,22 @@ class TestCompanyCreateSerializer:
         )
 
     def test_if_a_new_uuid_is_generated_with_more_companies(self) -> None:
+        cnpj = gen.cnpj()
+        cpf = gen.cpf()
         companies = [
             {
                 "name": "Company 1",
                 "trade_name": "Trade Name 1",
                 "person_type": "PJ",
                 "is_active": True,
-                "document_number": "12345678901234",
+                "document_number": cnpj,
             },
             {
                 "name": "Company 2",
                 "trade_name": "Trade Name 2",
                 "person_type": "PF",
                 "is_active": True,
-                "document_number": "12345678911",
+                "document_number": cpf,
             },
         ]
 
