@@ -1,16 +1,11 @@
 {
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
-    "python.linting.pylintPath": "pylint",
-    "python.linting.pylintArgs": [
-        "--disable=C0111"
-    ],
     "python.autoComplete.extraPaths": [
         "${workspaceFolder}/__pypackages__/3.12/lib"
     ],
     "python.analysis.extraPaths": [
         "${workspaceFolder}/__pypackages__/3.12/lib"
     ],
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
     "python.analysis.autoImportCompletions": true,
     "python.analysis.indexing": true,
     "python.analysis.packageIndexDepths": [
@@ -30,15 +25,18 @@
             "depth": 10
         },
     ],
-    "peacock.remoteColor": "#25415d",
-    "python.testing.pytestArgs": [
-        "src",
-        "--ignore",
-        "__pypackages__",
-        "-s"
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always"
+    },
+    "isort.args": [
+        "--profile",
+        "black"
     ],
-    "python.testing.unittestEnabled": true,
-    "python.testing.pytestEnabled": false,
+    "peacock.remoteColor": "#25415d",
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
     "workbench.colorCustomizations": {
         "activityBar.activeBorder": "#441b30",
         "activityBar.activeBackground": "#345a81",
@@ -59,11 +57,7 @@
         "titleBar.inactiveBackground": "#25415d99",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "python.testing.unittestArgs": [
-        "-v",
-        "-s",
-        "./src",
-        "-p",
-        "test*.py"
+    "python.testing.pytestArgs": [
+        "src"
     ]
 }
