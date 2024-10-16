@@ -4,4 +4,4 @@ from core.parking.infra.parking_django_app.views import ParkingViewSet
 
 router = DefaultRouter()
 
-router.register(r"parking", ParkingViewSet, basename="parking")
+router.register(r"parkings", ParkingViewSet, basename="parking")

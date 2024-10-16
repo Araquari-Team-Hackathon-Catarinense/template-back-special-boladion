@@ -14,6 +14,10 @@ class Parking(models.Model):
         Company, on_delete=models.CASCADE, related_name="parking"
     )
 
+    class Meta:
+        db_table: str = "parking"
+        verbose_name_plural: str = "parking"
+
 class ParkingSector(models.Model):
     SECTOR_TYPE_CHOICES = [
         (sector_type.name, sector_type.value) for sector_type in SectorType
@@ -29,3 +33,7 @@ class ParkingSector(models.Model):
     # contract = models.ForeignKey(
     #     Contract, on_delete=models.CASCADE, related_name="sectors"
     # )
+
+    class Meta:
+        db_table: str = "parking_sector"
+        verbose_name_plural: str = "parking_sector"
