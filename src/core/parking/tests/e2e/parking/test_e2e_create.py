@@ -90,7 +90,6 @@ class TestListAPI:
             },
         )
 
-        print(response.json())
         assert response.status_code == 201
         assert "slots" in response.json()
         assert response.json()["slots"] == 0
