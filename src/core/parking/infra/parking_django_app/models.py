@@ -22,7 +22,7 @@ class ParkingSector(models.Model):
     id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
     description = models.CharField(max_length=45)
     qty_slots = models.IntegerField(default=0)
-    sector_type = models.CharField(choices=SECTOR_TYPE_CHOICES)
+    sector_type = models.CharField(max_length=25, choices=SECTOR_TYPE_CHOICES)
     parking = models.ForeignKey(
         Parking, on_delete=models.CASCADE, related_name="sectors"
     )
