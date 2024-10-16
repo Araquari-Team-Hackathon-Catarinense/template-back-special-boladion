@@ -12,14 +12,14 @@ class ParkingListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     description = serializers.CharField(read_only=True)
     slots = serializers.IntegerField(read_only=True)
-    entity = serializers.UUIDField(read_only=True)
+    entity = serializers.UUIDField(read_only=True, source="entity.id")
 
 class ParkingDetailSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
-    entity = serializers.UUIDField(read_only=True)
+    entity = serializers.UUIDField(read_only=True, source="entity.id")
     description = serializers.CharField(read_only=True)
     slots = serializers.IntegerField(read_only=True)
-    sectors = ParkingSectorListSerializer(many=True)
+    sectors = ParkingSectorListSerializer(many=True, read_only=True)
 
 class ParkingCreateSerializer(serializers.ModelSerializer):
     class Meta:
