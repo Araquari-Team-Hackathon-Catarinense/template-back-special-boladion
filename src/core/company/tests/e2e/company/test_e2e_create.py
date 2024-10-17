@@ -88,7 +88,7 @@ class TestListAPI:
         assert response.status_code == 400
         assert "person_type" in response.json()
         assert (
-            f'"{company["person_type"]}" is not a valid choice.'
+            f'"{company["person_type"]}" não é um escolha válido.'
             in response.json()["person_type"][0]
         )
         assert "document_number" in response.json()

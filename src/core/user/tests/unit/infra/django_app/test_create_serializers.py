@@ -28,7 +28,7 @@ class TestUserCreateSerializer:
         }
         serializer = UserCreateSerializer(data=data)
         assert serializer.is_valid() is False
-        assert "No Puede ser nulo my friend." in serializer.errors["cpf"]
+        assert "Invalid CPF." in serializer.errors["cpf"]
 
     def test_create_serializer_with_one_more_users(self) -> None:
         cpf1 = gen.cpf()

@@ -1,6 +1,7 @@
-from core.company.infra.company_django_app.serializers import CompanyCreateSerializer
-from pycpfcnpj import gen
 import pytest
+from pycpfcnpj import gen
+
+from core.company.infra.company_django_app.serializers import CompanyCreateSerializer
 
 
 @pytest.mark.django_db
@@ -27,7 +28,7 @@ class TestCompanyCreateSerializer:
         assert serializer.is_valid() is False
         assert "Must be a valid boolean." in serializer.errors["is_active"]
         assert (
-            f'"{data["person_type"]}" is not a valid choice.'
+            f'"{data["person_type"]}" não é um escolha válido.'
             in serializer.errors["person_type"]
         )
 
