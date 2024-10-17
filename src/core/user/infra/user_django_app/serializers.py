@@ -60,6 +60,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         for user in users:
             user_data: dict = {
+                "id": user.id,
                 "name": user.name,
                 "email": user.email,
                 "cpf": user.cpf,
