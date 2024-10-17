@@ -39,3 +39,11 @@ class ParkingSector(models.Model):
     class Meta:
         db_table: str = "parking_sector"
         verbose_name_plural: str = "parking_sector"
+
+
+class Operation(models.Model):
+    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
+    name = models.CharField(max_length=45)
+    parking = models.ForeignKey(
+        Parking, on_delete=models.CASCADE, related_name="operations"
+    )

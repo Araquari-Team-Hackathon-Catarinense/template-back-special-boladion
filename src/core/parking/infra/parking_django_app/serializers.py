@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Parking, ParkingSector
+from .models import Operation, Parking, ParkingSector
 
 
 class ParkingSectorListSerializer(serializers.Serializer):
@@ -88,3 +88,20 @@ class ParkingCreateSerializer(serializers.ModelSerializer):
             "entity",
         ]
         read_only_fields = ["id", "slots"]
+
+
+class OperationListSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    name = serializers.CharField(read_only=True)
+    # parking = serializers.UUIDField(read_only=True, source="parking.id")
+
+
+class OperationCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Operation
+        fields = [
+            "id",
+            "name",
+            "parking",
+        ]
+        read_only_fields = ["id"]

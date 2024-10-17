@@ -1,6 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
 
 from core.parking.infra.parking_django_app.serializers import (
+    OperationCreateSerializer,
+    OperationListSerializer,
     ParkingCreateSerializer,
     ParkingDetailSerializer,
     ParkingListSerializer,
@@ -8,7 +10,7 @@ from core.parking.infra.parking_django_app.serializers import (
     ParkingSectorListSerializer,
 )
 
-from .models import Parking, ParkingSector
+from .models import Operation, Parking, ParkingSector
 
 
 class ParkingViewSet(ModelViewSet):
@@ -31,3 +33,13 @@ class ParkingSectorViewSet(ModelViewSet):
         if self.action == "list" or self.action == "retrieve":
             return ParkingSectorListSerializer
         return ParkingSectorCreateSerializer
+
+
+class OperationViewSet(ModelViewSet):
+    queryset = Operation.objects.all()
+    http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_serializer_class(self):
+        if self.action == "list" or self.action == "retrieve":
+            return OperationListSerializer
+        return OperationCreateSerializer
