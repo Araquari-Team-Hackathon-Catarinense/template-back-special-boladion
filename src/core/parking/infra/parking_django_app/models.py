@@ -16,7 +16,7 @@ class Parking(models.Model):
 
     class Meta:
         db_table: str = "parking"
-        verbose_name_plural: str = "parking"
+        verbose_name_plural: str = "parkings"
 
 
 class ParkingSector(models.Model):
@@ -38,7 +38,7 @@ class ParkingSector(models.Model):
 
     class Meta:
         db_table: str = "parking_sector"
-        verbose_name_plural: str = "parking_sector"
+        verbose_name_plural: str = "parking_sectors"
 
 
 class Operation(models.Model):
@@ -47,3 +47,7 @@ class Operation(models.Model):
     parking = models.ForeignKey(
         Parking, on_delete=models.CASCADE, related_name="operations"
     )
+
+    class Meta:
+        db_table: str = "operation"
+        verbose_name_plural: str = "operations"

@@ -6,7 +6,7 @@ from core.parking.infra.parking_django_app.serializers import OperationListSeria
 
 
 @pytest.mark.django_db
-class TestParkingSectorListSerializer:
+class TestOperationListSerializer:
     def test_list_serializer_with_many_operations(self) -> None:
         parking: Parking = baker.make(Parking)
 
@@ -26,7 +26,7 @@ class TestParkingSectorListSerializer:
         serializer = OperationListSerializer(operation, many=True)
         assert serializer.data == []
 
-    def test_list_serializer_with_one_parking(self) -> None:
+    def test_list_serializer_with_one_operation(self) -> None:
         parking: Parking = baker.make(Parking)
 
         operation: Operation = baker.make(Operation, parking=parking)
