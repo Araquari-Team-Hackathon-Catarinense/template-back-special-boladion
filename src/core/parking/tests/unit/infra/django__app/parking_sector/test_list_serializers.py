@@ -22,7 +22,9 @@ class TestParkingSectorListSerializer:
             description="Meu Estacionamento",
             entity=company,
         )
-        parking_sectors = baker.make(ParkingSector, _quantity=3, parking=parking)
+        parking_sectors = baker.make(
+            ParkingSector, _quantity=3, parking=parking, sector_type="ROTATIVE"
+        )
         serializer = ParkingSectorListSerializer(parking_sectors, many=True)
         assert serializer.data == [
             {
@@ -30,6 +32,7 @@ class TestParkingSectorListSerializer:
                 "description": parking_sector.description,
                 "qty_slots": parking_sector.qty_slots,
                 "sector_type": parking_sector.sector_type,
+                "contract": None,
             }
             for parking_sector in parking_sectors
         ]
@@ -49,11 +52,14 @@ class TestParkingSectorListSerializer:
             description="Meu Estacionamento",
             entity=company,
         )
-        parking_sector = baker.make(ParkingSector, parking=parking)
+        parking_sector = baker.make(
+            ParkingSector, parking=parking, sector_type="ROTATIVE"
+        )
         serializer = ParkingSectorListSerializer(parking_sector, many=False)
         assert serializer.data == {
             "id": str(parking_sector.id),
             "description": parking_sector.description,
             "qty_slots": parking_sector.qty_slots,
             "sector_type": parking_sector.sector_type,
+            "contract": None,
         }
