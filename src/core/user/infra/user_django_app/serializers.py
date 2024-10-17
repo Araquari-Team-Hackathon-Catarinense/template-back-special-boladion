@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from pycpfcnpj import cpf
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import Token
 
 from .models import User
 
@@ -44,6 +45,30 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    def create(self, validated_data):
+        return NotImplementedError
+
+    def update(self, instance, validated_data):
+        return NotImplementedError
+
+    @classmethod
+    def get_token(cls, user: User) -> Token:
+        token: Token = super().get_token(user)
+        user_id = token["user_id"]
+        users: User = User.objects.filter(id=user_id)
+
+        for user in users:
+            user_data: dict = {
+                "name": user.name,
+                "email": user.email,
+                "cpf": user.cpf,
+                "address": user.address,
+            }
+            token["user"] = user_data
+
+        return token
+
     def validate(self, attrs):
         email = attrs.get("email")
         password = attrs.get("password")
