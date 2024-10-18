@@ -10,6 +10,8 @@ FROM python:3.12.7-slim
 #                     gcc \
 #                     libmariadb-dev
 
+RUN apt-get update && apt-get install -y libmagic1
+
 RUN useradd -ms /bin/bash python
 
 RUN pip install pdm

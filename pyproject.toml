@@ -13,6 +13,8 @@ dependencies = [
     "drf-spectacular>=0.27.2",
     "setuptools>=75.1.0",
     "cpf-cnpj-validate>=1.4",
+    "Pillow>=11.0.0",
+    "python-magic>=0.4.27; sys_platform == \"linux\"",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"

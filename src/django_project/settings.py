@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -7,7 +8,9 @@ SECRET_KEY = "django-insecure-^#1(%4li!hy9yk1ntdtti4d^1-!#4t$qf6n6e12+w1qvbezp6s
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ["0.0.0.0", "localhost"]
+
+BASE_URL = "http://localhost:8000"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -18,6 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "core.company.infra.django_app",
+    "core.uploader",
 ]
 
 MIDDLEWARE = [
@@ -91,6 +95,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
+# FILE_UPLOAD_PERMISSIONS = 0o640
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
