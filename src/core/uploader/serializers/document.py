@@ -26,10 +26,8 @@ class DocumentUploadSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         content_type = get_content_type(attrs["file"])
         if content_type in CONTENT_TYPE_IMAGES:
-            print("Image")
             attrs["type"] = "IMG"
         elif content_type in CONTENT_TYPE_PDF:
-            print("PDF")
             attrs["type"] = "PDF"
         return attrs
 
