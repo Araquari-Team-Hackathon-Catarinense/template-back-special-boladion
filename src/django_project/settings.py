@@ -11,7 +11,6 @@ DEBUG = True
 ALLOWED_HOSTS = ["0.0.0.0", "localhost"]
 
 BASE_URL = "http://localhost:8000"
-ALLOWED_HOSTS = ["0.0.0.0"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -25,6 +24,7 @@ INSTALLED_APPS = [
     "core.uploader",
     "core.company.infra.company_django_app",
     "core.parking.infra.parking_django_app",
+    "core.populate.infra.populate_django_app",
 ]
 
 MIDDLEWARE = [

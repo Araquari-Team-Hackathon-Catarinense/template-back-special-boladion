@@ -36,6 +36,7 @@ makemigrations = "pdm run manage makemigrations"
 migrate = "pdm run manage migrate"
 dev = "pdm run manage runserver 0.0.0.0:8000"
 test = "pytest --ignore __pypackages__"
+populate = "python src/manage.py populate"
 
 [tool.pdm.dev-dependencies]
 dev = [
