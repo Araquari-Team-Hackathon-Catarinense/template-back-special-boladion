@@ -1,9 +1,5 @@
 import magic
 
-CONTENT_TYPE_ICO = "image/x-icon"
-CONTENT_TYPE_JPG = "image/jpeg"
-CONTENT_TYPE_PNG = "image/png"
-
 CONTENT_TYPE_PDF = ["application/pdf"]
 CONTENT_TYPE_IMAGES = ["image/png", "image/jpeg", "image/jpg", "image/webp"]
 CONTENT_TYPE_DOCUMENTS = CONTENT_TYPE_PDF + CONTENT_TYPE_IMAGES

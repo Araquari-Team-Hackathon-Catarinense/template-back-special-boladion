@@ -8,9 +8,15 @@ from core.uploader.helpers.value_objects import DocumentType
 
 
 def document_file_path(document, _) -> str:
-    content_type = get_content_type(document.file)
-    extension: str = mimetypes.guess_extension(content_type)
+    if document.type == "PDF":
+        content_type = get_content_type(document.file)
+        extension: str = mimetypes.guess_extension(content_type)
 
+    elif document.type == "IMG":
+        content_type = get_content_type(document.file)
+        extension: str = mimetypes.guess_extension(content_type)
+        if extension == ".jpe":
+            extension = ".jpg"
     return f"documents/{document.public_id}{extension or ''}"
 
 

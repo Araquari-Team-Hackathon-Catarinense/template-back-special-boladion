@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from core.uploader.models import Document, Image
+from core.uploader.models import Document
 
-admin.site.register(Image)
 admin.site.register(Document)
