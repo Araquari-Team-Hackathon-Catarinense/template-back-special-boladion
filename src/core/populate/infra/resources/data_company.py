@@ -76,11 +76,11 @@ def generate_companies():
     return companies
 
 
-companies_json = generate_companies()
+# companies_json = generate_companies()
 
-import json
+# import json
 
-print(json.dumps(companies_json, indent=4, ensure_ascii=False))
+# print(json.dumps(companies_json, indent=4, ensure_ascii=False))
 
 companies_data = [
     {
