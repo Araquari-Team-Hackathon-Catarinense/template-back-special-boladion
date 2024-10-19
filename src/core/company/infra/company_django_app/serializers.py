@@ -3,7 +3,7 @@ from os import read
 from pycpfcnpj import cnpj, cpf, cpfcnpj
 from rest_framework import serializers
 
-from .models import Company
+from .models import Company, Employee
 
 
 class CompanyListSerializer(serializers.Serializer):
@@ -53,3 +53,22 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
         elif not cpfcnpj.validate(value):
             raise serializers.ValidationError("Invalid document number.")
         return value
+
+
+class EmployeeListSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    company_id = serializers.UUIDField(read_only=True)
+    user_id = serializers.UUIDField(read_only=True)
+    is_active = serializers.BooleanField(read_only=True)
+
+
+class EmployeeCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = [
+            "id",
+            "company_id",
+            "user_id",
+            "is_active",
+        ]
+        read_only_fields = ["id"]
