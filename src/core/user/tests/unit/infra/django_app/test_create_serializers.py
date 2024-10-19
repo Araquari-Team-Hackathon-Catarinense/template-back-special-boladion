@@ -30,7 +30,7 @@ class TestUserCreateSerializer:
         assert serializer.is_valid() is False
         assert "Invalid CPF." in serializer.errors["cpf"]
 
-    def test_create_serializer_with_one_more_users(self) -> None:
+    def test_create_serializer_with_one_more_user(self) -> None:
         cpf1 = gen.cpf()
         cpf2 = gen.cpf()
 

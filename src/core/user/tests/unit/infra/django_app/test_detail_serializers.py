@@ -10,7 +10,7 @@ from core.user.infra.user_django_app.serializers import UserDetailSerializer
 
 @pytest.mark.django_db
 class TestUserDetailSerializer:
-    def test_retrieve_serializer_with_an_specific_user(self) -> None:
+    def test_retrieve_serializer_with_a_specific_user(self) -> None:
 
         time_zone = timezone(timedelta(hours=-3))
         date_time_now = datetime.now(tz=time_zone).isoformat()
