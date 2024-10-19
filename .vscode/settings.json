@@ -3,7 +3,8 @@
         "${workspaceFolder}/__pypackages__/3.12/lib"
     ],
     "python.analysis.extraPaths": [
-        "${workspaceFolder}/__pypackages__/3.12/lib"
+        "${workspaceFolder}/__pypackages__/3.12/lib",
+        "./src/core"
     ],
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
     "python.analysis.autoImportCompletions": true,
