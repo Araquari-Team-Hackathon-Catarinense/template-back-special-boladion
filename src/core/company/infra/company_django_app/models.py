@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 
 from core.company.domain.value_objects import PersonType
+from core.user.infra.user_django_app.models import User
 
 
 class Company(models.Model):
@@ -27,3 +28,17 @@ class Company(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} ({self.document_number})"
+
+
+class Employee(models.Model):
+    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
+    company_id = models.ForeignKey(Company, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True, blank=True, null=True)
+
+    class Meta:
+        db_table: str = "employee"
+        verbose_name_plural: str = "employees"
+
+    def __str__(self) -> str:
+        return f"{self.user_id} ({self.company_id})"
