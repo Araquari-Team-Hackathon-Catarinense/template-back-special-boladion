@@ -1,5 +1,6 @@
 from os import read
-from pycpfcnpj import cpf, cnpj, cpfcnpj
+
+from pycpfcnpj import cnpj, cpf, cpfcnpj
 from rest_framework import serializers
 
 from .models import Company
@@ -10,7 +11,7 @@ class CompanyListSerializer(serializers.Serializer):
     name = serializers.CharField(read_only=True)
     trade_name = serializers.CharField(read_only=True)
     person_type = serializers.CharField(read_only=True)
-    document_member = serializers.CharField(read_only=True)
+    document_number = serializers.CharField(read_only=True)
     is_active = serializers.BooleanField(read_only=True)
 
 
