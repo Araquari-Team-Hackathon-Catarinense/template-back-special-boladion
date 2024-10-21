@@ -13,13 +13,13 @@ class TestPatchParkingAPI:
     def test_patch_a_valid_parking(self) -> None:
         company: Company = baker.make(Company)
 
-        parking: Parking = baker.make(Parking, entity=company, slots=0)
+        parking: Parking = baker.make(Parking, company=company, slots=0)
 
         url = f"/api/parkings/{str(parking.id)}/"
 
         new_data = {
             "description": "New Description",
-            "entity": str(company.id),
+            "company": str(company.id),
         }
 
         response = APIClient().patch(url, new_data, format="json")
@@ -28,7 +28,7 @@ class TestPatchParkingAPI:
             "id": str(parking.id),
             "description": new_data["description"],
             "slots": parking.slots,
-            "entity": str(parking.entity.id),
+            "company": str(parking.company.id),
         }
         assert response.status_code == 200
         assert json.loads(response.content) == expected_data
@@ -37,7 +37,7 @@ class TestPatchParkingAPI:
         url = "/api/parkings/12345678-1234-1234-1234-123456789012/"
         new_data = {
             "description": "New Description",
-            "entity": "12345678-1234-1234-1234-123456789012",
+            "company": "12345678-1234-1234-1234-123456789012",
         }
         response = APIClient().patch(url, new_data, format="json")
         assert response.status_code == 404
@@ -45,36 +45,36 @@ class TestPatchParkingAPI:
             "detail": "No Parking matches the given query."
         }
 
-    def test_if_throw_error_when_pass_a_invalid_entity(self) -> None:
+    def test_if_throw_error_when_pass_a_invalid_company(self) -> None:
         parking: Parking = baker.make(Parking)
 
         url = f"/api/parkings/{str(parking.id)}/"
 
         new_data = {
             "description": "New Description",
-            "entity": "12345678-1234-1234-1234-123456789012",
+            "company": "12345678-1234-1234-1234-123456789012",
         }
 
         response = APIClient().patch(url, new_data, format="json")
 
         assert response.status_code == 400
-        assert "entity" in response.json()
+        assert "company" in response.json()
         assert (
-            f'Invalid pk "{new_data["entity"]}" - object does not exist.'
-            in response.json()["entity"][0]
+            f'Invalid pk "{new_data["company"]}" - object does not exist.'
+            in response.json()["company"][0]
         )
 
     def test_patch_a_parking_by_passing_the_slots(self) -> None:
         company: Company = baker.make(Company)
 
-        parking: Parking = baker.make(Parking, entity=company, slots=0)
+        parking: Parking = baker.make(Parking, company=company, slots=0)
 
         url = f"/api/parkings/{str(parking.id)}/"
 
         new_data = {
             "description": "New Description",
             "slots": 10,
-            "entity": str(company.id),
+            "company": str(company.id),
         }
 
         response = APIClient().patch(url, new_data, format="json")
@@ -83,7 +83,7 @@ class TestPatchParkingAPI:
             "id": str(parking.id),
             "description": new_data["description"],
             "slots": 0,
-            "entity": str(parking.entity.id),
+            "company": str(parking.company.id),
         }
         assert response.status_code == 200
         assert json.loads(response.content) == expected_data

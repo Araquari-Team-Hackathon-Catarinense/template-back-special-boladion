@@ -1,10 +1,10 @@
 # pylint: disable=no-member,protected-access
 import unittest
 
-from core.company.infra.company_django_app.models import Company
 import pytest
 from django.db import models
 
+from core.company.infra.company_django_app.models import Company
 from core.parking.infra.parking_django_app.models import Parking
 
 
@@ -22,7 +22,7 @@ class TestParkingModelInt(unittest.TestCase):
                 "id",
                 "description",
                 "slots",
-                "entity",
+                "company",
             ),
         )
 
@@ -41,9 +41,9 @@ class TestParkingModelInt(unittest.TestCase):
         self.assertIsInstance(slots_field, models.IntegerField)
         self.assertEqual(slots_field.default, 0)
 
-        entity_field: models.ForeignKey = Parking.entity.field
-        self.assertIsInstance(entity_field, models.ForeignKey)
-        self.assertEqual(entity_field.related_model, Company)
+        company_field: models.ForeignKey = Parking.company.field
+        self.assertIsInstance(company_field, models.ForeignKey)
+        self.assertEqual(company_field.related_model, Company)
 
     def test_create(self):
         company = Company.objects.create(
@@ -55,7 +55,7 @@ class TestParkingModelInt(unittest.TestCase):
             "id": "af46842e-027d-4c91-b259-3a3642144ba4",
             "description": "Parking",
             "slots": 100,
-            "entity": company,
+            "company": company,
         }
 
         parking = Parking.objects.create(**arrange)
@@ -63,4 +63,4 @@ class TestParkingModelInt(unittest.TestCase):
         self.assertEqual(parking.id, arrange["id"])
         self.assertEqual(parking.description, arrange["description"])
         self.assertEqual(parking.slots, arrange["slots"])
-        self.assertEqual(parking.entity, arrange["entity"])
+        self.assertEqual(parking.company, arrange["company"])

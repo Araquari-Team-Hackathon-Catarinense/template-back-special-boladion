@@ -12,7 +12,7 @@ from core.parking.infra.parking_django_app.models import Parking
 class TestListAPI:
     def test_list_parkings(self) -> None:
         company: Company = baker.make(Company)
-        created_parkings = baker.make(Parking, _quantity=3, entity=company, slots=0)
+        created_parkings = baker.make(Parking, _quantity=3, company=company, slots=0)
 
         url = "/api/parkings/"
         response = APIClient().get(url)
@@ -31,7 +31,7 @@ class TestListAPI:
                     "id": str(parking.id),
                     "description": parking.description,
                     "slots": parking.slots,
-                    "entity": str(parking.entity.id),
+                    "company": str(parking.company.id),
                 }
                 for parking in created_parkings
             ],

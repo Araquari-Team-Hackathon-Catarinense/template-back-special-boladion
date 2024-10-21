@@ -44,7 +44,7 @@ class TestOperationModelInt(unittest.TestCase):
         )
         parking = Parking.objects.create(
             description="Parking",
-            entity=company,
+            company=company,
         )
         arrange = {
             "id": "af46842e-027d-4c91-b259-3a3642144ba4",

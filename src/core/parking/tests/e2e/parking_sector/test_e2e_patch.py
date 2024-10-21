@@ -13,7 +13,7 @@ class TestPatchParkingSectorAPI:
     def test_patch_a_valid_parking_sector(self) -> None:
         company: Company = baker.make(Company)
 
-        parking: Parking = baker.make(Parking, entity=company, slots=0)
+        parking: Parking = baker.make(Parking, company=company, slots=0)
 
         parking_sector: ParkingSector = baker.make(
             ParkingSector, parking=parking, sector_type="ROTATIVE"
@@ -79,7 +79,7 @@ class TestPatchParkingSectorAPI:
     ) -> None:
         company: Company = baker.make(Company)
 
-        parking: Parking = baker.make(Parking, entity=company, slots=0)
+        parking: Parking = baker.make(Parking, company=company, slots=0)
 
         parking_sector: ParkingSector = baker.make(
             ParkingSector, parking=parking, sector_type="CONTRACT", contract=10
@@ -107,7 +107,7 @@ class TestPatchParkingSectorAPI:
     ) -> None:
         company: Company = baker.make(Company)
 
-        parking: Parking = baker.make(Parking, entity=company, slots=0)
+        parking: Parking = baker.make(Parking, company=company, slots=0)
 
         parking_sector: ParkingSector = baker.make(
             ParkingSector, parking=parking, sector_type="ROTATIVE"

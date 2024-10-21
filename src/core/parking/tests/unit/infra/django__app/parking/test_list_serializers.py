@@ -1,10 +1,10 @@
-from pycpfcnpj import gen
 import pytest
 from model_bakery import baker
+from pycpfcnpj import gen
 
+from core.company.infra.company_django_app.models import Company
 from core.parking.infra.parking_django_app.models import Parking
 from core.parking.infra.parking_django_app.serializers import ParkingListSerializer
-from core.company.infra.company_django_app.models import Company
 
 
 @pytest.mark.django_db
@@ -15,12 +15,12 @@ class TestParkingListSerializer:
             person_type="PJ",
             document_number=gen.cnpj(),
         )
-        parkings = baker.make(Parking, _quantity=3, entity=company)
+        parkings = baker.make(Parking, _quantity=3, company=company)
         serializer = ParkingListSerializer(parkings, many=True)
         assert serializer.data == [
             {
                 "id": str(parking.id),
-                "entity": str(parking.entity.id),
+                "company": str(parking.company.id),
                 "description": parking.description,
                 "slots": parking.slots,
             }
@@ -38,11 +38,11 @@ class TestParkingListSerializer:
             person_type="PJ",
             document_number=gen.cnpj(),
         )
-        parking = baker.make(Parking, entity=company)
+        parking = baker.make(Parking, company=company)
         serializer = ParkingListSerializer(parking, many=False)
         assert serializer.data == {
             "id": str(parking.id),
-            "entity": str(parking.entity.id),
+            "company": str(parking.company.id),
             "description": parking.description,
             "slots": parking.slots,
         }

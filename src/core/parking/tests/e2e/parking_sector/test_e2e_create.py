@@ -23,7 +23,7 @@ class TestParkingSectorListAPI:
 
         parking: Parking = Parking.objects.create(
             description="Parking 1",
-            entity=company,
+            company=company,
         )
 
         parking_sector = {
@@ -95,7 +95,7 @@ class TestParkingSectorListAPI:
 
         parking: Parking = Parking.objects.create(
             description="Parking 1",
-            entity=company,
+            company=company,
         )
 
         parking_sector = {

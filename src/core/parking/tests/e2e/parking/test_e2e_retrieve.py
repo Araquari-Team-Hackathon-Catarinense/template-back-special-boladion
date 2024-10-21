@@ -13,7 +13,7 @@ class TestRetrieveParkingAPI:
     def test_retrieve_a_valid_parking(self) -> None:
         company: Company = baker.make(Company)
 
-        parking: Parking = baker.make(Parking, entity=company, slots=0)
+        parking: Parking = baker.make(Parking, company=company, slots=0)
 
         url = f"/api/parkings/{str(parking.id)}/"
         response = APIClient().get(url)
@@ -22,7 +22,7 @@ class TestRetrieveParkingAPI:
             "id": str(parking.id),
             "description": parking.description,
             "slots": parking.slots,
-            "entity": str(parking.entity.id),
+            "company": str(parking.company.id),
             "sectors": [],
         }
         assert response.status_code == 200

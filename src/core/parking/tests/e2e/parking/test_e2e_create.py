@@ -23,43 +23,43 @@ class TestListAPI:
 
         parking = {
             "description": "Parking 1",
-            "entity": company.id,
+            "company": company.id,
         }
 
         response = APIClient().post(
             url,
             {
                 "description": parking["description"],
-                "entity": parking["entity"],
+                "company": parking["company"],
             },
         )
 
         assert response.status_code == 201
         assert response.json()["description"] == parking["description"]
-        assert response.json()["entity"] == str(parking["entity"])
+        assert response.json()["company"] == str(parking["company"])
         assert "id" in response.json()
 
-    def test_if_throw_error_with_invalid_entity(self) -> None:
+    def test_if_throw_error_with_invalid_company(self) -> None:
         url = "/api/parkings/"
 
         parking = {
             "description": "Parking 1",
-            "entity": uuid.uuid4(),
+            "company": uuid.uuid4(),
         }
 
         response = APIClient().post(
             url,
             {
                 "description": parking["description"],
-                "entity": parking["entity"],
+                "company": parking["company"],
             },
         )
 
         assert response.status_code == 400
-        assert "entity" in response.json()
+        assert "company" in response.json()
         assert (
-            f'Invalid pk "{parking["entity"]}" - object does not exist.'
-            in response.json()["entity"][0]
+            f'Invalid pk "{parking["company"]}" - object does not exist.'
+            in response.json()["company"][0]
         )
 
     def test_if_create_a_parking_by_passing_the_slots(
@@ -77,7 +77,7 @@ class TestListAPI:
 
         parking = {
             "description": "Parking 1",
-            "entity": str(company.id),
+            "company": str(company.id),
             "slots": 100,
         }
 
@@ -85,7 +85,7 @@ class TestListAPI:
             url,
             {
                 "description": parking["description"],
-                "entity": parking["entity"],
+                "company": parking["company"],
                 "slots": parking["slots"],
             },
         )

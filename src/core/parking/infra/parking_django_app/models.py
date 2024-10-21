@@ -10,7 +10,7 @@ class Parking(models.Model):
     id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
     description = models.CharField(max_length=45)
     slots = models.IntegerField(default=0)
-    entity = models.ForeignKey(
+    company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name="parking"
     )
 

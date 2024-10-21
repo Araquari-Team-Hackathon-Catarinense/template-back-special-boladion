@@ -19,7 +19,7 @@ class TestParkingCreateSerializer:
         )
         parking: Parking = Parking.objects.create(
             description="Meu Estacionamento",
-            entity=company,
+            company=company,
         )
         data = {
             "description": "Meu Setor de Estacionamento",
@@ -40,7 +40,7 @@ class TestParkingCreateSerializer:
         )
         parking: Parking = Parking.objects.create(
             description="Meu Estacionamento",
-            entity=company,
+            company=company,
         )
         data = {
             "description": "Meu Setor de Estacionamento",
@@ -75,7 +75,7 @@ class TestParkingCreateSerializer:
         )
         parking: Parking = Parking.objects.create(
             description="Meu Estacionamento",
-            entity=company,
+            company=company,
         )
         data = {
             "description": "Meu Setor de Estacionamento",
@@ -96,7 +96,7 @@ class TestParkingCreateSerializer:
         )
         parking: Parking = Parking.objects.create(
             description="Meu Estacionamento",
-            entity=company,
+            company=company,
         )
         parking_sectors = [
             {

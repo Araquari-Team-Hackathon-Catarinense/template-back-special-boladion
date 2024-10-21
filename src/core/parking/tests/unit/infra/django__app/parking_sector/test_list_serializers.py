@@ -20,7 +20,7 @@ class TestParkingSectorListSerializer:
         )
         parking: Parking = Parking.objects.create(
             description="Meu Estacionamento",
-            entity=company,
+            company=company,
         )
         parking_sectors = baker.make(
             ParkingSector, _quantity=3, parking=parking, sector_type="ROTATIVE"
@@ -50,7 +50,7 @@ class TestParkingSectorListSerializer:
         )
         parking: Parking = Parking.objects.create(
             description="Meu Estacionamento",
-            entity=company,
+            company=company,
         )
         parking_sector = baker.make(
             ParkingSector, parking=parking, sector_type="ROTATIVE"

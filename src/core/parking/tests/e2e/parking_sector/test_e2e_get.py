@@ -12,7 +12,7 @@ from core.parking.infra.parking_django_app.models import Parking, ParkingSector
 class TestParkingSectorListAPI:
     def test_list_parking_sectors(self) -> None:
         company: Company = baker.make(Company)
-        parking: Parking = baker.make(Parking, entity=company)
+        parking: Parking = baker.make(Parking, company=company)
         created_parking_sectors = baker.make(
             ParkingSector, _quantity=3, parking=parking, sector_type="ROTATIVE"
         )
