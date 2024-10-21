@@ -57,8 +57,8 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
 
 class EmployeeListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
-    company_id = serializers.UUIDField(read_only=True)
-    user_id = serializers.UUIDField(read_only=True)
+    company_id = serializers.UUIDField(source="company_id.id", read_only=True)
+    user_id = serializers.IntegerField(source="user_id.id", read_only=True)
     is_active = serializers.BooleanField(read_only=True)
 
 
