@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 
 from core.company.domain.value_objects import PersonType
+from core.image.infra.image_django_app.models import ImageProfilePic
 from core.user.infra.user_django_app.models import User
 
 
@@ -21,6 +22,9 @@ class Company(models.Model):
     system_admin = models.BooleanField(default=False, blank=True, null=True)
     address = models.JSONField(blank=True, null=True)
     contacts = models.JSONField(blank=True, null=True)
+    pic = models.ForeignKey(
+        ImageProfilePic, on_delete=models.PROTECT, default="", blank=True, null=True
+    )
 
     class Meta:
         db_table: str = "company"

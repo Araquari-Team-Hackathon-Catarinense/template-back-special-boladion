@@ -47,6 +47,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "id",
             "email",
             "name",
+            "password",
             "cpf",
             "address",
         ]
@@ -77,8 +78,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
                 "id": user_item.id,
                 "name": user_item.name,
                 "email": user_item.email,
-                "cpf": user_item.cpf,
-                "address": user_item.address,
+                "cpf": user_item.cpf
             }
             token["user"] = user_data
 
