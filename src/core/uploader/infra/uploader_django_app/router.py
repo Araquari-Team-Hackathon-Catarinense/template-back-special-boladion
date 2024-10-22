@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 
-from core.uploader import views
+from core.uploader.infra.uploader_django_app import views
 
 app_name = "uploader"
 

@@ -5,3 +5,4 @@ from enum import StrEnum, unique
 class DocumentType(StrEnum):
     PDF = "PDF"
     IMG = "IMG"
+    AVATAR = "AVATAR"

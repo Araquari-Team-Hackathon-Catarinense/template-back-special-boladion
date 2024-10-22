@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from core.uploader.helpers.files import (
+from core.uploader.domain.files import (
     CONTENT_TYPE_DOCUMENTS,
     CONTENT_TYPE_IMAGES,
     CONTENT_TYPE_PDF,
     get_content_type,
 )
-from core.uploader.models import Document
+from core.uploader.infra.uploader_django_app.models import Document
 from django_project.settings import BASE_URL
 
 

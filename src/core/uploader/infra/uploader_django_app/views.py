@@ -1,7 +1,7 @@
 from rest_framework import mixins, parsers, viewsets
 
-from core.uploader.models import Document
-from core.uploader.serializers import DocumentUploadSerializer
+from core.uploader.infra.uploader_django_app.models import Document
+from core.uploader.infra.uploader_django_app.serializers import DocumentUploadSerializer
 
 
 class CreateViewSet(

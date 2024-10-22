@@ -3,8 +3,8 @@ import uuid
 
 from django.db import models
 
-from core.uploader.helpers.files import get_content_type
-from core.uploader.helpers.value_objects import DocumentType
+from core.uploader.domain.files import get_content_type
+from core.uploader.domain.value_objects import DocumentType
 
 
 def document_file_path(document, _) -> str:
@@ -17,6 +17,8 @@ def document_file_path(document, _) -> str:
         extension: str = mimetypes.guess_extension(content_type)
         if extension == ".jpe":
             extension = ".jpg"
+    elif document.type == "AVATAR":
+        extension = ".png"
     return f"documents/{document.public_id}{extension or ''}"
 
 
@@ -46,7 +48,7 @@ class Document(models.Model):
     file = models.FileField(upload_to=document_file_path)
     description = models.CharField(max_length=255, blank=True)
     uploaded_on = models.DateTimeField(auto_now_add=True)
-    type = models.CharField(max_length=3, choices=DOCUMENT_TYPE_CHOICES, default="PDF")
+    type = models.CharField(max_length=6, choices=DOCUMENT_TYPE_CHOICES, default="PDF")
 
     def __str__(self) -> str:
         return f"{self.description} - {self.file.name}"

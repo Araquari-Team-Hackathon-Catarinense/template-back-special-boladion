@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     "corsheaders",
-    "core.uploader",
+    "core.uploader.infra.uploader_django_app",
     "core.company.infra.company_django_app",
     "core.parking.infra.parking_django_app",
     "core.populate.infra.populate_django_app",

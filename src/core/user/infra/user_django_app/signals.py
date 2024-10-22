@@ -8,7 +8,8 @@ from core.user.infra.user_django_app.models import User
 @receiver(post_save, sender=User)
 def create_pic(sender, instance, created, **kwargs):
     if created:
-        if instance.is_staff:
+        print(instance.name)
+        if instance.is_staff or instance.name is None:
             return
         pic = ImageProfilePic.objects.create(user_name=instance.name)
         instance.pic = pic
