@@ -1,6 +1,9 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from core.image.infra.image_django_app.models import ImageProfilePic
 
 from .managers import CustomUserManager
@@ -8,6 +11,7 @@ from .managers import CustomUserManager
 
 class User(AbstractUser):
     username = None
+    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
     email = models.EmailField(_("e-mail address"), unique=True)
     name = models.CharField(max_length=255, null=True)
     cpf = models.CharField(max_length=14, null=True, unique=True)

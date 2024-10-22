@@ -4,7 +4,7 @@ import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from core.company.infra.django_app.models import Employee
+from core.company.infra.company_django_app.models import Employee
 
 
 @pytest.mark.django_db
@@ -17,8 +17,8 @@ class TestRetrieveAPI:
 
         expected_data = {
             "id": str(employees[0].id),
-            "company_id": str(employees[0].company_id.id),
-            "user_id": employees[0].user_id.id,
+            "company": str(employees[0].company.id),
+            "user": employees[0].user.id,
             "is_active": employees[0].is_active,
         }
         assert response.status_code == 200

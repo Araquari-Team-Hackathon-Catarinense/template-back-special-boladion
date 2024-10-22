@@ -11,6 +11,7 @@ from .serializers import (
 )
 
 
+@extend_schema(tags=["user"])
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]

@@ -1,7 +1,8 @@
-from PIL import Image, ImageDraw, ImageFont
-from django.core.files.uploadedfile import InMemoryUploadedFile
 import io
 import random
+
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from PIL import Image, ImageDraw, ImageFont
 
 
 def textsize(text, font):
@@ -51,9 +52,7 @@ def generate_user_pic(username):
 
     draw = ImageDraw.Draw(image)
 
-    font = ImageFont.truetype(
-        "Inter.ttf", 30
-    )
+    font = ImageFont.truetype("src/core/image/domain/Inter.ttf", 30)
 
     text = list(username)[0].upper()
 

@@ -22,7 +22,9 @@ dependencies = [
     "celery>=5.4.0",
     "python-dotenv>=1.0.1",
     "django-cors-headers>=4.5.0",
+    "pytest>=8.3.3",
     "pillow>=11.0.0",
+    "libmagic>=1.0",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"

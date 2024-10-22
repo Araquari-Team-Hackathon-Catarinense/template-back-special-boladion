@@ -1,8 +1,8 @@
 import pytest
 from model_bakery import baker
 
-from core.company.infra.django_app.models import Employee
-from core.company.infra.django_app.serializers import EmployeeListSerializer
+from core.company.infra.company_django_app.models import Employee
+from core.company.infra.company_django_app.serializers import EmployeeListSerializer
 
 
 @pytest.mark.django_db
@@ -14,8 +14,8 @@ class TestEmployeeListSerializer:
         assert serializer.data == [
             {
                 "id": str(employee.id),
-                "company_id": str(employee.company_id.id),
-                "user_id": employee.user_id.id,
+                "company": str(employee.company.id),
+                "user": employee.user.id,
                 "is_active": employee.is_active,
             }
             for employee in employees
@@ -31,8 +31,8 @@ class TestEmployeeListSerializer:
         serializer = EmployeeListSerializer(employee, many=False)
         assert serializer.data == {
             "id": str(employee.id),
-            "company_id": str(employee.company_id.id),
-            "user_id": employee.user_id.id,
+            "company": str(employee.company.id),
+            "user": employee.user.id,
             "is_active": employee.is_active,
         }
 
@@ -41,8 +41,8 @@ class TestEmployeeListSerializer:
         serializer = EmployeeListSerializer(employee)
         assert serializer.data == {
             "id": str(employee.id),
-            "company_id": str(employee.company_id.id),
-            "user_id": employee.user_id.id,
+            "company": str(employee.company.id),
+            "user": employee.user.id,
             "is_active": employee.is_active,
         }
 

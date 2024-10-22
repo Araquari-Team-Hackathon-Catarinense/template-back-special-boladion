@@ -4,7 +4,7 @@ import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from core.company.infra.django_app.models import Employee
+from core.company.infra.company_django_app.models import Employee
 
 
 @pytest.mark.django_db
@@ -27,8 +27,8 @@ class TestListAPI:
             "results": [
                 {
                     "id": str(employee.id),
-                    "company_id": str(employee.company_id.id),
-                    "user_id": employee.user_id.id,
+                    "company": str(employee.company.id),
+                    "user": employee.user.id,
                     "is_active": employee.is_active,
                 }
                 for employee in created_employees

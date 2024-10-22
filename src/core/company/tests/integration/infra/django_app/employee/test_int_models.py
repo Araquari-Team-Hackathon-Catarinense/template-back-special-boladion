@@ -5,7 +5,7 @@ import pytest
 from django.db import models
 from model_bakery import baker
 
-from core.company.infra.django_app.models import Company, Employee
+from core.company.infra.company_django_app.models import Company, Employee
 from core.user.infra.user_django_app.models import User
 
 
@@ -19,7 +19,7 @@ class TestCategoryModelInt(unittest.TestCase):
         fields_name = tuple(field.name for field in Employee._meta.fields)
         self.assertEqual(
             fields_name,
-            ("id", "company_id", "user_id", "is_active"),
+            ("id", "company", "user", "is_active"),
         )
 
         id_field: models.UUIDField = Employee.id.field
@@ -27,15 +27,15 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertTrue(id_field.primary_key)
         self.assertTrue(id_field.editable)
 
-        company_id_field: models.ForeignKey = Employee.company_id.field
-        self.assertIsInstance(company_id_field, models.ForeignKey)
-        self.assertFalse(company_id_field.blank)
-        self.assertFalse(company_id_field.null)
+        company_field: models.ForeignKey = Employee.company.field
+        self.assertIsInstance(company_field, models.ForeignKey)
+        self.assertFalse(company_field.blank)
+        self.assertFalse(company_field.null)
 
-        user_id_field: models.ForeignKey = Employee.user_id.field
-        self.assertIsInstance(user_id_field, models.ForeignKey)
-        self.assertFalse(user_id_field.blank)
-        self.assertFalse(user_id_field.null)
+        user_field: models.ForeignKey = Employee.user.field
+        self.assertIsInstance(user_field, models.ForeignKey)
+        self.assertFalse(user_field.blank)
+        self.assertFalse(user_field.null)
 
         is_active_field: models.BooleanField = Employee.is_active.field
         self.assertIsInstance(is_active_field, models.BooleanField)
@@ -49,17 +49,15 @@ class TestCategoryModelInt(unittest.TestCase):
         user = baker.make(User)
         arrange = {
             "id": "af46842e-027d-4c91-b259-3a3642144ba4",
-            "company_id": company,
-            "user_id": user,
+            "company": company,
+            "user": user,
             "is_active": True,
         }
 
         employee = Employee.objects.create(**arrange)
 
         self.assertEqual(arrange["id"], employee.id)
-        self.assertEqual(arrange["company_id"], employee.company_id)
-        self.assertEqual(arrange["user_id"], employee.user_id)
+        self.assertEqual(arrange["company"], employee.company)
+        self.assertEqual(arrange["user"], employee.user)
         self.assertEqual(arrange["is_active"], employee.is_active)
-        self.assertEqual(
-            str(employee), f"{arrange['user_id']} ({arrange['company_id']})"
-        )
+        self.assertEqual(str(employee), f"{arrange['user']} ({arrange['company']})")

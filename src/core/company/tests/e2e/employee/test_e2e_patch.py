@@ -4,7 +4,7 @@ import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from core.company.infra.django_app.models import Company, Employee
+from core.company.infra.company_django_app.models import Company, Employee
 
 
 @pytest.mark.django_db
@@ -22,8 +22,8 @@ class TestPatchAPI:
 
         expected_data = {
             "id": str(employees[0].id),
-            "company_id": str(employees[0].company_id.id),
-            "user_id": employees[0].user_id.id,
+            "company": str(employees[0].company.id),
+            "user": employees[0].user.id,
             "is_active": new_data["is_active"],
         }
 

@@ -1,12 +1,14 @@
 import uuid
+
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 from ...domain.generate_user_pic import generate_user_pic
 
 
-def upload_image_fomater(instance, filename):
-    return f"{str(uuid.uuid4())}-{filename}"
+def upload_image_fomater(filename, instance):
+    return f"{str(uuid.uuid4())}-{filename}.png"
 
 
 class ImageProfilePic(models.Model):
@@ -15,7 +17,7 @@ class ImageProfilePic(models.Model):
 
 
 @receiver(post_save, sender=ImageProfilePic)
-def create_image_profile_pic(sender, instance, created, **kwargs):
+def create_image_profile_pic(instance, created, **kwargs):
     if created:
         if len(str(instance.image)) > 0:
             return

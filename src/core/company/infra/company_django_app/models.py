@@ -36,8 +36,8 @@ class Company(models.Model):
 
 class Employee(models.Model):
     id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
-    company_id = models.ForeignKey(Company, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="employees")
     is_active = models.BooleanField(default=True, blank=True, null=True)
 
     class Meta:
@@ -45,4 +45,4 @@ class Employee(models.Model):
         verbose_name_plural: str = "employees"
 
     def __str__(self) -> str:
-        return f"{self.user_id} ({self.company_id})"
+        return f"{self.user} ({self.company})"

@@ -6,6 +6,9 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import AuthUser, TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import Token
 
+from core.company.infra.company_django_app.models import Employee
+from core.image.infra.image_django_app.serializers import ImageProfilePicSerializer
+
 from .models import User
 
 
@@ -32,6 +35,7 @@ class UserListSerializer(serializers.Serializer):
     name = serializers.CharField()
     cpf = serializers.CharField()
     address = serializers.JSONField()
+    pic = ImageProfilePicSerializer(allow_null=True)
 
     def create(self, validated_data):
         return NotImplementedError
@@ -50,6 +54,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "password",
             "cpf",
             "address",
+            "pic",
         ]
         read_only_fields = ["id"]
 
@@ -71,16 +76,26 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user: AuthUser) -> Token:
         token: Token = super().get_token(user)
         user_id: str = token["user_id"]
-        users: List[User] = User.objects.filter(id=user_id)
+        print(user_id, "LALALALLALALALA")
+        user: User = User.objects.get(id=user_id)
+        employee: List[Employee] = Employee.objects.filter(user__id=user_id)
 
-        for user_item in users:
-            user_data: dict = {
-                "id": user_item.id,
-                "name": user_item.name,
-                "email": user_item.email,
-                "cpf": user_item.cpf
+        user_companies = []
+
+        for employee in user.employees.all():
+            company = {
+                "id": str(employee.company.id),
+                "name": employee.company.name,
             }
-            token["user"] = user_data
+            user_companies.append(company)
+
+        user_data: dict = {
+            "name": user.name,
+            "email": user.email,
+            "cpf": user.cpf,
+            "companies": user_companies,
+        }
+        token["user"] = user_data
 
         return token
 
