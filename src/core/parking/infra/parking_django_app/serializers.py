@@ -41,7 +41,6 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
 
         else:
             if "sector_type" in data:
-                print(data["sector_type"])
                 if data["sector_type"] == "CONTRACT":
                     if "contract" not in data or data["contract"] is None:
                         raise serializers.ValidationError("Contract is required")

@@ -17,6 +17,7 @@ dependencies = [
     "python-magic>=0.4.27; sys_platform == \"linux\"",
     "pytest>=8.3.3",
     "pylint-django>=2.6.1",
+    "faker>=30.6.0",
     "djangorestframework-simplejwt>=5.3.1",
     "pytz>=2024.2",
     "celery>=5.4.0",
@@ -26,6 +27,7 @@ dependencies = [
     "pillow>=11.0.0",
     "libmagic>=1.0",
 ]
+
 requires-python = "==3.12.*"
 readme = "README.md"
 license = {text = "MIT"}
@@ -43,6 +45,7 @@ makemigrations = "pdm run manage makemigrations"
 migrate = "pdm run manage migrate"
 dev = "pdm run manage runserver 0.0.0.0:8000"
 test = "pytest --ignore __pypackages__"
+populate = "python src/manage.py populate"
 celery = "celery -A django_project worker -l info"
 
 [tool.pdm.dev-dependencies]

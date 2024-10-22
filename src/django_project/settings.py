@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "core.uploader",
     "core.company.infra.company_django_app",
     "core.parking.infra.parking_django_app",
+    "core.populate.infra.populate_django_app",
     "core.user.infra.user_django_app",
     "core.image.infra.image_django_app",
 ]

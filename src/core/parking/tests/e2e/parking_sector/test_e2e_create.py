@@ -117,7 +117,6 @@ class TestParkingSectorListAPI:
             },
         )
 
-        print(response.content)
         assert response.status_code == 201
         assert response.json() == {
             "id": response.json()["id"],

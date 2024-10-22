@@ -70,6 +70,5 @@ class TestOperationListAPI:
             },
         )
 
-        print(response.content)
         assert response.status_code == 400
         assert "This field is required." in response.json()["parking"][0]
