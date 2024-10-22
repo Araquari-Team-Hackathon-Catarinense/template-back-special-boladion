@@ -25,10 +25,11 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     "corsheaders",
-    "core.uploader.infra.uploader_django_app",
+    'safedelete',
     "core.company.infra.company_django_app",
     "core.parking.infra.parking_django_app",
     "core.populate.infra.populate_django_app",
+    "core.uploader.infra.uploader_django_app",
     "core.user.infra.user_django_app",
 ]
 
@@ -129,6 +130,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOW_ALL_ORIGINS = True
 
 AUTH_USER_MODEL = "user_django_app.User"
+
+SAFE_DELETE_FIELD_NAME = "deleted_at"
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "django_project.pagination.VirtualTruckPagination",
