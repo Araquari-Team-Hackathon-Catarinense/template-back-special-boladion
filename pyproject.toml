@@ -15,9 +15,16 @@ dependencies = [
     "cpf-cnpj-validate>=1.4",
     "Pillow>=11.0.0",
     "python-magic>=0.4.27; sys_platform == \"linux\"",
-    "django-cors-headers>=4.5.0",
     "pytest>=8.3.3",
     "pylint-django>=2.6.1",
+    "djangorestframework-simplejwt>=5.3.1",
+    "pytz>=2024.2",
+    "celery>=5.4.0",
+    "python-dotenv>=1.0.1",
+    "django-cors-headers>=4.5.0",
+    "pytest>=8.3.3",
+    "pillow>=11.0.0",
+    "libmagic>=1.0",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
@@ -36,6 +43,7 @@ makemigrations = "pdm run manage makemigrations"
 migrate = "pdm run manage migrate"
 dev = "pdm run manage runserver 0.0.0.0:8000"
 test = "pytest --ignore __pypackages__"
+celery = "celery -A django_project worker -l info"
 
 [tool.pdm.dev-dependencies]
 dev = [
