@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class CompanyAppConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "core.company.infra.django_app"
+    name = "core.company.infra.company_django_app"

@@ -1,4 +1,4 @@
-from core.company.infra.django_app.serializers import CompanyCreateSerializer
+from core.company.infra.company_django_app.serializers import CompanyCreateSerializer
 from pycpfcnpj import gen
 import pytest
 
