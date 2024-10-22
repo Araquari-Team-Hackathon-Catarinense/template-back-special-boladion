@@ -9,7 +9,7 @@ from core.company.infra.company_django_app.serializers import CompanyDetailSeria
 
 @pytest.mark.django_db
 class TestCompanyDetailSerializer:
-    def test_retrieve_serializer_with_an_specific_company(self) -> None:
+    def test_retrieve_serializer_with_a_specific_company(self) -> None:
         company = baker.make(Company, person_type="PF", document_number=gen.cpf())
         serializer = CompanyDetailSerializer(company)
         assert serializer.data == {

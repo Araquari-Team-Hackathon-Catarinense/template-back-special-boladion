@@ -2,10 +2,33 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
+
+from core.user.domain.actions import forget_password, reset_password, validate_token
+from core.user.infra.user_django_app.views import CustomTokenObtainPairView
 
 from .router import router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/swagger/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "api/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
+    path("api/forget_password/", forget_password, name="forget_password"),
+    path("api/reset_password/", reset_password, name="reset_password"),
+    path("api/validate_token/", validate_token, name="validate_token"),
+    path("api/token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
