@@ -41,7 +41,6 @@ class TestParkingSectorListAPI:
             ],
         }
 
-        print(response.json())
         assert response.status_code == 200
         assert len(response.json()["results"]) == 3
         assert json.loads(response.content) == expected_data

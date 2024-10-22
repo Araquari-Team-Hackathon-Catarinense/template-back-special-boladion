@@ -21,7 +21,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            print(options)
             if options.get("all"):
                 self.__handle_all()
             if options.get("companies"):

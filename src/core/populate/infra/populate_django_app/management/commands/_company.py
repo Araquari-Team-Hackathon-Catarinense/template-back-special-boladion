@@ -1,4 +1,4 @@
-from core.company.infra.django_app.models import Company
+from core.company.infra.company_django_app.models import Company
 from core.populate.infra.resources.data_company import companies_data
 
 
