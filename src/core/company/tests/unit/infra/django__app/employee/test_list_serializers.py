@@ -6,7 +6,7 @@ from core.company.infra.django_app.serializers import EmployeeListSerializer
 
 
 @pytest.mark.django_db
-class TestCompanyListSerializer:
+class TestEmployeeListSerializer:
     def test_list_serializer_with_many_employees(self) -> None:
         employees = baker.make(Employee, _quantity=3)
         serializer = EmployeeListSerializer(employees, many=True)
@@ -14,8 +14,8 @@ class TestCompanyListSerializer:
         assert serializer.data == [
             {
                 "id": str(employee.id),
-                "company_id": str(employee.company_id),
-                "user_id": str(employee.user_id),
+                "company_id": str(employee.company_id.id),
+                "user_id": employee.user_id.id,
                 "is_active": employee.is_active,
             }
             for employee in employees
@@ -31,8 +31,8 @@ class TestCompanyListSerializer:
         serializer = EmployeeListSerializer(employee, many=False)
         assert serializer.data == {
             "id": str(employee.id),
-            "company_id": str(employee.company_id),
-            "user_id": str(employee.user_id),
+            "company_id": str(employee.company_id.id),
+            "user_id": employee.user_id.id,
             "is_active": employee.is_active,
         }
 
@@ -41,8 +41,8 @@ class TestCompanyListSerializer:
         serializer = EmployeeListSerializer(employee)
         assert serializer.data == {
             "id": str(employee.id),
-            "company_id": str(employee.company_id),
-            "user_id": str(employee.user_id),
+            "company_id": str(employee.company_id.id),
+            "user_id": employee.user_id.id,
             "is_active": employee.is_active,
         }
 
