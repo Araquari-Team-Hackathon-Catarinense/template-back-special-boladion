@@ -76,7 +76,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user: AuthUser) -> Token:
         token: Token = super().get_token(user)
         user_id: str = token["user_id"]
-        print(user_id, "LALALALLALALALA")
         user: User = User.objects.get(id=user_id)
         employee: List[Employee] = Employee.objects.filter(user__id=user_id)
 
@@ -86,13 +85,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             company = {
                 "id": str(employee.company.id),
                 "name": employee.company.name,
+                "avatar": employee.company.pic.url if employee.company.pic else None,
             }
             user_companies.append(company)
 
         user_data: dict = {
             "name": user.name,
             "email": user.email,
-            "cpf": user.cpf,
+            "avatar": user.pic.url if user.pic else None,
             "companies": user_companies,
         }
         token["user"] = user_data
