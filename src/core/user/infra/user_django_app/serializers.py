@@ -1,5 +1,6 @@
 from typing import List
 
+from dill import source
 from django.contrib.auth import authenticate
 from pycpfcnpj import cpf
 from rest_framework import serializers
@@ -8,6 +9,9 @@ from rest_framework_simplejwt.tokens import Token
 
 from core.company.infra.company_django_app.models import Employee
 from core.image.infra.image_django_app.serializers import ImageProfilePicSerializer
+from core.uploader.infra.uploader_django_app.admin import Document
+from core.uploader.infra.uploader_django_app.serializers import DocumentSerializer
+from django_project.settings import BASE_URL
 
 from .models import User
 
@@ -21,6 +25,13 @@ class UserDetailSerializer(serializers.Serializer):
     is_active = serializers.BooleanField(read_only=True)
     date_joined = serializers.DateTimeField(read_only=True)
     last_login = serializers.DateTimeField(read_only=True)
+    avatar = serializers.SerializerMethodField()
+
+    def get_avatar(self, obj):
+        if not obj.avatar:
+            return None
+        url = BASE_URL + obj.avatar.url
+        return url
 
     def create(self, validated_data):
         return NotImplementedError
@@ -35,7 +46,13 @@ class UserListSerializer(serializers.Serializer):
     name = serializers.CharField()
     cpf = serializers.CharField()
     address = serializers.JSONField()
-    pic = ImageProfilePicSerializer(allow_null=True)
+    avatar = serializers.SerializerMethodField()
+
+    def get_avatar(self, obj):
+        if not obj.avatar:
+            return None
+        url = BASE_URL + obj.avatar.url
+        return url
 
     def create(self, validated_data):
         return NotImplementedError
@@ -45,6 +62,14 @@ class UserListSerializer(serializers.Serializer):
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
+    avatar_attachment_key = serializers.SlugRelatedField(
+        source="avatar",
+        queryset=Document.objects.all(),
+        slug_field="attachment_key",
+        required=False,
+        write_only=True,
+    )
+
     class Meta:
         model = User
         fields = [
@@ -54,7 +79,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "password",
             "cpf",
             "address",
-            "pic",
+            "avatar_attachment_key",
         ]
         read_only_fields = ["id"]
 
@@ -85,14 +110,18 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             company = {
                 "id": str(employee.company.id),
                 "name": employee.company.name,
-                "avatar": employee.company.pic.url if employee.company.pic else None,
+                "avatar": (
+                    BASE_URL + employee.company.pic.url
+                    if employee.company.pic
+                    else None
+                ),
             }
             user_companies.append(company)
 
         user_data: dict = {
             "name": user.name,
             "email": user.email,
-            "avatar": user.pic.url if user.pic else None,
+            "avatar": BASE_URL + user.avatar.url if user.avatar else None,
             "companies": user_companies,
         }
         token["user"] = user_data
