@@ -23,8 +23,8 @@ class Company(models.Model):
     system_admin = models.BooleanField(default=False, blank=True, null=True)
     address = models.JSONField(blank=True, null=True)
     contacts = models.JSONField(blank=True, null=True)
-    document = models.ForeignKey(
-        Document, on_delete=models.PROTECT, default=None, blank=True, null=True
+    documents = models.ManyToManyField(
+        Document, related_name="company_document", blank=True
     )
     pic = models.ForeignKey(
         ImageProfilePic, on_delete=models.PROTECT, default="", blank=True, null=True

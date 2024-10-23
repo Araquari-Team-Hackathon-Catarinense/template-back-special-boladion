@@ -26,18 +26,21 @@ class CompanyDetailSerializer(serializers.Serializer):
     address = serializers.JSONField(read_only=True)
     contacts = serializers.JSONField(read_only=True)
     system_admin = serializers.BooleanField(read_only=True)
-    document = DocumentSerializer(read_only=True)
+    documents = DocumentSerializer(
+        read_only=True,
+        many=True,
+    )
 
 
 class CompanyCreateSerializer(serializers.ModelSerializer):
-    document_attachment_key = serializers.SlugRelatedField(
-        source="document",
+    documents_attachment_keys = serializers.SlugRelatedField(
+        source="documents",
         queryset=Document.objects.all(),
         slug_field="attachment_key",
         required=False,
         write_only=True,
     )
-    document = DocumentSerializer(read_only=True, required=False)
+    documents = DocumentSerializer(read_only=True, many=True)
 
     class Meta:
         model = Company
@@ -51,8 +54,8 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
             "address",
             "contacts",
             "system_admin",
-            "document",
-            "document_attachment_key",
+            "documents",
+            "documents_attachment_keys",
         ]
         read_only_fields = ["id"]
 

@@ -5,14 +5,20 @@ from pycpfcnpj import gen
 
 from core.company.infra.company_django_app.models import Company
 from core.company.infra.company_django_app.serializers import CompanyDetailSerializer
+from core.uploader.models import Document
+from core.uploader.serializers import DocumentSerializer
 
 
 @pytest.mark.django_db
 class TestCompanyDetailSerializer:
     def test_retrieve_serializer_with_a_specific_company(self) -> None:
         company = baker.make(Company, person_type="PF", document_number=gen.cpf())
+        documents = baker.make(Document, file="th.jpg", _quantity=2)
+        company.documents.set(documents)
         serializer = CompanyDetailSerializer(company)
-        assert serializer.data == {
+
+        serialized_data = serializer.data
+        expected_data = {
             "id": str(company.id),
             "name": company.name,
             "trade_name": company.trade_name,
@@ -22,8 +28,10 @@ class TestCompanyDetailSerializer:
             "address": company.address,
             "contacts": company.contacts,
             "system_admin": company.system_admin,
-            "document": company.document,
+            "documents": DocumentSerializer(documents, many=True).data,
         }
+
+        assert serialized_data == expected_data
 
     def test_list_serializer_with_no_company(self) -> None:
         company = {}
