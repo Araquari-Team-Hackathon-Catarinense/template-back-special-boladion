@@ -5,7 +5,7 @@ from core.uploader.infra.uploader_django_app.serializers import DocumentSerializ
 from core.uploader.infra.uploader_django_app.models import Document
 from django_project.settings import BASE_URL
 
-from .models import Company, Employee
+from .models import Company, Contract, Employee
 
 
 class CompanyListSerializer(serializers.Serializer):
@@ -135,5 +135,28 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
             "company",
             "user",
             "is_active",
+        ]
+        read_only_fields = ["id"]
+
+
+class ContractCompanyInfoSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    name = serializers.CharField(read_only=True)
+
+
+class ContractListSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    source_company = ContractCompanyInfoSerializer(read_only=True)
+    target_company = ContractCompanyInfoSerializer(read_only=True)
+    contract_type = serializers.CharField(read_only=True)
+
+class ContractCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = [
+            "id",
+            "source_company",
+            "target_company",
+            "contract_type",
         ]
         read_only_fields = ["id"]
