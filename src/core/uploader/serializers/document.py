@@ -39,9 +39,15 @@ class DocumentUploadSerializer(serializers.ModelSerializer):
 
 
 class DocumentSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField()
+
+    def get_url(self, obj):
+        url = BASE_URL + obj.file.url
+        return url
+
     class Meta:
         model = Document
-        fields = ["url", "description", "uploaded_on", "attachment_key", "public_id"]
+        fields = ["url", "description", "uploaded_on", "attachment_key"]
         read_only_fields = ["url", "attachment_key", "uploaded_on"]
 
     def create(self, validated_data):

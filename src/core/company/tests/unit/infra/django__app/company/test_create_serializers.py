@@ -1,19 +1,29 @@
+import uuid
+
 import pytest
+from model_bakery import baker
 from pycpfcnpj import gen
 
 from core.company.infra.company_django_app.serializers import CompanyCreateSerializer
+from core.uploader.models import Document
 
 
 @pytest.mark.django_db
 class TestCompanyCreateSerializer:
     def test_create_serializer_with_valid_data(self) -> None:
         cnpj = gen.cnpj()
+        document = baker.make(Document, file="th.jpg", attachment_key=uuid.uuid4)
         data = {
             "name": "Company",
             "person_type": "PJ",
             "document_number": cnpj,
+            "documents_attachment_keys": str(document.attachment_key),
+            "is_active": True,
         }
         serializer = CompanyCreateSerializer(data=data)
+        if not serializer.is_valid():
+            print(serializer.errors)
+
         assert serializer.is_valid() is True
 
     def test_create_serializer_with_invalid_data(self) -> None:

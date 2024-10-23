@@ -8,7 +8,7 @@ from core.company.infra.company_django_app.serializers import CompanyListSeriali
 @pytest.mark.django_db
 class TestCompanyListSerializer:
     def test_list_serializer_with_many_companies(self) -> None:
-        companies = baker.make(Company, _quantity=3)
+        companies = baker.make(Company, _quantity=3, name="Company")
         serializer = CompanyListSerializer(companies, many=True)
         assert serializer.data == [
             {
@@ -16,6 +16,7 @@ class TestCompanyListSerializer:
                 "name": company.name,
                 "trade_name": company.trade_name,
                 "person_type": company.person_type,
+                "document_number": company.document_number,
                 "is_active": company.is_active,
             }
             for company in companies
@@ -34,5 +35,6 @@ class TestCompanyListSerializer:
             "name": company.name,
             "trade_name": company.trade_name,
             "person_type": company.person_type,
+            "document_number": company.document_number,
             "is_active": company.is_active,
         }
