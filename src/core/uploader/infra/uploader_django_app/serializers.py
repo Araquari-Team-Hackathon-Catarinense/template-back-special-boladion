@@ -20,12 +20,14 @@ class DocumentUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = ["attachment_key", "file", "description", "uploaded_on", "type", "url"]
-        read_only_fields = ["attachment_key", "uploaded_on", "type", "url"]
-        extra_kwargs = {"file": {"write_only": True}}
+        read_only_fields = ["attachment_key", "uploaded_on", "url"]
+        extra_kwargs = {"file": {"write_only": True}, "type": {"allow_null": True}}
 
     def validate(self, attrs):
         content_type = get_content_type(attrs["file"])
-        if content_type in CONTENT_TYPE_IMAGES:
+        if attrs.get("type") is not None:
+            return attrs
+        elif content_type in CONTENT_TYPE_IMAGES:
             attrs["type"] = "IMG"
         elif content_type in CONTENT_TYPE_PDF:
             attrs["type"] = "PDF"
