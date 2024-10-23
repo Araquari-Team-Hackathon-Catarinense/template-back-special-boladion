@@ -15,4 +15,4 @@ class MeasurementUnit(models.Model):
         verbose_name_plural: str = "measurement units"
 
     def __str__(self) -> str:
-        return f"{self.description} - {self.company}"
+        return f"{self.description}"
