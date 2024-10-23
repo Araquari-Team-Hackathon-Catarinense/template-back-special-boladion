@@ -8,9 +8,7 @@ from rest_framework_simplejwt.serializers import AuthUser, TokenObtainPairSerial
 from rest_framework_simplejwt.tokens import Token
 
 from core.company.infra.company_django_app.models import Employee
-from core.image.infra.image_django_app.serializers import ImageProfilePicSerializer
 from core.uploader.infra.uploader_django_app.admin import Document
-from core.uploader.infra.uploader_django_app.serializers import DocumentSerializer
 from django_project.settings import BASE_URL
 
 from .models import User
@@ -109,17 +107,15 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token: Token = super().get_token(user)
         user_id: str = token["user_id"]
         user: User = User.objects.get(id=user_id)
-        employee: List[Employee] = Employee.objects.filter(user__id=user_id)
 
         user_companies = []
-
         for employee in user.employees.all():
             company = {
                 "id": str(employee.company.id),
                 "name": employee.company.name,
                 "avatar": (
-                    BASE_URL + employee.company.pic.url
-                    if employee.company.pic
+                    BASE_URL + employee.company.avatar.url
+                    if employee.company.avatar
                     else None
                 ),
             }

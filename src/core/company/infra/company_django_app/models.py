@@ -3,7 +3,6 @@ import uuid
 from django.db import models
 
 from core.company.domain.value_objects import PersonType
-from core.image.infra.image_django_app.models import ImageProfilePic
 from core.uploader.infra.uploader_django_app.models import Document
 from core.user.infra.user_django_app.models import User
 

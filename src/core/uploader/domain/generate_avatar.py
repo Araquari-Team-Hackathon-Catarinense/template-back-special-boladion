@@ -52,7 +52,7 @@ def generate_avatar(username):
 
     draw = ImageDraw.Draw(image)
 
-    font = ImageFont.truetype("src/core/image/domain/Inter.ttf", 30)
+    font = ImageFont.truetype("src/core/uploader/domain/Inter.ttf", 30)
 
     text = list(username)[0].upper()
 

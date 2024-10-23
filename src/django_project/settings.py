@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     "core.parking.infra.parking_django_app",
     "core.populate.infra.populate_django_app",
     "core.user.infra.user_django_app",
-    "core.image.infra.image_django_app",
 ]
 
 MIDDLEWARE = [
@@ -143,6 +142,11 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+SIMPLE_JWT = {
+    "TOKEN_OBTAIN_SERIALIZER": "core.user.infra.user_django_app.serializers.CustomTokenObtainPairSerializer",
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=480),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+}
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Virtual Truck ",
