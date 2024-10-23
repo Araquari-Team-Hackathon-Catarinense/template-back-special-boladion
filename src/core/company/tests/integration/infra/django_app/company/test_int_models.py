@@ -17,6 +17,7 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(table_name, "company")
 
         fields_name = tuple(field.name for field in Company._meta.fields)
+        fields_name += tuple(field.name for field in Company._meta.many_to_many)
         self.assertEqual(
             fields_name,
             (
@@ -29,8 +30,8 @@ class TestCategoryModelInt(unittest.TestCase):
                 "system_admin",
                 "address",
                 "contacts",
-                "document",
                 "pic",
+                "documents",
             ),
         )
 
@@ -78,12 +79,10 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertIsInstance(system_admin_field, models.BooleanField)
         self.assertFalse(system_admin_field.default)
 
-        document_field = Company._meta.get_field("document")
-        self.assertIsInstance(document_field, models.ForeignKey)
-        self.assertEqual(document_field.related_model, Document)
-        self.assertEqual(document_field.remote_field.on_delete, models.PROTECT)
-        self.assertTrue(document_field.null)
-        self.assertTrue(document_field.blank)
+        documents_field = Company.documents.field
+        self.assertIsInstance(documents_field, models.ManyToManyField)
+        self.assertEqual(documents_field.related_model, Document)
+        self.assertTrue(documents_field.blank)
 
         pic_field: models.ForeignKey = Company.pic.field
         self.assertIsInstance(pic_field, models.ForeignKey)
@@ -102,10 +101,12 @@ class TestCategoryModelInt(unittest.TestCase):
             "is_active": True,
             "address": {"city": "City", "state": "State"},
             "contacts": [{"phone": "00000000000"}],
-            "document": None,
             "pic": None,
         }
         company = Company.objects.create(**arrange)
+        documents = Document.objects.create(file="th.jpg", description="Description")
+        company.documents.add(documents)
+
         self.assertEqual(company.id, arrange["id"])
         self.assertEqual(company.name, arrange["name"])
         self.assertEqual(company.trade_name, arrange["trade_name"])
@@ -115,7 +116,7 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(company.address, arrange["address"])
         self.assertEqual(company.contacts, arrange["contacts"])
         self.assertEqual(company.system_admin, False)
-        self.assertEqual(company.document, arrange["document"])
+        self.assertEqual(company.documents.first(), documents)
         self.assertEqual(company.pic, arrange["pic"])
         self.assertEqual(
             str(company), f"{arrange['name']} ({arrange['document_number']})"
