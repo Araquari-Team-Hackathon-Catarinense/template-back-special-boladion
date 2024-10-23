@@ -1,9 +1,8 @@
 # pylint: disable=no-member
 from django.core.management.base import BaseCommand, CommandError, CommandParser
 
-from core.populate.infra.populate_django_app.management.commands._company import (
-    populate_companies,
-)
+from ._company import populate_companies
+from ._user import populate_users
 
 
 class Command(BaseCommand):
@@ -16,6 +15,11 @@ class Command(BaseCommand):
             help="Populate the companies data",
         )
         parser.add_argument(
+            "--users",
+            action="store_true",
+            help="Populate the users data",
+        )
+        parser.add_argument(
             "--all", action="store_true", help="Populate all data available"
         )
 
@@ -25,6 +29,8 @@ class Command(BaseCommand):
                 self.__handle_all()
             if options.get("companies"):
                 self.__handle_companies()
+            if options.get("users"):
+                self.__handle_users()
 
             self.stdout.write(self.style.SUCCESS("\nTudo populado com sucesso! :D"))
         except CommandError as exc:
@@ -37,7 +43,13 @@ class Command(BaseCommand):
         populate_companies()
         self.stdout.write(self.style.SUCCESS("OK"))
 
+    def __handle_users(self):
+        self.stdout.write("Populating users data...", ending="")
+        populate_users()
+        self.stdout.write(self.style.SUCCESS("OK"))
+
     def __handle_all(self):
         self.stdout.write("Populating all data...", ending="")
-        populate_companies()
+        self.__handle_companies()
+        self.__handle_users()
         self.stdout.write(self.style.SUCCESS("OK"))
