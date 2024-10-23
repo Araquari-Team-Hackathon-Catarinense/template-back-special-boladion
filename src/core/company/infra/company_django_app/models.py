@@ -40,7 +40,7 @@ class Company(BaseModel):
         return f"{self.name} ({self.document_number})"
 
 
-class Employee(models.Model):
+class Employee(BaseModel):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="employees")
     is_active = models.BooleanField(default=True, blank=True, null=True)
@@ -68,4 +68,4 @@ class Contract(BaseModel):
         verbose_name_plural: str = "contracts"
 
     def __str__(self) -> str:
-        return f"{self.source_company} - {self.target_company} ({self.contract_type})"
+        return f"{self.source_company.name} - {self.target_company.name} ({self.contract_type})"

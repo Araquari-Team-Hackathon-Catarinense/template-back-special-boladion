@@ -20,6 +20,10 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(
             fields_name,
             (
+                "deleted_at",
+                "deleted_by_cascade",
+                "created_at",
+                "updated_at",
                 "id",
                 "name",
                 "trade_name",
@@ -37,7 +41,7 @@ class TestCategoryModelInt(unittest.TestCase):
         id_field: models.UUIDField = Company.id.field
         self.assertIsInstance(id_field, models.UUIDField)
         self.assertTrue(id_field.primary_key)
-        self.assertTrue(id_field.editable)
+        self.assertFalse(id_field.editable)
 
         name_field: models.CharField = Company.name.field
         self.assertIsInstance(name_field, models.CharField)

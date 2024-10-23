@@ -61,7 +61,7 @@ class TestCreateAPI:
         company = baker.make(Company)
         employee = {
             "company": str(company.id),
-            "user": "123",
+            "user": 123,
             "is_active": True,
         }
 

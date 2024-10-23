@@ -19,13 +19,21 @@ class TestCategoryModelInt(unittest.TestCase):
         fields_name = tuple(field.name for field in Employee._meta.fields)
         self.assertEqual(
             fields_name,
-            ("id", "company", "user", "is_active"),
+            ("deleted_at",
+             "deleted_by_cascade",
+             "created_at",
+             "updated_at",
+             "id",
+             "company",
+             "user",
+             "is_active",
+            ),
         )
 
         id_field: models.UUIDField = Employee.id.field
         self.assertIsInstance(id_field, models.UUIDField)
         self.assertTrue(id_field.primary_key)
-        self.assertTrue(id_field.editable)
+        self.assertFalse(id_field.editable)
 
         company_field: models.ForeignKey = Employee.company.field
         self.assertIsInstance(company_field, models.ForeignKey)
