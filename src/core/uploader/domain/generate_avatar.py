@@ -12,7 +12,7 @@ def textsize(text, font):
     return width, height
 
 
-def generate_user_pic(username):
+def generate_avatar(username):
     background_colors = [
         (0, 0, 0),
         (255, 0, 0),

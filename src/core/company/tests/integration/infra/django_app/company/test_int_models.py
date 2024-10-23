@@ -5,8 +5,7 @@ import pytest
 from django.db import models
 
 from core.company.infra.company_django_app.models import Company
-from core.image.infra.image_django_app.models import ImageProfilePic
-from core.uploader.models import Document
+from core.uploader.infra.uploader_django_app.models import Document
 
 
 @pytest.mark.django_db()
@@ -30,7 +29,7 @@ class TestCategoryModelInt(unittest.TestCase):
                 "system_admin",
                 "address",
                 "contacts",
-                "pic",
+                "avatar",
                 "documents",
             ),
         )
@@ -84,12 +83,9 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(documents_field.related_model, Document)
         self.assertTrue(documents_field.blank)
 
-        pic_field: models.ForeignKey = Company.pic.field
-        self.assertIsInstance(pic_field, models.ForeignKey)
-        self.assertEqual(pic_field.related_model, ImageProfilePic)
-        self.assertEqual(pic_field.remote_field.on_delete, models.PROTECT)
-        self.assertTrue(pic_field.null)
-        self.assertTrue(pic_field.blank)
+        avatar_field: models.ForeignKey = Company.avatar.field
+        self.assertIsInstance(avatar_field, models.ForeignKey)
+        self.assertEqual(avatar_field.related_model, Document)
 
     def test_create(self):
         arrange = {
@@ -102,6 +98,7 @@ class TestCategoryModelInt(unittest.TestCase):
             "address": {"city": "City", "state": "State"},
             "contacts": [{"phone": "00000000000"}],
             "pic": None,
+            "avatar": None,
         }
         company = Company.objects.create(**arrange)
         documents = Document.objects.create(file="th.jpg", description="Description")
@@ -121,3 +118,4 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(
             str(company), f"{arrange['name']} ({arrange['document_number']})"
         )
+        self.assertIsNone(company.avatar)

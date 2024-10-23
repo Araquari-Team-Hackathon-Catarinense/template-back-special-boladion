@@ -17,7 +17,7 @@ from .models import User
 
 
 class UserDetailSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
+    id = serializers.UUIDField(read_only=True)
     email = serializers.EmailField(read_only=True)
     name = serializers.CharField(read_only=True)
     cpf = serializers.CharField(read_only=True)
@@ -25,10 +25,13 @@ class UserDetailSerializer(serializers.Serializer):
     is_active = serializers.BooleanField(read_only=True)
     date_joined = serializers.DateTimeField(read_only=True)
     last_login = serializers.DateTimeField(read_only=True)
-    avatar = serializers.SerializerMethodField()
+    avatar = serializers.SerializerMethodField(read_only=True)
 
     def get_avatar(self, obj):
-        if not obj.avatar:
+        if isinstance(obj, dict):
+            if obj.get("avatar") is None:
+                return None
+        if obj.avatar is None:
             return None
         url = BASE_URL + obj.avatar.url
         return url
@@ -41,7 +44,7 @@ class UserDetailSerializer(serializers.Serializer):
 
 
 class UserListSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
+    id = serializers.UUIDField(read_only=True)
     email = serializers.EmailField()
     name = serializers.CharField()
     cpf = serializers.CharField()
@@ -49,6 +52,9 @@ class UserListSerializer(serializers.Serializer):
     avatar = serializers.SerializerMethodField()
 
     def get_avatar(self, obj):
+        if isinstance(obj, dict):
+            if obj.get("avatar") is None:
+                return None
         if not obj.avatar:
             return None
         url = BASE_URL + obj.avatar.url
@@ -67,6 +73,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         queryset=Document.objects.all(),
         slug_field="attachment_key",
         required=False,
+        allow_null=True,
         write_only=True,
     )
 

@@ -15,6 +15,7 @@ class TestUserCreateSerializer:
             "email": "johndoe@gmail.com",
             "cpf": cpf,
             "address": "Rua dos Bobos, nº 0",
+            "password": "123456",
         }
         serializer = UserCreateSerializer(data=data)
         assert serializer.is_valid() is True
@@ -46,6 +47,7 @@ class TestUserCreateSerializer:
                 "is_active": True,
                 "date_joined": datetime.now(),
                 "last_login": None,
+                "password": "123456",
             },
             {
                 "name": "Jane Doe",
@@ -55,6 +57,7 @@ class TestUserCreateSerializer:
                 "is_active": True,
                 "date_joined": datetime.now(),
                 "last_login": None,
+                "password": "123456",
             },
         ]
 
