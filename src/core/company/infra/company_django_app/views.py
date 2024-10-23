@@ -8,9 +8,11 @@ from core.company.infra.company_django_app.serializers import (
     ContractListSerializer,
     EmployeeCreateSerializer,
     EmployeeListSerializer,
+    PackingCreateSerializer,
+    PackingListSerializer,
 )
 
-from .models import Company, Contract, Employee
+from .models import Company, Contract, Employee, Packing
 
 
 class CompanyViewSet(ModelViewSet):
@@ -43,3 +45,13 @@ class ContractViewSet(ModelViewSet):
         if self.action in ["list", "retrieve"]:
             return ContractListSerializer
         return ContractCreateSerializer
+
+
+class PackingViewSet(ModelViewSet):
+    queryset = Packing.objects.all()
+    http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_serializer_class(self):
+        if self.action in ["list", "retrieve"]:
+            return PackingListSerializer
+        return PackingCreateSerializer

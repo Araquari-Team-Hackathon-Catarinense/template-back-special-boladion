@@ -1,7 +1,7 @@
 from django.db import models
 
 from core.__seedwork__.infra.django_app.models import BaseModel
-from core.company.domain.value_objects import PersonType, ContractType
+from core.company.domain.value_objects import ContractType, PersonType
 from core.uploader.infra.uploader_django_app.models import Document
 from core.user.infra.user_django_app.models import User
 
@@ -54,13 +54,16 @@ class Employee(BaseModel):
 
 
 class Contract(BaseModel):
-
     CONTRACT_TYPE_CHOICES = [
         (contract_type.name, contract_type.value) for contract_type in ContractType
     ]
 
-    source_company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="source_contracts")
-    target_company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="target_contracts")
+    source_company = models.ForeignKey(
+        Company, on_delete=models.CASCADE, related_name="source_contracts"
+    )
+    target_company = models.ForeignKey(
+        Company, on_delete=models.CASCADE, related_name="target_contracts"
+    )
     contract_type = models.CharField(max_length=255, choices=CONTRACT_TYPE_CHOICES)
 
     class Meta:
@@ -69,3 +72,9 @@ class Contract(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.source_company.name} - {self.target_company.name} ({self.contract_type})"
+
+
+class Packing(models.Model):
+    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    description = models.CharField(max_length=255)
