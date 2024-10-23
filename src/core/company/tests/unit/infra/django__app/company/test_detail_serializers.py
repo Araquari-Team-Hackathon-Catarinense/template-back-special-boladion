@@ -22,6 +22,7 @@ class TestCompanyDetailSerializer:
             "address": company.address,
             "contacts": company.contacts,
             "system_admin": company.system_admin,
+            "document": company.document,
         }
 
     def test_list_serializer_with_no_company(self) -> None:

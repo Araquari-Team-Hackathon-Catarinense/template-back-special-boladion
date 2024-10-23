@@ -5,6 +5,8 @@ import pytest
 from django.db import models
 
 from core.company.infra.company_django_app.models import Company
+from core.image.infra.image_django_app.models import ImageProfilePic
+from core.uploader.models import Document
 
 
 @pytest.mark.django_db()
@@ -27,6 +29,8 @@ class TestCategoryModelInt(unittest.TestCase):
                 "system_admin",
                 "address",
                 "contacts",
+                "document",
+                "pic",
             ),
         )
 
@@ -74,6 +78,20 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertIsInstance(system_admin_field, models.BooleanField)
         self.assertFalse(system_admin_field.default)
 
+        document_field = Company._meta.get_field("document")
+        self.assertIsInstance(document_field, models.ForeignKey)
+        self.assertEqual(document_field.related_model, Document)
+        self.assertEqual(document_field.remote_field.on_delete, models.PROTECT)
+        self.assertTrue(document_field.null)
+        self.assertTrue(document_field.blank)
+
+        pic_field: models.ForeignKey = Company.pic.field
+        self.assertIsInstance(pic_field, models.ForeignKey)
+        self.assertEqual(pic_field.related_model, ImageProfilePic)
+        self.assertEqual(pic_field.remote_field.on_delete, models.PROTECT)
+        self.assertTrue(pic_field.null)
+        self.assertTrue(pic_field.blank)
+
     def test_create(self):
         arrange = {
             "id": "af46842e-027d-4c91-b259-3a3642144ba4",
@@ -84,6 +102,8 @@ class TestCategoryModelInt(unittest.TestCase):
             "is_active": True,
             "address": {"city": "City", "state": "State"},
             "contacts": [{"phone": "00000000000"}],
+            "document": None,
+            "pic": None,
         }
         company = Company.objects.create(**arrange)
         self.assertEqual(company.id, arrange["id"])
@@ -95,6 +115,8 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(company.address, arrange["address"])
         self.assertEqual(company.contacts, arrange["contacts"])
         self.assertEqual(company.system_admin, False)
+        self.assertEqual(company.document, arrange["document"])
+        self.assertEqual(company.pic, arrange["pic"])
         self.assertEqual(
             str(company), f"{arrange['name']} ({arrange['document_number']})"
         )

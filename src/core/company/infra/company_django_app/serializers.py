@@ -1,7 +1,8 @@
-from os import read
-
 from pycpfcnpj import cnpj, cpf, cpfcnpj
 from rest_framework import serializers
+
+from core.uploader.models import Document
+from core.uploader.serializers import DocumentSerializer
 
 from .models import Company, Employee
 
@@ -25,9 +26,19 @@ class CompanyDetailSerializer(serializers.Serializer):
     address = serializers.JSONField(read_only=True)
     contacts = serializers.JSONField(read_only=True)
     system_admin = serializers.BooleanField(read_only=True)
+    document = DocumentSerializer(read_only=True)
 
 
 class CompanyCreateSerializer(serializers.ModelSerializer):
+    document_attachment_key = serializers.SlugRelatedField(
+        source="document",
+        queryset=Document.objects.all(),
+        slug_field="attachment_key",
+        required=False,
+        write_only=True,
+    )
+    document = DocumentSerializer(read_only=True, required=False)
+
     class Meta:
         model = Company
         fields = [
@@ -40,6 +51,8 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
             "address",
             "contacts",
             "system_admin",
+            "document",
+            "document_attachment_key",
         ]
         read_only_fields = ["id"]
 
