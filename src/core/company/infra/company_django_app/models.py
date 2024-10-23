@@ -4,7 +4,7 @@ from django.db import models
 
 from core.company.domain.value_objects import PersonType
 from core.image.infra.image_django_app.models import ImageProfilePic
-from core.uploader.models.document import Document
+from core.uploader.infra.uploader_django_app.models import Document
 from core.user.infra.user_django_app.models import User
 
 
@@ -26,8 +26,13 @@ class Company(models.Model):
     documents = models.ManyToManyField(
         Document, related_name="company_document", blank=True
     )
-    pic = models.ForeignKey(
-        ImageProfilePic, on_delete=models.PROTECT, default="", blank=True, null=True
+    avatar = models.ForeignKey(
+        Document,
+        related_name="+",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
     )
 
     class Meta:
