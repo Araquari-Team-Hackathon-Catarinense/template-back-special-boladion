@@ -58,7 +58,7 @@ class TestListAPI:
         assert response.status_code == 400
         assert "company" in response.json()
         assert (
-            f'Invalid pk "{parking["company"]}" - object does not exist.'
+            f'Pk inválido "{parking["company"]}" - objeto não existe.'
             in response.json()["company"][0]
         )
 

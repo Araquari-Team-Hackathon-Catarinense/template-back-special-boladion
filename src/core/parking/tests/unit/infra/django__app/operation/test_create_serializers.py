@@ -26,7 +26,7 @@ class TestOperationCreateSerializer:
         serializer = OperationCreateSerializer(data=data)
         assert serializer.is_valid() is False
         assert (
-            f'Invalid pk "{parking_id}" - object does not exist.'
+            f'Pk inválido "{parking_id}" - objeto não existe.'
             in serializer.errors["parking"]
         )
 
@@ -36,4 +36,4 @@ class TestOperationCreateSerializer:
         }
         serializer = OperationCreateSerializer(data=data)
         assert serializer.is_valid() is False
-        assert "This field is required." in serializer.errors["parking"][0]
+        assert "Este campo é obrigatório." in serializer.errors["parking"][0]

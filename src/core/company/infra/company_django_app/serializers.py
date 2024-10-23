@@ -52,6 +52,12 @@ class CompanyDetailSerializer(serializers.Serializer):
         url = BASE_URL + obj.avatar.url
         return url
 
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        if rep['avatar'] is None:
+            rep.pop("avatar")
+
+        return rep
 
 class CompanyCreateSerializer(serializers.ModelSerializer):
 
@@ -116,8 +122,8 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
 
 class EmployeeListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
-    company_id = serializers.UUIDField(source="company_id.id", read_only=True)
-    user_id = serializers.IntegerField(source="user_id.id", read_only=True)
+    company = serializers.UUIDField(source="company.id", read_only=True)
+    user = serializers.UUIDField(source="user.id", read_only=True)
     is_active = serializers.BooleanField(read_only=True)
 
 
@@ -126,8 +132,8 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
         model = Employee
         fields = [
             "id",
-            "company_id",
-            "user_id",
+            "company",
+            "user",
             "is_active",
         ]
         read_only_fields = ["id"]

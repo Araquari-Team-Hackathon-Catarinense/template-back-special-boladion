@@ -1,5 +1,6 @@
 import json
 
+from django_project.settings import BASE_URL
 import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
@@ -25,6 +26,7 @@ class TestRetrieveCompanyAPI:
             "address": companies[0].address,
             "contacts": companies[0].contacts,
             "system_admin": companies[0].system_admin,
+            "avatar": BASE_URL + companies[0].avatar.url if companies[0].avatar else None,
         }
         assert response.status_code == 200
         assert json.loads(response.content) == expected_data

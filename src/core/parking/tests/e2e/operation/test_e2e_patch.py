@@ -59,6 +59,6 @@ class TestPatchOperationAPI:
         assert response.status_code == 400
         assert "parking" in response.json()
         assert (
-            f'Invalid pk "{new_data["parking"]}" - object does not exist.'
+            f'Pk inválido "{new_data["parking"]}" - objeto não existe.'
             in response.json()["parking"][0]
         )

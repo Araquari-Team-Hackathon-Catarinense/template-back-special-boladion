@@ -18,7 +18,7 @@ class TestRetrieveAPI:
         expected_data = {
             "id": str(employees[0].id),
             "company": str(employees[0].company.id),
-            "user": employees[0].user.id,
+            "user": str(employees[0].user.id),
             "is_active": employees[0].is_active,
         }
         assert response.status_code == 200

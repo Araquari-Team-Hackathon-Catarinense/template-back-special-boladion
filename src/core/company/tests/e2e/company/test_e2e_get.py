@@ -1,5 +1,6 @@
 import json
 
+from django_project.settings import BASE_URL
 import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
@@ -9,7 +10,7 @@ from core.company.infra.company_django_app.models import Company
 
 @pytest.mark.django_db
 class TestListAPI:
-    def test_list_categories(self) -> None:
+    def test_list_companies(self) -> None:
         created_companies = baker.make(Company, _quantity=3, person_type='PJ')
 
         url = "/api/companies/"
@@ -32,6 +33,7 @@ class TestListAPI:
                     "person_type": company.person_type,
                     "document_number": company.document_number,
                     "is_active": company.is_active,
+                    "avatar": BASE_URL + company.avatar.url if company.avatar else None,
                 }
                 for company in created_companies
             ],

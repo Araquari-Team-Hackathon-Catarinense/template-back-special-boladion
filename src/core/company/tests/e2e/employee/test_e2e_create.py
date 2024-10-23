@@ -76,7 +76,7 @@ class TestCreateAPI:
 
         assert response.status_code == 400
         assert "user" in response.json()
-        assert 'Pk inválido "123" - objeto não existe.' in response.json()["user"][0]
+        assert 'não é um UUID válido' in response.json()["user"][0]
 
     def test_if_throw_error_with_invalid_is_active(self) -> None:
         url = "/api/employees/"

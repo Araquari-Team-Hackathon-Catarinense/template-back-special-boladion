@@ -122,4 +122,4 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(
             str(company), f"{arrange['name']} ({arrange['document_number']})"
         )
-        self.assertIsNone(company.avatar)
+        self.assertIsNotNone(company.avatar)

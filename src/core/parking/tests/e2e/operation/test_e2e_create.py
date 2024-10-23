@@ -50,7 +50,7 @@ class TestOperationListAPI:
 
         assert response.status_code == 400
         assert (
-            f'Invalid pk "{operation["parking"]}" - object does not exist.'
+            f'Pk inválido "{operation["parking"]}" - objeto não existe.'
             in response.json()["parking"][0]
         )
 
@@ -71,4 +71,4 @@ class TestOperationListAPI:
         )
 
         assert response.status_code == 400
-        assert "This field is required." in response.json()["parking"][0]
+        assert "Este campo é obrigatório." in response.json()["parking"][0]
