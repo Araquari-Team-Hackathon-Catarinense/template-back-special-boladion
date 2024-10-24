@@ -19,7 +19,9 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ["id"]
 
     def validate(self, attrs):
-        if attrs["internal_code"]:
+        if "internal_code" not in attrs:
+            return super().validate(attrs)
+        elif attrs["internal_code"]:
             if attrs["company"]:
                 company = Company.objects.get(id=attrs["company"].id)
             else:
