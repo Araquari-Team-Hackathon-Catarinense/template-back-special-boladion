@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "core.order.infra.order_django_app",
     "core.uploader.infra.uploader_django_app",
     "core.user.infra.user_django_app",
+    "core.product.infra.product_django_app",
 ]
 
 MIDDLEWARE = [
