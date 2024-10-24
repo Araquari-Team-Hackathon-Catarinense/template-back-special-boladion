@@ -1,0 +1,42 @@
+from rest_framework.viewsets import ModelViewSet
+
+from core.__seedwork__.domain.exceptions import CompanyNotInHeader
+from core.order.infra.order_django_app.models import MeasurementUnit, Packing
+from core.order.infra.order_django_app.serializers import (
+    MeasurementUnitCreateSerializer,
+    MeasurementUnitListSerializer,
+    PackingCreateSerializer,
+    PackingListSerializer,
+)
+
+
+class MeasurementUnitViewSet(ModelViewSet):
+    queryset = MeasurementUnit.objects.all()
+    http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_queryset(self):
+        company_id = self.request.headers.get('X-Company-Id', None)
+        if company_id:
+            return MeasurementUnit.objects.filter(company__id=company_id)
+        raise CompanyNotInHeader
+
+    def get_serializer_class(self):
+        if self.action in ["list", "retrieve"]:
+            return MeasurementUnitListSerializer
+        return MeasurementUnitCreateSerializer
+
+
+class PackingViewSet(ModelViewSet):
+    queryset = Packing.objects.all()
+    http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_queryset(self):
+        company_id = self.request.headers.get('X-Company-Id', None)
+        if company_id:
+            return Packing.objects.filter(company__id=company_id)
+        raise CompanyNotInHeader
+
+    def get_serializer_class(self):
+        if self.action in ["list", "retrieve"]:
+            return PackingListSerializer
+        return PackingCreateSerializer

@@ -1,60 +1,64 @@
 # pylint: disable=no-member,protected-access
 import unittest
+import uuid
 
 import pytest
 from django.db import models
 from model_bakery import baker
 
 from core.company.infra.company_django_app.models import Company
-from core.product.infra.product_django_app.models import MeasurementUnit
+from core.order.infra.order_django_app.models import Packing
 
 
 @pytest.mark.django_db()
-class TestMeasurementUnitModelInt(unittest.TestCase):
+class TestPackingUnitModelInt(unittest.TestCase):
 
     def test_mapping(self):
-        table_name = MeasurementUnit._meta.db_table
-        self.assertEqual(table_name, "measurement_unit")
+        table_name = Packing._meta.db_table
+        self.assertEqual(table_name, "packing")
 
-        fields_name = tuple(field.name for field in MeasurementUnit._meta.fields)
+        fields_name = tuple(field.name for field in Packing._meta.fields)
         self.assertEqual(
             fields_name,
             (
+                "deleted_at",
+                "deleted_by_cascade",
+                "created_at",
+                "updated_at",
                 "id",
                 "description",
                 "company",
             ),
         )
 
-        id_field: models.UUIDField = MeasurementUnit.id.field
+        id_field: models.UUIDField = Packing.id.field
         self.assertIsInstance(id_field, models.UUIDField)
         self.assertTrue(id_field.primary_key)
-        self.assertTrue(id_field.editable)
+        self.assertFalse(id_field.editable)
 
-        description_field: models.CharField = MeasurementUnit.description.field
+        description_field: models.CharField = Packing.description.field
         self.assertIsInstance(description_field, models.CharField)
         self.assertFalse(description_field.null)
         self.assertFalse(description_field.blank)
-        self.assertEqual(description_field.max_length, 45)
+        self.assertEqual(description_field.max_length, 255)
 
-        company_field: models.ForeignKey = MeasurementUnit.company.field
+        company_field: models.ForeignKey = Packing.company.field
         self.assertIsInstance(company_field, models.ForeignKey)
         self.assertFalse(company_field.blank)
         self.assertFalse(company_field.null)
 
     def test_create(self):
         company = baker.make(Company)
+        id = uuid.uuid4()
         arrange = {
-            "id": "f4b3b3b3-3b3b-4b4b-b3b3-b3b3b3b3b3b3",
+            "id": id,
             "description": "description",
             "company": company,
         }
-        measurement_unit = MeasurementUnit.objects.create(
+        packing_unit = Packing.objects.create(
             id=arrange["id"],
             description=arrange["description"],
             company=arrange["company"],
         )
-        self.assertEqual(measurement_unit.id, arrange["id"])
-        self.assertEqual(measurement_unit.description, arrange["description"])
-        self.assertEqual(measurement_unit.company, arrange["company"])
-        self.assertEqual(str(measurement_unit), f"{arrange['description']}")
+
+        self.assertEqual(packing_unit.id, arrange["id"])

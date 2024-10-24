@@ -1,15 +1,12 @@
 # pylint: disable=no-member
 from django.core.management.base import BaseCommand, CommandError, CommandParser
 
-from core.populate.infra.populate_django_app.management.commands._company import (
+from core.populate.infra.populate_django_app.management.commands import (
     populate_companies,
-)
-from core.populate.infra.populate_django_app.management.commands._measurement_unit import (
     populate_measurement_units,
+    populate_packings,
+    populate_users,
 )
-
-from ._company import populate_companies
-from ._user import populate_users
 
 
 class Command(BaseCommand):
@@ -32,6 +29,11 @@ class Command(BaseCommand):
             help="Populate the measurement units data",
         )
         parser.add_argument(
+            "--packing",
+            action="store_true",
+            help="Populate the packing data",
+        )
+        parser.add_argument(
             "--all", action="store_true", help="Populate all data available"
         )
 
@@ -45,6 +47,8 @@ class Command(BaseCommand):
                 self.__handle_users()
             if options.get("measurement_units"):
                 self.__handle_measurement_units()
+            if options.get("packing"):
+                self.__handle_packing()
 
             self.stdout.write(self.style.SUCCESS("\nTudo populado com sucesso! :D"))
         except CommandError as exc:
@@ -60,16 +64,22 @@ class Command(BaseCommand):
     def __handle_users(self):
         self.stdout.write("Populating users data...", ending="")
         populate_users()
+        self.stdout.write(self.style.SUCCESS("OK"))
 
     def __handle_measurement_units(self):
         self.stdout.write("Populating measurement units data...", ending="")
         populate_measurement_units()
         self.stdout.write(self.style.SUCCESS("OK"))
 
+    def __handle_packing(self):
+        self.stdout.write("Populating packing data...", ending="")
+        populate_packings()
+        self.stdout.write(self.style.SUCCESS("OK"))
+
     def __handle_all(self):
         self.stdout.write("Populating all data...", ending="")
         self.__handle_companies()
         self.__handle_users()
-        populate_companies()
-        populate_measurement_units()
+        self.__handle_measurement_units()
+        self.__handle_packing()
         self.stdout.write(self.style.SUCCESS("OK"))

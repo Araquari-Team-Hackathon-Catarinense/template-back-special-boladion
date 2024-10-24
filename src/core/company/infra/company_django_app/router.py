@@ -1,6 +1,10 @@
 from rest_framework.routers import DefaultRouter
 
-from core.company.infra.company_django_app.views import CompanyViewSet, ContractViewSet, EmployeeViewSet
+from core.company.infra.company_django_app.views import (
+    CompanyViewSet,
+    ContractViewSet,
+    EmployeeViewSet,
+)
 
 router = DefaultRouter()
 

@@ -2,7 +2,7 @@ import pytest
 from model_bakery import baker
 
 from core.company.infra.company_django_app.models import Company
-from core.product.infra.product_django_app.serializers import (
+from core.order.infra.order_django_app.serializers import (
     MeasurementUnitCreateSerializer,
 )
 
