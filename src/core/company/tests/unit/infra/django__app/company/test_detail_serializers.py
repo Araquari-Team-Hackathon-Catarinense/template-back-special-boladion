@@ -5,8 +5,8 @@ from pycpfcnpj import gen
 
 from core.company.infra.company_django_app.models import Company
 from core.company.infra.company_django_app.serializers import CompanyDetailSerializer
-from core.uploader.models import Document
-from core.uploader.serializers import DocumentSerializer
+from core.uploader.infra.uploader_django_app.models import Document
+from core.uploader.infra.uploader_django_app.serializers import DocumentSerializer
 from django_project.settings import BASE_URL
 
 

@@ -101,7 +101,6 @@ class TestCategoryModelInt(unittest.TestCase):
             "is_active": True,
             "address": {"city": "City", "state": "State"},
             "contacts": [{"phone": "00000000000"}],
-            "pic": None,
             "avatar": None,
         }
         company = Company.objects.create(**arrange)
@@ -118,7 +117,6 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(company.contacts, arrange["contacts"])
         self.assertEqual(company.system_admin, False)
         self.assertEqual(company.documents.first(), documents)
-        self.assertEqual(company.pic, arrange["pic"])
         self.assertEqual(
             str(company), f"{arrange['name']} ({arrange['document_number']})"
         )

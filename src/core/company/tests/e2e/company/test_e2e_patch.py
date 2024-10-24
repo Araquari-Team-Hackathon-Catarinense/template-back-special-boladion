@@ -5,6 +5,7 @@ from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
+from django_project.settings import BASE_URL
 
 
 @pytest.mark.django_db
@@ -40,6 +41,10 @@ class TestPatchCompanyAPI:
             "address": new_data["address"],
             "contacts": companies[0].contacts,
             "system_admin": companies[0].system_admin,
+            "documents": [],
+            "avatar": (
+                BASE_URL + companies[0].avatar.url if companies[0].avatar else None
+            ),
         }
         assert response.status_code == 200
         assert json.loads(response.content) == expected_data

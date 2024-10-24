@@ -1,8 +1,8 @@
 from pycpfcnpj import cnpj, cpf, cpfcnpj
 from rest_framework import serializers
 
-from core.uploader.infra.uploader_django_app.serializers import DocumentSerializer
 from core.uploader.infra.uploader_django_app.models import Document
+from core.uploader.infra.uploader_django_app.serializers import DocumentSerializer
 from django_project.settings import BASE_URL
 
 from .models import Company, Contract, Employee
@@ -54,14 +54,10 @@ class CompanyDetailSerializer(serializers.Serializer):
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
-        if rep['avatar'] is None:
+        if rep["avatar"] is None:
             rep.pop("avatar")
 
         return rep
-
-class CompanyCreateSerializer(serializers.ModelSerializer):
-
-
 
 
 class CompanyCreateSerializer(serializers.ModelSerializer):
@@ -72,7 +68,7 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
         required=False,
         write_only=True,
     )
-     documents_attachment_keys = serializers.SlugRelatedField(
+    documents_attachment_keys = serializers.SlugRelatedField(
         source="documents",
         queryset=Document.objects.all(),
         slug_field="attachment_key",
@@ -149,6 +145,7 @@ class ContractListSerializer(serializers.Serializer):
     source_company = ContractCompanyInfoSerializer(read_only=True)
     target_company = ContractCompanyInfoSerializer(read_only=True)
     contract_type = serializers.CharField(read_only=True)
+
 
 class ContractCreateSerializer(serializers.ModelSerializer):
     class Meta:
