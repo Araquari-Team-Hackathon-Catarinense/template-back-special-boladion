@@ -1,7 +1,6 @@
 import pytest
-from pycpfcnpj import gen
 
-from core.company.infra.company_django_app.serializers import PackingCreateSerializer
+from core.product.infra.product_django_app.serializers import PackingCreateSerializer
 
 
 @pytest.mark.django_db

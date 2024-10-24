@@ -1,8 +1,8 @@
 import pytest
 from model_bakery import baker
 
-from core.company.infra.company_django_app.models import Packing
-from core.company.infra.company_django_app.serializers import PackingListSerializer
+from core.product.infra.product_django_app.models import Packing
+from core.product.infra.product_django_app.serializers import PackingListSerializer
 
 
 @pytest.mark.django_db

@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 from core.__seedwork__.infra.django_app.models import BaseModel
@@ -72,9 +74,3 @@ class Contract(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.source_company.name} - {self.target_company.name} ({self.contract_type})"
-
-
-class Packing(models.Model):
-    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255)

@@ -1,16 +1,10 @@
 # pylint: disable=no-member
 from django.core.management.base import BaseCommand, CommandError, CommandParser
 
-from core.populate.infra.populate_django_app.management.commands._company import (
+from core.populate.infra.populate_django_app.management.commands import (
     populate_companies,
-)
-from core.populate.infra.populate_django_app.management.commands._measurement_unit import (
     populate_measurement_units,
-)
-from core.populate.infra.populate_django_app.management.commands._packing import (
     populate_packings,
-)
-from core.populate.infra.populate_django_app.management.commands._user import (
     populate_users,
 )
 
@@ -86,4 +80,5 @@ class Command(BaseCommand):
         self.__handle_users()
         populate_companies()
         populate_measurement_units()
+        populate_packings()
         self.stdout.write(self.style.SUCCESS("OK"))

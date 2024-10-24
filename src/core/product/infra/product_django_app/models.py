@@ -16,3 +16,9 @@ class MeasurementUnit(models.Model):
 
     def __str__(self) -> str:
         return f"{self.description}"
+
+
+class Packing(models.Model):
+    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    description = models.CharField(max_length=255)
