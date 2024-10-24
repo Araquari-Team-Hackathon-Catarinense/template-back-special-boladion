@@ -15,7 +15,7 @@ class TestEmployeeListSerializer:
             {
                 "id": str(employee.id),
                 "company": str(employee.company.id),
-                "user": employee.user.id,
+                "user": str(employee.user.id),
                 "is_active": employee.is_active,
             }
             for employee in employees
@@ -32,7 +32,7 @@ class TestEmployeeListSerializer:
         assert serializer.data == {
             "id": str(employee.id),
             "company": str(employee.company.id),
-            "user": employee.user.id,
+            "user": str(employee.user.id),
             "is_active": employee.is_active,
         }
 
@@ -42,7 +42,7 @@ class TestEmployeeListSerializer:
         assert serializer.data == {
             "id": str(employee.id),
             "company": str(employee.company.id),
-            "user": employee.user.id,
+            "user": str(employee.user.id),
             "is_active": employee.is_active,
         }
 

@@ -75,7 +75,7 @@ class TestParkingSectorListAPI:
 
         assert response.status_code == 400
         assert (
-            f'Invalid pk "{parking_sector["parking"]}" - object does not exist.'
+            f'Pk inválido "{parking_sector["parking"]}" - objeto não existe.'
             in response.json()["parking"][0]
         )
 

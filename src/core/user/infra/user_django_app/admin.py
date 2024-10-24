@@ -16,9 +16,9 @@ class CustomUserAdmin(UserAdmin):
         "name",
         "cpf",
         "address",
-        "pic",
+        "avatar",
     )
-    list_filter = ("email", "name", "cpf", "address", "pic")
+    list_filter = ("email", "name", "cpf", "address", "avatar")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (

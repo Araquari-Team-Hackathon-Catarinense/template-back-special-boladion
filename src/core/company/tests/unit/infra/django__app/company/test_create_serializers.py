@@ -5,7 +5,7 @@ from model_bakery import baker
 from pycpfcnpj import gen
 
 from core.company.infra.company_django_app.serializers import CompanyCreateSerializer
-from core.uploader.models import Document
+from core.uploader.infra.uploader_django_app.models import Document
 
 
 @pytest.mark.django_db
@@ -17,7 +17,7 @@ class TestCompanyCreateSerializer:
             "name": "Company",
             "person_type": "PJ",
             "document_number": cnpj,
-            "documents_attachment_keys": str(document.attachment_key),
+            "documents_attachment_keys": [str(document.attachment_key)],
             "is_active": True,
         }
         serializer = CompanyCreateSerializer(data=data)

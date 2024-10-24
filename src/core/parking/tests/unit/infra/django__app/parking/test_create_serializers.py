@@ -30,7 +30,7 @@ class TestParkingCreateSerializer:
         serializer = ParkingCreateSerializer(data=data)
         assert serializer.is_valid() is False
         assert (
-            f'Invalid pk "{company_id}" - object does not exist.'
+            f'Pk inválido "{company_id}" - objeto não existe.'
             in serializer.errors["company"]
         )
 

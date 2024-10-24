@@ -1,5 +1,6 @@
 from typing import List
 
+from dill import source
 from django.contrib.auth import authenticate
 from pycpfcnpj import cpf
 from rest_framework import serializers
@@ -7,13 +8,14 @@ from rest_framework_simplejwt.serializers import AuthUser, TokenObtainPairSerial
 from rest_framework_simplejwt.tokens import Token
 
 from core.company.infra.company_django_app.models import Employee
-from core.image.infra.image_django_app.serializers import ImageProfilePicSerializer
+from core.uploader.infra.uploader_django_app.admin import Document
+from django_project.settings import BASE_URL
 
 from .models import User
 
 
 class UserDetailSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
+    id = serializers.UUIDField(read_only=True)
     email = serializers.EmailField(read_only=True)
     name = serializers.CharField(read_only=True)
     cpf = serializers.CharField(read_only=True)
@@ -21,6 +23,16 @@ class UserDetailSerializer(serializers.Serializer):
     is_active = serializers.BooleanField(read_only=True)
     date_joined = serializers.DateTimeField(read_only=True)
     last_login = serializers.DateTimeField(read_only=True)
+    avatar = serializers.SerializerMethodField(read_only=True)
+
+    def get_avatar(self, obj):
+        if isinstance(obj, dict):
+            if obj.get("avatar") is None:
+                return None
+        if obj.avatar is None:
+            return None
+        url = BASE_URL + obj.avatar.url
+        return url
 
     def create(self, validated_data):
         return NotImplementedError
@@ -30,12 +42,21 @@ class UserDetailSerializer(serializers.Serializer):
 
 
 class UserListSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
+    id = serializers.UUIDField(read_only=True)
     email = serializers.EmailField()
     name = serializers.CharField()
     cpf = serializers.CharField()
     address = serializers.JSONField()
-    pic = ImageProfilePicSerializer(allow_null=True)
+    avatar = serializers.SerializerMethodField()
+
+    def get_avatar(self, obj):
+        if isinstance(obj, dict):
+            if obj.get("avatar") is None:
+                return None
+        if not obj.avatar:
+            return None
+        url = BASE_URL + obj.avatar.url
+        return url
 
     def create(self, validated_data):
         return NotImplementedError
@@ -45,6 +66,15 @@ class UserListSerializer(serializers.Serializer):
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
+    avatar_attachment_key = serializers.SlugRelatedField(
+        source="avatar",
+        queryset=Document.objects.all(),
+        slug_field="attachment_key",
+        required=False,
+        allow_null=True,
+        write_only=True,
+    )
+
     class Meta:
         model = User
         fields = [
@@ -54,7 +84,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "password",
             "cpf",
             "address",
-            "pic",
+            "avatar_attachment_key",
         ]
         read_only_fields = ["id"]
 
@@ -76,43 +106,45 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user: AuthUser) -> Token:
         token: Token = super().get_token(user)
         user_id: str = token["user_id"]
-        print(user_id, "LALALALLALALALA")
         user: User = User.objects.get(id=user_id)
-        employee: List[Employee] = Employee.objects.filter(user__id=user_id)
 
         user_companies = []
-
         for employee in user.employees.all():
             company = {
                 "id": str(employee.company.id),
                 "name": employee.company.name,
+                "avatar": (
+                    BASE_URL + employee.company.avatar.url
+                    if employee.company.avatar
+                    else None
+                ),
             }
             user_companies.append(company)
 
         user_data: dict = {
             "name": user.name,
             "email": user.email,
-            "cpf": user.cpf,
+            "avatar": BASE_URL + user.avatar.url if user.avatar else None,
             "companies": user_companies,
         }
         token["user"] = user_data
 
         return token
 
-    def validate(self, attrs):
-        email: str = attrs.get("email")
-        password: str = attrs.get("password")
+    # def validate(self, attrs):
+    #     email: str = attrs.get("email")
+    #     password: str = attrs.get("password")
 
-        if email and password:
-            user = authenticate(
-                request=self.context.get("request"), email=email, password=password
-            )
-            user = User.objects.get(email=email)
-            user.is_confirmed = True
-            user.save()
-            if not user:
-                raise serializers.ValidationError("Invalid email or password")
-        else:
-            raise serializers.ValidationError('Must include "email" and "password"')
+    #     if email and password:
+    #         user = authenticate(
+    #             request=self.context.get("request"), email=email, password=password
+    #         )
+    #         user = User.objects.get(email=email)
+    #         user.is_confirmed = True
+    #         user.save()
+    #         if not user:
+    #             raise serializers.ValidationError("Invalid email or password")
+    #     else:
+    #         raise serializers.ValidationError('Must include "email" and "password"')
 
-        return super().validate(attrs)
+    #     return super().validate(attrs)

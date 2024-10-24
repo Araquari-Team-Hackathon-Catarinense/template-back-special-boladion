@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from core.image.infra.image_django_app.models import ImageProfilePic
+from core.uploader.infra.uploader_django_app.admin import Document
 
 from .managers import CustomUserManager
 
@@ -22,8 +22,13 @@ class User(AbstractUser):
     password_reset_token_created = models.DateTimeField(
         _("Password Reset Token Created"), blank=True, null=True
     )
-    pic = models.ForeignKey(
-        ImageProfilePic, on_delete=models.PROTECT, default="", blank=True, null=True
+    avatar = models.ForeignKey(
+        Document,
+        related_name="+",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
     )
 
     USERNAME_FIELD = "email"

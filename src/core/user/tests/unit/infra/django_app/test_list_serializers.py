@@ -1,3 +1,5 @@
+import uuid
+
 import pytest
 from model_bakery import baker
 from pycpfcnpj import gen
@@ -9,24 +11,18 @@ from core.user.infra.user_django_app.serializers import UserListSerializer
 @pytest.mark.django_db
 class TestUserListSerializer:
     def test_list_serializer_with_many_users(self) -> None:
-        unique_cpfs = set()
-        users = []
-
-        while len(users) < 5:
-            cpf = gen.cpf()
-            if cpf not in unique_cpfs:
-                unique_cpfs.add(cpf)
-                users.append(baker.make(User, cpf=cpf))
+        users = baker.make(User, _quantity=3)
 
         serializer = UserListSerializer(users, many=True)
 
         assert serializer.data == [
             {
-                "id": user.id,
+                "id": str(user.id),
+                "email": user.email,
                 "name": user.name,
                 "cpf": user.cpf,
                 "address": user.address,
-                "email": user.email,
+                "avatar": None,
             }
             for user in users
         ]
@@ -35,9 +31,10 @@ class TestUserListSerializer:
         user = baker.make(User, cpf=gen.cpf())
         serializer = UserListSerializer(user, many=False)
         assert serializer.data == {
-            "id": user.id,
+            "id": str(user.id),
             "name": user.name,
             "cpf": user.cpf,
             "address": user.address,
             "email": user.email,
+            "avatar": None,
         }

@@ -28,7 +28,7 @@ class TestListAPI:
                 {
                     "id": str(employee.id),
                     "company": str(employee.company.id),
-                    "user": employee.user.id,
+                    "user": str(employee.user.id),
                     "is_active": employee.is_active,
                 }
                 for employee in created_employees

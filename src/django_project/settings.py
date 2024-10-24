@@ -25,12 +25,12 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     "corsheaders",
-    "core.uploader",
+    'safedelete',
     "core.company.infra.company_django_app",
     "core.parking.infra.parking_django_app",
     "core.populate.infra.populate_django_app",
+    "core.uploader.infra.uploader_django_app",
     "core.user.infra.user_django_app",
-    "core.image.infra.image_django_app",
 ]
 
 MIDDLEWARE = [
@@ -131,6 +131,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 AUTH_USER_MODEL = "user_django_app.User"
 
+SAFE_DELETE_FIELD_NAME = "deleted_at"
+
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "django_project.pagination.VirtualTruckPagination",
     "PAGE_SIZE": 20,
@@ -143,6 +145,11 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+SIMPLE_JWT = {
+    "TOKEN_OBTAIN_SERIALIZER": "core.user.infra.user_django_app.serializers.CustomTokenObtainPairSerializer",
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=480),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+}
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Virtual Truck ",

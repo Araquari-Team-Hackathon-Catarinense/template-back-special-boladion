@@ -7,9 +7,9 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from core.user.domain.actions import forget_password, reset_password, validate_token
-from core.user.infra.user_django_app.views import CustomTokenObtainPairView
 
 from .router import router
 
@@ -30,5 +30,6 @@ urlpatterns = [
     path("api/forget_password/", forget_password, name="forget_password"),
     path("api/reset_password/", reset_password, name="reset_password"),
     path("api/validate_token/", validate_token, name="validate_token"),
-    path("api/token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

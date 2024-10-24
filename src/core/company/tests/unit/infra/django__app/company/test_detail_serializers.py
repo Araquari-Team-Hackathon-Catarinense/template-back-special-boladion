@@ -5,8 +5,9 @@ from pycpfcnpj import gen
 
 from core.company.infra.company_django_app.models import Company
 from core.company.infra.company_django_app.serializers import CompanyDetailSerializer
-from core.uploader.models import Document
-from core.uploader.serializers import DocumentSerializer
+from core.uploader.infra.uploader_django_app.models import Document
+from core.uploader.infra.uploader_django_app.serializers import DocumentSerializer
+from django_project.settings import BASE_URL
 
 
 @pytest.mark.django_db
@@ -29,6 +30,7 @@ class TestCompanyDetailSerializer:
             "contacts": company.contacts,
             "system_admin": company.system_admin,
             "documents": DocumentSerializer(documents, many=True).data,
+            "avatar": BASE_URL + company.avatar.url if company.avatar else None,
         }
 
         assert serialized_data == expected_data

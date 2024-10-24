@@ -1,3 +1,4 @@
+from django_project.settings import BASE_URL
 import pytest
 from model_bakery import baker
 
@@ -18,6 +19,7 @@ class TestCompanyListSerializer:
                 "person_type": company.person_type,
                 "document_number": company.document_number,
                 "is_active": company.is_active,
+                "avatar": BASE_URL + company.avatar.url if company.avatar else None,
             }
             for company in companies
         ]
@@ -37,4 +39,5 @@ class TestCompanyListSerializer:
             "person_type": company.person_type,
             "document_number": company.document_number,
             "is_active": company.is_active,
+            "avatar": BASE_URL + company.avatar.url if company.avatar else None,
         }

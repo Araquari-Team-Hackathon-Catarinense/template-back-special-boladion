@@ -5,8 +5,7 @@ import pytest
 from django.db import models
 
 from core.company.infra.company_django_app.models import Company
-from core.image.infra.image_django_app.models import ImageProfilePic
-from core.uploader.models import Document
+from core.uploader.infra.uploader_django_app.models import Document
 
 
 @pytest.mark.django_db()
@@ -21,6 +20,10 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(
             fields_name,
             (
+                "deleted_at",
+                "deleted_by_cascade",
+                "created_at",
+                "updated_at",
                 "id",
                 "name",
                 "trade_name",
@@ -30,7 +33,7 @@ class TestCategoryModelInt(unittest.TestCase):
                 "system_admin",
                 "address",
                 "contacts",
-                "pic",
+                "avatar",
                 "documents",
             ),
         )
@@ -38,7 +41,7 @@ class TestCategoryModelInt(unittest.TestCase):
         id_field: models.UUIDField = Company.id.field
         self.assertIsInstance(id_field, models.UUIDField)
         self.assertTrue(id_field.primary_key)
-        self.assertTrue(id_field.editable)
+        self.assertFalse(id_field.editable)
 
         name_field: models.CharField = Company.name.field
         self.assertIsInstance(name_field, models.CharField)
@@ -84,12 +87,9 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(documents_field.related_model, Document)
         self.assertTrue(documents_field.blank)
 
-        pic_field: models.ForeignKey = Company.pic.field
-        self.assertIsInstance(pic_field, models.ForeignKey)
-        self.assertEqual(pic_field.related_model, ImageProfilePic)
-        self.assertEqual(pic_field.remote_field.on_delete, models.PROTECT)
-        self.assertTrue(pic_field.null)
-        self.assertTrue(pic_field.blank)
+        avatar_field: models.ForeignKey = Company.avatar.field
+        self.assertIsInstance(avatar_field, models.ForeignKey)
+        self.assertEqual(avatar_field.related_model, Document)
 
     def test_create(self):
         arrange = {
@@ -101,7 +101,7 @@ class TestCategoryModelInt(unittest.TestCase):
             "is_active": True,
             "address": {"city": "City", "state": "State"},
             "contacts": [{"phone": "00000000000"}],
-            "pic": None,
+            "avatar": None,
         }
         company = Company.objects.create(**arrange)
         documents = Document.objects.create(file="th.jpg", description="Description")
@@ -117,7 +117,7 @@ class TestCategoryModelInt(unittest.TestCase):
         self.assertEqual(company.contacts, arrange["contacts"])
         self.assertEqual(company.system_admin, False)
         self.assertEqual(company.documents.first(), documents)
-        self.assertEqual(company.pic, arrange["pic"])
         self.assertEqual(
             str(company), f"{arrange['name']} ({arrange['document_number']})"
         )
+        self.assertIsNotNone(company.avatar)

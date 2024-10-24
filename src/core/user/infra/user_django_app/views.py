@@ -22,8 +22,3 @@ class UserViewSet(ModelViewSet):
         elif self.action == "retrieve":
             return UserDetailSerializer
         return UserCreateSerializer
-
-
-@extend_schema(tags=["auth"])
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
