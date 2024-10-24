@@ -1,20 +1,24 @@
+from model_bakery import baker
 import pytest
 
-from core.product.infra.product_django_app.serializers import PackingCreateSerializer
+from core.company.infra.company_django_app.models import Company
+from core.order.infra.order_django_app.serializers import PackingCreateSerializer
 
 
 @pytest.mark.django_db
 class TestPackingCreateSerializer:
     def test_create_serializer_with_valid_data(self) -> None:
+        company = baker.make(Company)
         data = {
-            "company": "4b3d3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b",
+            "company": str(company.id),
             "description": "Packing",
         }
         serializer = PackingCreateSerializer(data=data)
         assert serializer.is_valid() is True
 
     def test_create_serializer_with_invalid_data(self) -> None:
-        data = {"company": "4b3d3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b", "description": None}
+        company = baker.make(Company)
+        data = {"company": str(company.id), "description": None}
         serializer = PackingCreateSerializer(data=data)
         assert serializer.is_valid() is False
         assert "Este campo não pode ser nulo." in serializer.errors["description"]

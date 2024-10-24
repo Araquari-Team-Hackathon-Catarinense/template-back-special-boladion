@@ -1,18 +1,11 @@
 from rest_framework import serializers
 
-from core.product.infra.product_django_app.models import MeasurementUnit, Packing
+from core.order.infra.order_django_app.models import MeasurementUnit, Packing
 
 
 class MeasurementUnitListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     description = serializers.CharField(read_only=True)
-    company = serializers.UUIDField(source="company.id", read_only=True)
-
-
-class MeasurementUnitDetailSerializer(serializers.Serializer):
-    id = serializers.UUIDField(read_only=True)
-    description = serializers.CharField(read_only=True)
-    company = serializers.UUIDField(read_only=True)
 
 
 class MeasurementUnitCreateSerializer(serializers.ModelSerializer):
@@ -24,7 +17,6 @@ class MeasurementUnitCreateSerializer(serializers.ModelSerializer):
 
 class PackingListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
-    company_id = serializers.UUIDField(source="company.id", read_only=True)
     description = serializers.CharField(read_only=True)
 
 
@@ -33,7 +25,7 @@ class PackingCreateSerializer(serializers.ModelSerializer):
         model = Packing
         fields = [
             "id",
-            "company_id",
+            "company",
             "description",
         ]
         read_only_fields = ["id"]

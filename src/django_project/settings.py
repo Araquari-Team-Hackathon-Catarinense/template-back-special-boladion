@@ -29,10 +29,9 @@ INSTALLED_APPS = [
     "core.company.infra.company_django_app",
     "core.parking.infra.parking_django_app",
     "core.populate.infra.populate_django_app",
+    "core.order.infra.order_django_app",
     "core.uploader.infra.uploader_django_app",
     "core.user.infra.user_django_app",
-    "core.image.infra.image_django_app",
-    "core.product.infra.product_django_app",
 ]
 
 MIDDLEWARE = [

@@ -1,8 +1,8 @@
 import pytest
 from model_bakery import baker
 
-from core.product.infra.product_django_app.models import MeasurementUnit
-from core.product.infra.product_django_app.serializers import (
+from core.order.infra.order_django_app.models import MeasurementUnit
+from core.order.infra.order_django_app.serializers import (
     MeasurementUnitListSerializer,
 )
 
@@ -16,7 +16,6 @@ class TestCompanyListSerializer:
             {
                 "id": str(measurement_unit.id),
                 "description": measurement_unit.description,
-                "company": str(measurement_unit.company.id),
             }
             for measurement_unit in measurement_units
         ]
@@ -32,5 +31,4 @@ class TestCompanyListSerializer:
         assert serializer.data == {
             "id": str(measurement_unit.id),
             "description": measurement_unit.description,
-            "company": str(measurement_unit.company.id),
         }
