@@ -7,6 +7,9 @@ from core.populate.infra.populate_django_app.management.commands import (
     populate_packings,
     populate_users,
 )
+from core.populate.infra.populate_django_app.management.commands._product import (
+    populate_products,
+)
 
 
 class Command(BaseCommand):
@@ -34,6 +37,11 @@ class Command(BaseCommand):
             help="Populate the packing data",
         )
         parser.add_argument(
+            "--products",
+            action="store_true",
+            help="Populate the products data",
+        )
+        parser.add_argument(
             "--all", action="store_true", help="Populate all data available"
         )
 
@@ -49,6 +57,8 @@ class Command(BaseCommand):
                 self.__handle_measurement_units()
             if options.get("packing"):
                 self.__handle_packing()
+            if options.get("products"):
+                self.__handle_products()
 
             self.stdout.write(self.style.SUCCESS("\nTudo populado com sucesso! :D"))
         except CommandError as exc:
@@ -76,10 +86,16 @@ class Command(BaseCommand):
         populate_packings()
         self.stdout.write(self.style.SUCCESS("OK"))
 
+    def __handle_products(self):
+        self.stdout.write("Populating products data...", ending="")
+        populate_products()
+        self.stdout.write(self.style.SUCCESS("OK"))
+
     def __handle_all(self):
         self.stdout.write("Populating all data...", ending="")
         self.__handle_companies()
         self.__handle_users()
         self.__handle_measurement_units()
         self.__handle_packing()
+        self.__handle_products()
         self.stdout.write(self.style.SUCCESS("OK"))
