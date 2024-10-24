@@ -64,10 +64,12 @@ class Command(BaseCommand):
     def __handle_users(self):
         self.stdout.write("Populating users data...", ending="")
         populate_users()
+        self.stdout.write(self.style.SUCCESS("OK"))
 
     def __handle_measurement_units(self):
         self.stdout.write("Populating measurement units data...", ending="")
         populate_measurement_units()
+        self.stdout.write(self.style.SUCCESS("OK"))
 
     def __handle_packing(self):
         self.stdout.write("Populating packing data...", ending="")
@@ -78,7 +80,6 @@ class Command(BaseCommand):
         self.stdout.write("Populating all data...", ending="")
         self.__handle_companies()
         self.__handle_users()
-        populate_companies()
-        populate_measurement_units()
-        populate_packings()
+        self.__handle_measurement_units()
+        self.__handle_packing()
         self.stdout.write(self.style.SUCCESS("OK"))

@@ -1,7 +1,7 @@
 from core.populate.infra.resources.data_measurement_unit import (
     generate_measurement_units,
 )
-from core.product.infra.product_django_app.models import MeasurementUnit
+from core.order.infra.order_django_app.models import MeasurementUnit
 
 
 def populate_measurement_units() -> None:
