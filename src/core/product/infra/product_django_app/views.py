@@ -1,10 +1,11 @@
-from product.infra.product_django_app.models import MeasurementUnit
-from product.infra.product_django_app.serializers import (
+from rest_framework.viewsets import ModelViewSet
+
+from core.product.infra.product_django_app.models import MeasurementUnit
+from core.product.infra.product_django_app.serializers import (
     MeasurementUnitCreateSerializer,
     MeasurementUnitDetailSerializer,
     MeasurementUnitListSerializer,
 )
-from rest_framework.viewsets import ModelViewSet
 
 
 class MeasurementUnitViewSet(ModelViewSet):
