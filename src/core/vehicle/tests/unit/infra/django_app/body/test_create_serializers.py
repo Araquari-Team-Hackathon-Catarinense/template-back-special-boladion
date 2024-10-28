@@ -5,7 +5,7 @@ from core.vehicle.infra.vehicle_django_app.views import BodyCreateSerializer
 
 @pytest.mark.django_db
 class TestBodyCreateSerializer:
-    def test_create_serializer_with_valid_operation(self) -> None:
+    def test_create_serializer_with_valid_body(self) -> None:
         data = {
             "description": "My Body",
         }
