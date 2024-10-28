@@ -43,8 +43,8 @@ class PurchaseSaleOrderListSerializer(serializers.Serializer):
     client = serializers.CharField(source="company.name", read_only=True)
     operation_terminal = serializers.CharField(source="company.name", read_only=True)
     product = serializers.CharField(source="product.description", read_only=True)
-    mesaruement_unit = serializers.CharField(
-        source="mesaruement_unit.description", read_only=True
+    measurement_unit = serializers.CharField(
+        source="measurement_unit.description", read_only=True
     )
     packing = serializers.UUIDField(read_only=True)
     quantity = serializers.FloatField(read_only=True)
