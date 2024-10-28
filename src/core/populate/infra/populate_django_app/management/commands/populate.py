@@ -3,12 +3,12 @@ from django.core.management.base import BaseCommand, CommandError, CommandParser
 
 from core.populate.infra.populate_django_app.management.commands import (
     populate_companies,
+    populate_contracts,
     populate_measurement_units,
     populate_packings,
-    populate_users,
-)
-from core.populate.infra.populate_django_app.management.commands._product import (
     populate_products,
+    populate_purchase_sale_orders,
+    populate_users,
 )
 from core.populate.infra.populate_django_app.management.commands._vehicle import (
     populate_bodies,
@@ -50,6 +50,16 @@ class Command(BaseCommand):
             help="Populate the vehicles data",
         )
         parser.add_argument(
+            "--contracts",
+            action="store_true",
+            help="Populate the contracts data",
+        )
+        parser.add_argument(
+            "--purchase",
+            action="store_true",
+            help="Populate the purchase data",
+        )
+        parser.add_argument(
             "--all", action="store_true", help="Populate all data available"
         )
 
@@ -69,6 +79,11 @@ class Command(BaseCommand):
                 self.__handle_products()
             if options.get("vehicles"):
                 self.__handle_vehicles()
+            if options.get("contracts"):
+                self.__handle_contracts()
+            if options.get("purchase_sale_orders"):
+                self.__handle_purchase_sale_orders()
+
             self.stdout.write(self.style.SUCCESS("\nTudo populado com sucesso! :D"))
         except CommandError as exc:
             raise CommandError(f"An error occurred: {exc}") from exc
@@ -103,6 +118,15 @@ class Command(BaseCommand):
     def __handle_vehicles(self):
         self.stdout.write("Populating vehicles data...", ending="")
         populate_bodies()
+
+    def __handle_contracts(self):
+        self.stdout.write("Populating contracts data...", ending="")
+        populate_contracts()
+        self.stdout.write(self.style.SUCCESS("OK"))
+
+    def __handle_purchase_sale_orders(self):
+        self.stdout.write("Populating purchase sale orders data...", ending="")
+        populate_purchase_sale_orders()
         self.stdout.write(self.style.SUCCESS("OK"))
 
     def __handle_all(self):
@@ -113,4 +137,6 @@ class Command(BaseCommand):
         self.__handle_packing()
         self.__handle_products()
         self.__handle_vehicles()
+        self.__handle_contracts()
+        self.__handle_purchase_sale_orders()
         self.stdout.write(self.style.SUCCESS("OK"))
