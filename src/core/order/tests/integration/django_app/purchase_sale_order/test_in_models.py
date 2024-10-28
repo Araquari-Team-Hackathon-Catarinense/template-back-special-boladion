@@ -33,7 +33,7 @@ class PurchaseSaleOrderUnitModelInt(unittest.TestCase):
                 "company",
                 "client",
                 "product",
-                "mesaruement_unit",
+                "measurement_unit",
                 "packing",
                 "operation_terminal",
                 "quantity",
@@ -62,12 +62,12 @@ class PurchaseSaleOrderUnitModelInt(unittest.TestCase):
         self.assertFalse(product_field.blank)
         self.assertFalse(product_field.null)
 
-        mesaruement_unit_field: models.ForeignKey = (
-            PurchaseSaleOrder.mesaruement_unit.field
+        measurement_unit_field: models.ForeignKey = (
+            PurchaseSaleOrder.measurement_unit.field
         )
-        self.assertIsInstance(mesaruement_unit_field, models.ForeignKey)
-        self.assertTrue(mesaruement_unit_field.blank)
-        self.assertTrue(mesaruement_unit_field.null)
+        self.assertIsInstance(measurement_unit_field, models.ForeignKey)
+        self.assertTrue(measurement_unit_field.blank)
+        self.assertTrue(measurement_unit_field.null)
 
         packing_field: models.ForeignKey = PurchaseSaleOrder.packing.field
         self.assertIsInstance(packing_field, models.ForeignKey)
@@ -110,7 +110,7 @@ class PurchaseSaleOrderUnitModelInt(unittest.TestCase):
             "company": company,
             "client": client,
             "product": product,
-            "mesaruement_unit": measurement_unit,
+            "measurement_unit": measurement_unit,
             "packing": packing,
             "quantity": 10.5,
             "balance": 5.0,
@@ -123,7 +123,7 @@ class PurchaseSaleOrderUnitModelInt(unittest.TestCase):
             company=arrange["company"],
             client=arrange["client"],
             product=arrange["product"],
-            mesaruement_unit=arrange["mesaruement_unit"],
+            measurement_unit=arrange["measurement_unit"],
             packing=arrange["packing"],
             quantity=arrange["quantity"],
             balance=arrange["balance"],
@@ -136,7 +136,7 @@ class PurchaseSaleOrderUnitModelInt(unittest.TestCase):
         self.assertEqual(purchase_sale_order.client, arrange["client"])
         self.assertEqual(purchase_sale_order.product, arrange["product"])
         self.assertEqual(
-            purchase_sale_order.mesaruement_unit, arrange["mesaruement_unit"]
+            purchase_sale_order.measurement_unit, arrange["measurement_unit"]
         )
         self.assertEqual(purchase_sale_order.packing, arrange["packing"])
         self.assertEqual(purchase_sale_order.quantity, arrange["quantity"])
