@@ -1,8 +1,12 @@
+import uuid
+
 from django.db import models
 
-from core.__seedwork__.infra.django_app.models import BaseModel
 
-
-# Create your models here.
-class Body(BaseModel):
+class Body(models.Model):
+    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
     description = models.CharField(max_length=45)
+
+    class Meta:
+        db_table = "body"
+        verbose_name_plural = "bodies"

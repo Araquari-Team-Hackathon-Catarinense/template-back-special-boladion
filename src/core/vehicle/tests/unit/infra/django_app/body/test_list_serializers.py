@@ -2,10 +2,7 @@ import pytest
 from model_bakery import baker
 
 from core.vehicle.infra.vehicle_django_app.models import Body
-from core.vehicle.infra.vehicle_django_app.views import (
-    BodyCreateSerializer,
-    BodyListSerializer,
-)
+from core.vehicle.infra.vehicle_django_app.views import BodyListSerializer
 
 
 @pytest.mark.django_db

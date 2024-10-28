@@ -1,6 +1,5 @@
 import pytest
 
-from core.vehicle.infra.vehicle_django_app.models import Body
 from core.vehicle.infra.vehicle_django_app.views import BodyCreateSerializer
 
 
