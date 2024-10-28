@@ -20,11 +20,11 @@ class MeasurementUnitViewSet(ModelViewSet):
     queryset = MeasurementUnit.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
 
-    # def get_queryset(self):
-    #     company_id = self.request.headers.get("X-Company-Id", None)
-    #     if company_id:
-    #         return MeasurementUnit.objects.filter(company__id=company_id)
-    #     raise CompanyNotInHeader
+    def get_queryset(self):
+        company_id = self.request.headers.get("X-Company-Id", None)
+        if company_id:
+            return MeasurementUnit.objects.filter(company__id=company_id)
+        raise CompanyNotInHeader
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
@@ -36,11 +36,11 @@ class PackingViewSet(ModelViewSet):
     queryset = Packing.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
 
-    # def get_queryset(self):
-    #     company_id = self.request.headers.get("X-Company-Id", None)
-    #     if company_id:
-    #         return Packing.objects.filter(company__id=company_id)
-    #     raise CompanyNotInHeader
+    def get_queryset(self):
+        company_id = self.request.headers.get("X-Company-Id", None)
+        if company_id:
+            return Packing.objects.filter(company__id=company_id)
+        raise CompanyNotInHeader
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
@@ -52,11 +52,11 @@ class PurchaseSaleOrderViewSet(ModelViewSet):
     queryset = PurchaseSaleOrder.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
 
-    # def get_queryset(self):
-    #     company_id = self.request.headers.get("X-Company-Id", None)
-    #     if company_id:
-    #         return PurchaseSaleOrder.objects.filter(company__id=company_id)
-    #     raise CompanyNotInHeader
+    def get_queryset(self):
+        company_id = self.request.headers.get("X-Company-Id", None)
+        if company_id:
+            return PurchaseSaleOrder.objects.filter(company__id=company_id)
+        raise CompanyNotInHeader
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
