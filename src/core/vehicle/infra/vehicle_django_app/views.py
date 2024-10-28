@@ -9,7 +9,7 @@ from core.vehicle.infra.vehicle_django_app.serializers import (
 
 class BodyViewSet(ModelViewSet):
     queryset = Body.objects.all()
-    serializer_class = BodyListSerializer
+    http_method_names = ["get", "post", "patch", "delete"]
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
