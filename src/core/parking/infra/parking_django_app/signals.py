@@ -16,6 +16,7 @@ def update_parking_slots_on_save(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=ParkingSector)
 def update_parking_slots_on_delete(sender, instance, **kwargs):
+    print("signals")
     parking = instance.parking
     if parking.sectors.count() == 0:
         total_slots = 0
