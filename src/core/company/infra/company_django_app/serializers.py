@@ -116,10 +116,15 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
         return value
 
 
+class EmployeeUserInfoSerializer(serializers.Serializer):
+    name = serializers.CharField(read_only=True)
+    email = serializers.CharField(read_only=True)
+
+
 class EmployeeListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
-    company = serializers.UUIDField(source="company.id", read_only=True)
-    user = serializers.UUIDField(source="user.id", read_only=True)
+    company = serializers.CharField(source="company.name", read_only=True)
+    user = EmployeeUserInfoSerializer(read_only=True)
     is_active = serializers.BooleanField(read_only=True)
 
 

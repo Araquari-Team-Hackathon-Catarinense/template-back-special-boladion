@@ -14,8 +14,11 @@ class TestEmployeeListSerializer:
         assert serializer.data == [
             {
                 "id": str(employee.id),
-                "company": str(employee.company.id),
-                "user": str(employee.user.id),
+                "company": str(employee.company.name),
+                "user": {
+                    "name": employee.user.name,
+                    "email": employee.user.email,
+                },
                 "is_active": employee.is_active,
             }
             for employee in employees
@@ -31,18 +34,11 @@ class TestEmployeeListSerializer:
         serializer = EmployeeListSerializer(employee, many=False)
         assert serializer.data == {
             "id": str(employee.id),
-            "company": str(employee.company.id),
-            "user": str(employee.user.id),
-            "is_active": employee.is_active,
-        }
-
-    def test_retrieve_serializer_with_a_specific_employee(self) -> None:
-        employee = baker.make(Employee)
-        serializer = EmployeeListSerializer(employee)
-        assert serializer.data == {
-            "id": str(employee.id),
-            "company": str(employee.company.id),
-            "user": str(employee.user.id),
+            "company": str(employee.company.name),
+            "user": {
+                "name": employee.user.name,
+                "email": employee.user.email,
+            },
             "is_active": employee.is_active,
         }
 
