@@ -39,14 +39,16 @@ class PackingCreateSerializer(serializers.ModelSerializer):
 
 class PurchaseSaleOrderListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
-    company = serializers.CharField(source="company.name", read_only=True)
-    client = serializers.CharField(source="company.name", read_only=True)
-    operation_terminal = serializers.CharField(source="company.name", read_only=True)
-    product = serializers.CharField(source="product.description", read_only=True)
+    company = serializers.CharField(source="company.id", read_only=True)
+    client = serializers.CharField(source="client.id", read_only=True)
+    operation_terminal = serializers.CharField(
+        source="operation_terminal.id", read_only=True
+    )
+    product = serializers.CharField(source="product.id", read_only=True)
     measurement_unit = serializers.CharField(
         source="measurement_unit.description", read_only=True
     )
-    packing = serializers.UUIDField(read_only=True)
+    packing = serializers.UUIDField(source="packing.id", read_only=True)
     quantity = serializers.FloatField(read_only=True)
     balance = serializers.FloatField(read_only=True)
     operation_type = serializers.CharField(read_only=True)
