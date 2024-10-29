@@ -1,7 +1,8 @@
 import pytest
+from model_bakery import baker
 from pycpfcnpj import gen
 
-from core.company.infra.company_django_app.models import Company
+from core.company.infra.company_django_app.models import Company, Contract
 from core.parking.infra.parking_django_app.models import Parking
 from core.parking.infra.parking_django_app.serializers import (
     ParkingSectorCreateSerializer,
@@ -21,12 +22,13 @@ class TestParkingCreateSerializer:
             description="Meu Estacionamento",
             company=company,
         )
+        contract: Contract = baker.make(Contract)
         data = {
             "description": "Meu Setor de Estacionamento",
             "qty_slots": 10,
             "sector_type": "CONTRACT",
             "parking": parking.id,
-            "contract": 1,
+            "contract": contract.id,
         }
         serializer = ParkingSectorCreateSerializer(data=data)
         assert serializer.is_valid() is True

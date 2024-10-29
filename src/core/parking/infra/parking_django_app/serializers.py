@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from core.company.infra.company_django_app.serializers import ContractListSerializer
+
 from .models import Operation, Parking, ParkingSector
 
 
@@ -8,13 +10,10 @@ class ParkingSectorListSerializer(serializers.Serializer):
     description = serializers.CharField(read_only=True)
     sector_type = serializers.CharField(read_only=True)
     qty_slots = serializers.IntegerField(read_only=True)
-    contract = serializers.IntegerField(read_only=True, allow_null=True)
-    # contract = serializers.UUIDField(read_only=True, allow_null=True, source="contract.id")
+    contract = ContractListSerializer(read_only=True, allow_null=True)
 
 
 class ParkingSectorCreateSerializer(serializers.ModelSerializer):
-    contract = serializers.IntegerField(required=False, allow_null=True)
-
     class Meta:
         model = ParkingSector
         fields = [

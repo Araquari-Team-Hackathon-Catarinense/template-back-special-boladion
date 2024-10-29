@@ -5,7 +5,7 @@ from model_bakery import baker
 from pycpfcnpj import gen
 from rest_framework.test import APIClient
 
-from core.company.infra.company_django_app.models import Company
+from core.company.infra.company_django_app.models import Company, Contract
 from core.parking.infra.parking_django_app.models import Parking, ParkingSector
 
 
@@ -106,12 +106,14 @@ class TestParkingSectorListAPI:
             company=company,
         )
 
+        contract: Contract = baker.make(Contract)
+
         parking_sector = {
             "description": "Parking Sector 1",
             "sector_type": "CONTRACT",
             "qty_slots": 100,
             "parking": str(parking.id),
-            "contract": 1,
+            "contract": str(contract.id),
         }
 
         response = APIClient().post(
