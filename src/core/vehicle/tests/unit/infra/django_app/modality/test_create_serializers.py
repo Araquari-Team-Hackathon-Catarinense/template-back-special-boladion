@@ -8,7 +8,7 @@ class TestModalityCreateSerializer:
     def test_create_serializer_with_valid_modality(self) -> None:
         data = {
             "description": "My Modality",
-            "axle": "My Axle",
+            "axle": 3,
         }
 
         serializer = ModalityCreateSerializer(data=data)

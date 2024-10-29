@@ -12,7 +12,7 @@ class TestModalityistAPI:
     def test_create_a_valid_modality(self) -> None:
         modality = {
             "description": "modality 1",
-            "axle": "axle 1",
+            "axle": 3,
         }
 
         response = APIClient().post(

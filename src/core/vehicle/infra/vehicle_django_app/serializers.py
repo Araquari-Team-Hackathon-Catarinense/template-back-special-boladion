@@ -18,7 +18,7 @@ class BodyCreateSerializer(serializers.ModelSerializer):
 class ModalityListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     description = serializers.CharField(read_only=True)
-    axle = serializers.CharField(read_only=True)
+    axle = serializers.IntegerField(read_only=True)
 
 
 class ModalityCreateSerializer(serializers.ModelSerializer):

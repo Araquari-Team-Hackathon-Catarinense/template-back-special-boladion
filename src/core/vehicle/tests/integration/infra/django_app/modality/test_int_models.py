@@ -29,15 +29,14 @@ class TestModalityModelInt(unittest.TestCase):
         self.assertIsInstance(description_field, models.CharField)
         self.assertEqual(description_field.max_length, 45)
 
-        axle_field: models.CharField = Modality.axle.field
-        self.assertIsInstance(axle_field, models.CharField)
-        self.assertEqual(axle_field.max_length, 45)
+        axle_field: models.IntegerField = Modality.axle.field
+        self.assertIsInstance(axle_field, models.IntegerField)
 
     def test_create(self):
         arrange = {
             "id": "af46842e-027d-4c91-b259-3a3642144ba4",
             "description": "My Modality",
-            "axle": "My Axle",
+            "axle": 3,
         }
 
         modality = Modality.objects.create(**arrange)
