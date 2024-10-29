@@ -61,33 +61,6 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
         return data
 
 
-class ParkingListSerializer(serializers.Serializer):
-    id = serializers.UUIDField(read_only=True)
-    description = serializers.CharField(read_only=True)
-    slots = serializers.IntegerField(read_only=True)
-    company = serializers.UUIDField(read_only=True, source="company.id")
-
-
-class ParkingDetailSerializer(serializers.Serializer):
-    id = serializers.UUIDField(read_only=True)
-    company = serializers.UUIDField(read_only=True, source="company.id")
-    description = serializers.CharField(read_only=True)
-    slots = serializers.IntegerField(read_only=True)
-    sectors = ParkingSectorListSerializer(many=True, read_only=True)
-
-
-class ParkingCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Parking
-        fields = [
-            "id",
-            "description",
-            "slots",
-            "company",
-        ]
-        read_only_fields = ["id", "slots"]
-
-
 class OperationListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     name = serializers.CharField(read_only=True)
@@ -102,3 +75,32 @@ class OperationCreateSerializer(serializers.ModelSerializer):
             "parking",
         ]
         read_only_fields = ["id"]
+
+
+class ParkingListSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    description = serializers.CharField(read_only=True)
+    slots = serializers.IntegerField(read_only=True)
+    company = serializers.UUIDField(read_only=True, source="company.id")
+
+
+class ParkingDetailSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    company = serializers.UUIDField(read_only=True, source="company.id")
+    description = serializers.CharField(read_only=True)
+    slots = serializers.IntegerField(read_only=True)
+    sectors = ParkingSectorListSerializer(many=True, read_only=True)
+    parking_sectors = ParkingSectorListSerializer(many=True, read_only=True)
+    operations = OperationListSerializer(many=True, read_only=True)
+
+
+class ParkingCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Parking
+        fields = [
+            "id",
+            "description",
+            "slots",
+            "company",
+        ]
+        read_only_fields = ["id", "slots"]
