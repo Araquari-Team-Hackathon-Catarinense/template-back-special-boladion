@@ -10,6 +10,9 @@ from core.populate.infra.populate_django_app.management.commands import (
 from core.populate.infra.populate_django_app.management.commands._product import (
     populate_products,
 )
+from core.populate.infra.populate_django_app.management.commands._vehicle import (
+    populate_bodies,
+)
 
 
 class Command(BaseCommand):
@@ -42,6 +45,11 @@ class Command(BaseCommand):
             help="Populate the products data",
         )
         parser.add_argument(
+            "--vehicles",
+            action="store_true",
+            help="Populate the vehicles data",
+        )
+        parser.add_argument(
             "--all", action="store_true", help="Populate all data available"
         )
 
@@ -59,7 +67,8 @@ class Command(BaseCommand):
                 self.__handle_packing()
             if options.get("products"):
                 self.__handle_products()
-
+            if options.get("vehicles"):
+                self.__handle_vehicles()
             self.stdout.write(self.style.SUCCESS("\nTudo populado com sucesso! :D"))
         except CommandError as exc:
             raise CommandError(f"An error occurred: {exc}") from exc
@@ -91,6 +100,11 @@ class Command(BaseCommand):
         populate_products()
         self.stdout.write(self.style.SUCCESS("OK"))
 
+    def __handle_vehicles(self):
+        self.stdout.write("Populating vehicles data...", ending="")
+        populate_bodies()
+        self.stdout.write(self.style.SUCCESS("OK"))
+
     def __handle_all(self):
         self.stdout.write("Populating all data...", ending="")
         self.__handle_companies()
@@ -98,4 +112,5 @@ class Command(BaseCommand):
         self.__handle_measurement_units()
         self.__handle_packing()
         self.__handle_products()
+        self.__handle_vehicles()
         self.stdout.write(self.style.SUCCESS("OK"))

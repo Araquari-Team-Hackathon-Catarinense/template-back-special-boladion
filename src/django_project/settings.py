@@ -2,6 +2,8 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from corsheaders.defaults import default_headers
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -30,13 +32,13 @@ INSTALLED_APPS = [
     "core.parking.infra.parking_django_app",
     "core.populate.infra.populate_django_app",
     "core.order.infra.order_django_app",
+    "core.vehicle.infra.vehicle_django_app",
     "core.uploader.infra.uploader_django_app",
     "core.user.infra.user_django_app",
     "core.product.infra.product_django_app",
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -114,6 +116,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5000",
     "http://0.0.0.0:8000",
 ]
+
+
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "X-Company-Id",
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
