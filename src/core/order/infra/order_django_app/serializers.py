@@ -74,18 +74,9 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
         client = data.get("client")
         operation_terminal = data.get("operation_terminal")
 
-        print(company, client, operation_terminal)
-
         if not Contract.objects.filter(
             source_company=company, target_company=client, contract_type="CLIENTE"
         ).exists():
-            print(
-                Contract.objects.filter(
-                    source_company=client,
-                    target_company=company,
-                    contract_type=ContractType.CLIENTE,
-                )
-            )
             raise serializers.ValidationError(
                 "O cliente deve ser uma empresa com um contrato do tipo CLIENTE com a empresa fornecedora."
             )
