@@ -17,20 +17,3 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         model = Product
         fields = ["id", "description", "internal_code", "is_active", "company"]
         read_only_fields = ["id"]
-
-    def validate(self, attrs):
-        if "internal_code" not in attrs:
-            return super().validate(attrs)
-        elif attrs["internal_code"]:
-            if attrs["company"]:
-                company = Company.objects.get(id=attrs["company"].id)
-            else:
-                company = self.instance.company
-            internal_code_exists = company.products.filter(
-                internal_code=attrs["internal_code"]
-            )
-            if len(internal_code_exists) > 0:
-                raise serializers.ValidationError(
-                    "Já existe um produto com esse códico"
-                )
-        return super().validate(attrs)

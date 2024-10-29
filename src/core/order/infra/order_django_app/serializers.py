@@ -20,6 +20,7 @@ class MeasurementUnitCreateSerializer(serializers.ModelSerializer):
         model = MeasurementUnit
         fields = ["id", "description", "company"]
         read_only_fields = ["id"]
+        extra_kwargs = {"company": {"write_only": True}}
 
 
 class PackingListSerializer(serializers.Serializer):

@@ -21,7 +21,8 @@ class ParkingViewSet(ModelViewSet):
     http_method_names = ["get", "post", "patch", "delete"]
 
     def get_queryset(self):
-        company_id = self.request.headers.get("X-Company-Id", None)
+        company_id = getattr(self.request, "company_id", None)
+
         if company_id:
             return Parking.objects.filter(company__id=company_id)
         raise CompanyNotInHeader
@@ -40,9 +41,10 @@ class ParkingSectorViewSet(ModelViewSet):
     http_method_names = ["get", "post", "patch", "delete"]
 
     def get_queryset(self):
-        company_id = self.request.headers.get("X-Company-Id", None)
+        company_id = getattr(self.request, "company_id", None)
+
         if company_id:
-            return ParkingSector.objects.filter(parking__company__id=company_id)
+            return ParkingSector.objects.filter(company__id=company_id)
         raise CompanyNotInHeader
 
     def get_serializer_class(self):
@@ -57,9 +59,10 @@ class OperationViewSet(ModelViewSet):
     http_method_names = ["get", "post", "patch", "delete"]
 
     def get_queryset(self):
-        company_id = self.request.headers.get("X-Company-Id", None)
+        company_id = getattr(self.request, "company_id", None)
+
         if company_id:
-            return Operation.objects.filter(parking__company__id=company_id)
+            return Operation.objects.filter(company__id=company_id)
         raise CompanyNotInHeader
 
     def get_serializer_class(self):
