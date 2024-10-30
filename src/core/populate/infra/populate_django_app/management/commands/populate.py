@@ -2,16 +2,15 @@
 from django.core.management.base import BaseCommand, CommandError, CommandParser
 
 from core.populate.infra.populate_django_app.management.commands import (
+    populate_bodies,
     populate_companies,
     populate_measurement_units,
+    populate_modalities,
     populate_packings,
     populate_users,
 )
 from core.populate.infra.populate_django_app.management.commands._product import (
     populate_products,
-)
-from core.populate.infra.populate_django_app.management.commands._vehicle import (
-    populate_bodies,
 )
 
 
@@ -103,6 +102,7 @@ class Command(BaseCommand):
     def __handle_vehicles(self):
         self.stdout.write("Populating vehicles data...", ending="")
         populate_bodies()
+        populate_modalities()
         self.stdout.write(self.style.SUCCESS("OK"))
 
     def __handle_all(self):
