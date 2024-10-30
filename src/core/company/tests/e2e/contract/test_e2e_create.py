@@ -12,6 +12,7 @@ class TestCreateAPI:
     def test_create_a_valid_contracts(self) -> None:
         url: str = "/api/contracts/"
         companies = baker.make(Company, _quantity=2)
+        headers = {"HTTP_X_COMPANY_ID": str(companies[0].id)}
 
         response = APIClient().post(
             url,
@@ -20,6 +21,8 @@ class TestCreateAPI:
                 "target_company": str(companies[1].id),
                 "contract_type": "CLIENTE",
             },
+            format="json",
+            **headers,
         )
 
         assert response.status_code == 201
@@ -31,6 +34,7 @@ class TestCreateAPI:
     def test_if_throw_error_with_invalid_target_company(self) -> None:
         url = "/api/contracts/"
         company = baker.make(Company)
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         response = APIClient().post(
             url,
@@ -39,25 +43,28 @@ class TestCreateAPI:
                 "target_company": 123,
                 "contract_type": "CLIENTE",
             },
+            **headers,
         )
 
         assert response.status_code == 400
         assert "target_company" in response.json()
-        assert "O valor “123” não é um UUID válido" in response.json()["target_company"][0]
-
+        assert (
+            "O valor “123” não é um UUID válido" in response.json()["target_company"][0]
+        )
 
     def test_if_throw_error_with_invalid_contract_type(self) -> None:
         url = "/api/contracts/"
         company = baker.make(Company)
-        user = baker.make(User)
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         response = APIClient().post(
-              url,
+            url,
             {
                 "source_company": str(company.id),
                 "target_company": str(company.id),
                 "contract_type": "invalid",
             },
+            **headers,
         )
 
         assert response.status_code == 400

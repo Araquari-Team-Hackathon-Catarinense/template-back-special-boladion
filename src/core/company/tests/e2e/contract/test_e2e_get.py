@@ -4,16 +4,15 @@ import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from core.company.infra.company_django_app.models import Contract
+from core.company.infra.company_django_app.models import Company, Contract
 
 
 @pytest.mark.django_db
 class TestListAPI:
     def test_list_contracts(self) -> None:
-        created_contracts = baker.make(Contract, _quantity=3)
-
-        url = "/api/contracts/"
-        response = APIClient().get(url)
+        company = baker.make(Company)
+        created_contracts = baker.make(Contract, _quantity=3, source_company=company)
+        # source_company = created_contracts[0].source_company
 
         expected_data = {
             "total": 3,
@@ -29,17 +28,20 @@ class TestListAPI:
                     "id": str(contract.id),
                     "source_company": {
                         "id": str(contract.source_company.id),
-                        "name": contract.source_company.name
+                        "name": contract.source_company.name,
                     },
                     "target_company": {
                         "id": str(contract.target_company.id),
-                        "name": contract.target_company.name
+                        "name": contract.target_company.name,
                     },
                     "contract_type": contract.contract_type,
                 }
                 for contract in created_contracts
             ],
         }
+        url = "/api/contracts/"
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
+        response = APIClient().get(url, **headers)
 
         assert response.status_code == 200
         assert len(response.json()["results"]) == 3

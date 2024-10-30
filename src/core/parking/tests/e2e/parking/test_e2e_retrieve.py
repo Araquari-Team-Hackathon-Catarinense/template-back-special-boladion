@@ -14,9 +14,9 @@ class TestRetrieveParkingAPI:
         company: Company = baker.make(Company)
 
         parking: Parking = baker.make(Parking, company=company, slots=0)
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         url = f"/api/parkings/{str(parking.id)}/"
-        response = APIClient().get(url)
+        response = APIClient().get(url, **headers)
 
         expected_data = {
             "id": str(parking.id),
@@ -29,8 +29,10 @@ class TestRetrieveParkingAPI:
         assert json.loads(response.content) == expected_data
 
     def test_if_throw_error_when_retrieving_an_invalid_parking(self) -> None:
+        company: Company = baker.make(Company)
         url = "/api/parkings/12345678-1234-1234-1234-123456789012/"
-        response = APIClient().get(url)
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
+        response = APIClient().get(url, **headers)
         assert response.status_code == 404
         assert json.loads(response.content) == {
             "detail": "No Parking matches the given query."

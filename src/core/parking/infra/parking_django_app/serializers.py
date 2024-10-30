@@ -28,37 +28,37 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "slots"]
 
     def validate(self, data):
-        if not self.instance:
-            if "sector_type" not in data:
-                raise serializers.ValidationError("Sector Type is required")
-            if data["sector_type"] == "CONTRACT":
-                if "contract" not in data or data["contract"] is None:
-                    raise serializers.ValidationError("Contract is required")
-            elif data["sector_type"] == "ROTATIVE":
-                data["contract"] = None
-            else:
-                raise serializers.ValidationError("Sector Type is invalid")
+        sector_type = data.get(
+            "sector_type", self.instance.sector_type if self.instance else None
+        )
+        contract = data.get("contract", None)
 
+        # Validação no caso de criação
+        if not self.instance:
+            if not sector_type:
+                raise serializers.ValidationError("Sector Type is required.")
+            if sector_type == "CONTRACT" and contract is None:
+                raise serializers.ValidationError(
+                    "Contract is required for CONTRACT type."
+                )
+            elif sector_type == "ROTATIVE":
+                data["contract"] = None
+
+        # Validação no caso de atualização
         else:
             if "sector_type" in data:
-                if data["sector_type"] == "CONTRACT":
-                    if "contract" not in data or data["contract"] is None:
-                        raise serializers.ValidationError("Contract is required")
-                    else:
-                        return data
-                elif data["sector_type"] == "ROTATIVE":
+                if sector_type == "CONTRACT" and contract is None:
+                    raise serializers.ValidationError(
+                        "Contract is required for CONTRACT type."
+                    )
+                elif sector_type == "ROTATIVE":
                     data["contract"] = None
-                    return data
-                else:
-                    raise serializers.ValidationError("Sector Type is invalid")
+                elif sector_type not in ("CONTRACT", "ROTATIVE"):
+                    raise serializers.ValidationError("Sector Type is invalid.")
             elif "contract" in data:
-                if self.instance.sector_type == "CONTRACT":
-                    return data
-                else:
+                if self.instance.sector_type == "ROTATIVE":
                     data["contract"] = None
-                    return data
-            else:
-                return data
+
         return data
 
 

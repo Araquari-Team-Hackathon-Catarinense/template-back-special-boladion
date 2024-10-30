@@ -38,9 +38,6 @@ class TestPurchaseSaleOrderListAPI:
             _quantity=3,
         )
 
-        url = "/api/purchase-sale-orders/"
-        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-
         expected_data = {
             "total": 3,
             "num_pages": 1,
@@ -67,6 +64,8 @@ class TestPurchaseSaleOrderListAPI:
             ],
         }
 
+        url = "/api/purchase-sale-orders/"
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         response = APIClient().get(url, **headers)
 
         assert response.status_code == 200

@@ -11,17 +11,18 @@ from core.parking.infra.parking_django_app.models import Operation, Parking
 @pytest.mark.django_db
 class TestPatchOperationAPI:
     def test_patch_a_valid_operation(self) -> None:
-        parking: Parking = baker.make(Parking)
+        company = baker.make(Company)
+        parking: Parking = baker.make(Parking, company=company)
 
         operation: Operation = baker.make(Operation, parking=parking)
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         url = f"/api/operations/{str(operation.id)}/"
 
         new_data = {
             "name": "New Operation",
         }
 
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
 
         expected_data = {
             "id": str(operation.id),
@@ -32,21 +33,24 @@ class TestPatchOperationAPI:
         assert json.loads(response.content) == expected_data
 
     def test_if_throw_error_when_retrieving_an_invalid_operation(self) -> None:
+        company = baker.make(Company)
         url = "/api/operations/12345678-1234-1234-1234-123456789012/"
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         new_data = {
             "name": "New Name",
         }
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
         assert response.status_code == 404
         assert json.loads(response.content) == {
             "detail": "No Operation matches the given query."
         }
 
     def test_if_throw_error_when_pass_a_invalid_parking(self) -> None:
-        parking: Parking = baker.make(Parking)
+        company = baker.make(Company)
+        parking: Parking = baker.make(Parking, company=company)
 
         operation: Operation = baker.make(Operation, parking=parking)
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         url = f"/api/operations/{str(operation.id)}/"
 
         new_data = {
@@ -54,7 +58,7 @@ class TestPatchOperationAPI:
             "parking": "12345678-1234-1234-1234-123456789012",
         }
 
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
 
         assert response.status_code == 400
         assert "parking" in response.json()
