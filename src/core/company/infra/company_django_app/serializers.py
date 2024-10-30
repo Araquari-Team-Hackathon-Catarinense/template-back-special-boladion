@@ -138,6 +138,7 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
             "is_active",
         ]
         read_only_fields = ["id"]
+        extra_kwargs = {"company": {"write_only": True}}
 
 
 class ContractCompanyInfoSerializer(serializers.Serializer):

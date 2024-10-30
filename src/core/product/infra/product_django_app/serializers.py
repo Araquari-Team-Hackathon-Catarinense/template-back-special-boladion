@@ -17,3 +17,4 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         model = Product
         fields = ["id", "description", "internal_code", "is_active", "company"]
         read_only_fields = ["id"]
+        extra_kwargs = {"company": {"write_only": True}}

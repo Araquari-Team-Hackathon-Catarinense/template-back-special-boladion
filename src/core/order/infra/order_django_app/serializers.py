@@ -37,6 +37,7 @@ class PackingCreateSerializer(serializers.ModelSerializer):
             "description",
         ]
         read_only_fields = ["id"]
+        extra_kwargs = {"company": {"write_only": True}}
 
 
 class PurchaseSaleOrderListSerializer(serializers.Serializer):
@@ -72,6 +73,7 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
             "operation_type",
         ]
         read_only_fields = ["id"]
+        extra_kwargs = {"company": {"write_only": True}}
 
     def validate(self, data) -> dict:
         company = data.get("company")

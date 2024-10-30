@@ -102,3 +102,4 @@ class ParkingCreateSerializer(serializers.ModelSerializer):
             "company",
         ]
         read_only_fields = ["id", "slots"]
+        extra_kwargs = {"company": {"write_only": True}}
