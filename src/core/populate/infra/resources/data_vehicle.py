@@ -10,22 +10,22 @@ bodies_data = [
 
 
 modalities_data = [
-    {"id": uuid.uuid4(), "description": "Caminhão 2 eixos", "axle": "2 eixos"},
-    {"id": uuid.uuid4(), "description": "Caminhão 3 eixos", "axle": "3 eixos"},
-    {"id": uuid.uuid4(), "description": "Caminhão Toco", "axle": "2 eixos simples"},
-    {"id": uuid.uuid4(), "description": "Caminhão Truck", "axle": "3 eixos simples"},
+    {"id": uuid.uuid4(), "description": "Caminhão 2 eixos", "axle": "2"},
+    {"id": uuid.uuid4(), "description": "Caminhão 3 eixos", "axle": "3"},
+    {"id": uuid.uuid4(), "description": "Caminhão Toco", "axle": "2"},
+    {"id": uuid.uuid4(), "description": "Caminhão Truck", "axle": "3"},
     {
         "id": uuid.uuid4(),
         "description": "Carreta Cavalo Mecânico 2 eixos",
-        "axle": "4 eixos",
+        "axle": "4",
     },
     {
         "id": uuid.uuid4(),
         "description": "Carreta Cavalo Mecânico 3 eixos",
-        "axle": "5 eixos",
+        "axle": "5",
     },
-    {"id": uuid.uuid4(), "description": "Carreta Bitrem", "axle": "7 eixos"},
-    {"id": uuid.uuid4(), "description": "Carreta Rodotrem", "axle": "9 eixos"},
-    {"id": uuid.uuid4(), "description": "Caminhão Munck", "axle": "4 eixos"},
-    {"id": uuid.uuid4(), "description": "Caminhão Baú", "axle": "3 eixos"},
+    {"id": uuid.uuid4(), "description": "Carreta Bitrem", "axle": "7"},
+    {"id": uuid.uuid4(), "description": "Carreta Rodotrem", "axle": "9"},
+    {"id": uuid.uuid4(), "description": "Caminhão Munck", "axle": "4"},
+    {"id": uuid.uuid4(), "description": "Caminhão Baú", "axle": "3"},
 ]

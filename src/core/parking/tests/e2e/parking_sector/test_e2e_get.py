@@ -16,9 +16,10 @@ class TestParkingSectorListAPI:
         created_parking_sectors = baker.make(
             ParkingSector, _quantity=3, parking=parking, sector_type="ROTATIVE"
         )
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         url = "/api/parking-sectors/"
-        response = APIClient().get(url)
+        response = APIClient().get(url, **headers)
 
         expected_data = {
             "total": 3,

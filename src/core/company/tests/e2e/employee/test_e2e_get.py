@@ -4,16 +4,20 @@ import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from core.company.infra.company_django_app.models import Employee
+from core.company.infra.company_django_app.models import Company, Employee
 
 
 @pytest.mark.django_db
 class TestListAPI:
     def test_list_employees(self) -> None:
-        created_employees = baker.make(Employee, _quantity=3)
-
+        company = baker.make(Company)
+        created_employees = baker.make(Employee, company=company, _quantity=3)
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         url = "/api/employees/"
-        response = APIClient().get(url)
+        response = APIClient().get(
+            url,
+            **headers,
+        )
 
         expected_data = {
             "total": 3,

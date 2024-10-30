@@ -12,21 +12,19 @@ from core.parking.infra.parking_django_app.models import Parking, ParkingSector
 class TestPatchParkingSectorAPI:
     def test_patch_a_valid_parking_sector(self) -> None:
         company: Company = baker.make(Company)
-
         parking: Parking = baker.make(Parking, company=company, slots=0)
-
         parking_sector: ParkingSector = baker.make(
             ParkingSector, parking=parking, sector_type="ROTATIVE"
         )
 
         url = f"/api/parking-sectors/{str(parking_sector.id)}/"
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         new_data = {
             "description": "New Description",
             "qty_slots": 10,
         }
 
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
 
         expected_data = {
             "id": str(parking_sector.id),
@@ -36,27 +34,32 @@ class TestPatchParkingSectorAPI:
             "contract": None,
             "parking": str(parking_sector.parking.id),
         }
+
         assert response.status_code == 200
-        assert json.loads(response.content) == expected_data
+        assert response.json() == expected_data
 
     def test_if_throw_error_when_retrieving_an_invalid_parking_sector(self) -> None:
+        company: Company = baker.make(Company)
+
         url = "/api/parking-sectors/12345678-1234-1234-1234-123456789012/"
         new_data = {
             "description": "New Description",
             "qty_slots": 10,
         }
-        response = APIClient().patch(url, new_data, format="json")
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
+        response = APIClient().patch(url, new_data, format="json", **headers)
         assert response.status_code == 404
         assert json.loads(response.content) == {
             "detail": "No ParkingSector matches the given query."
         }
 
     def test_if_throw_error_when_pass_a_invalid_parking(self) -> None:
-        parking: Parking = baker.make(Parking)
-
+        company: Company = baker.make(Company)
+        parking: Parking = baker.make(Parking, company=company)
         parking_sector: ParkingSector = baker.make(
             ParkingSector, parking=parking, sector_type="ROTATIVE"
         )
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         url = f"/api/parking-sectors/{str(parking_sector.id)}/"
 
@@ -65,7 +68,7 @@ class TestPatchParkingSectorAPI:
             "parking": "12345678-1234-1234-1234-123456789012",
         }
 
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
 
         assert response.status_code == 400
         assert "parking" in response.json()
@@ -78,7 +81,6 @@ class TestPatchParkingSectorAPI:
         self,
     ) -> None:
         company: Company = baker.make(Company)
-
         parking: Parking = baker.make(Parking, company=company, slots=0)
 
         parking_sector: ParkingSector = baker.make(
@@ -86,10 +88,11 @@ class TestPatchParkingSectorAPI:
         )
 
         url = f"/api/parking-sectors/{str(parking_sector.id)}/"
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         new_data = {"description": "New Description", "sector_type": "ROTATIVE"}
 
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
 
         expected_data = {
             "id": str(parking_sector.id),
@@ -114,6 +117,7 @@ class TestPatchParkingSectorAPI:
         )
 
         url = f"/api/parking-sectors/{str(parking_sector.id)}/"
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         new_data = {
             "description": "New Description",
@@ -121,7 +125,7 @@ class TestPatchParkingSectorAPI:
             "contract": 10,
         }
 
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
 
         expected_data = {
             "id": str(parking_sector.id),

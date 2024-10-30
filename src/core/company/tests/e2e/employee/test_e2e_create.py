@@ -1,7 +1,10 @@
+from wsgiref import headers
+
 import pytest
 from model_bakery import baker
 from pycpfcnpj import gen
 from rest_framework.test import APIClient
+from six import b
 
 from core.company.infra.company_django_app.models import Company
 from core.user.infra.user_django_app.models import User
@@ -10,7 +13,7 @@ from core.user.infra.user_django_app.models import User
 @pytest.mark.django_db
 class TestCreateAPI:
     def test_create_a_valid_employee(self) -> None:
-        url: str = "/api/employees/"
+
         company = baker.make(Company)
         user = baker.make(User)
         employee = {
@@ -18,7 +21,8 @@ class TestCreateAPI:
             "user": str(user.id),
             "is_active": True,
         }
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
+        url: str = "/api/employees/"
         response = APIClient().post(
             url,
             {
@@ -26,6 +30,7 @@ class TestCreateAPI:
                 "user": employee["user"],
                 "is_active": employee["is_active"],
             },
+            **headers,
         )
 
         assert response.status_code == 201
@@ -35,13 +40,16 @@ class TestCreateAPI:
         assert "id" in response.json()
 
     def test_if_throw_error_with_invalid_company(self) -> None:
-        url = "/api/employees/"
         user = baker.make(User)
+        company = baker.make(Company)
+        company.id = 123
         employee = {
-            "company": "123",
+            "company": str(company.id),
             "user": str(user.id),
             "is_active": True,
         }
+        url = "/api/employees/"
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         response = APIClient().post(
             url,
@@ -50,6 +58,7 @@ class TestCreateAPI:
                 "user": employee["user"],
                 "is_active": employee["is_active"],
             },
+            **headers,
         )
 
         assert response.status_code == 400
@@ -64,7 +73,7 @@ class TestCreateAPI:
             "user": 123,
             "is_active": True,
         }
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         response = APIClient().post(
             url,
             {
@@ -72,11 +81,12 @@ class TestCreateAPI:
                 "user": employee["user"],
                 "is_active": employee["is_active"],
             },
+            **headers,
         )
 
         assert response.status_code == 400
         assert "user" in response.json()
-        assert 'não é um UUID válido' in response.json()["user"][0]
+        assert "não é um UUID válido" in response.json()["user"][0]
 
     def test_if_throw_error_with_invalid_is_active(self) -> None:
         url = "/api/employees/"
@@ -87,7 +97,7 @@ class TestCreateAPI:
             "user": str(user.id),
             "is_active": "invalid",
         }
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         response = APIClient().post(
             url,
             {
@@ -95,6 +105,7 @@ class TestCreateAPI:
                 "user": employee["user"],
                 "is_active": employee["is_active"],
             },
+            **headers,
         )
 
         assert response.status_code == 400
