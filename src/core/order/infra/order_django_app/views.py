@@ -28,8 +28,7 @@ class MeasurementUnitViewSet(ModelViewSet):
 
         if company_id:
             return MeasurementUnit.objects.filter(company__id=company_id)
-        else:
-            raise CompanyNotInHeader
+        raise CompanyNotInHeader
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
@@ -42,7 +41,8 @@ class PackingViewSet(ModelViewSet):
     http_method_names = ["get", "post", "patch", "delete"]
 
     def get_queryset(self):
-        company_id = self.request.headers.get("X-Company-Id", None)
+        company_id = getattr(self.request, "company_id", None)
+
         if company_id:
             return Packing.objects.filter(company__id=company_id)
         raise CompanyNotInHeader
@@ -58,7 +58,8 @@ class PurchaseSaleOrderViewSet(ModelViewSet):
     http_method_names = ["get", "post", "patch", "delete"]
 
     def get_queryset(self):
-        company_id = self.request.headers.get("X-Company-Id", None)
+        company_id = getattr(self.request, "company_id", None)
+
         if company_id:
             return PurchaseSaleOrder.objects.filter(company__id=company_id)
         raise CompanyNotInHeader
