@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
 from core.__seedwork__.domain.exceptions import CompanyNotInHeader
+from core.company.infra.company_django_app.filters import CompanyFilter
 from core.company.infra.company_django_app.serializers import (
     CompanyCreateSerializer,
     CompanyDetailSerializer,
@@ -17,6 +18,7 @@ from .models import Company, Contract, Employee
 class CompanyViewSet(ModelViewSet):
     queryset = Company.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
+    filterset_class = CompanyFilter
 
     def get_serializer_class(self):
         if self.action == "list":

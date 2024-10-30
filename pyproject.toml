@@ -26,6 +26,7 @@ dependencies = [
     "pytest>=8.3.3",
     "pillow>=11.0.0",
     "libmagic>=1.0",
+    "django-filter>=24.3",
 ]
 
 requires-python = "==3.12.*"
