@@ -27,6 +27,7 @@ class TestParkingDetailSerializer:
             "description": parking.description,
             "slots": parking.slots,
             "sectors": [],
+            "operations": [],
         }
 
     def test_list_serializer_with_no_parking(self) -> None:

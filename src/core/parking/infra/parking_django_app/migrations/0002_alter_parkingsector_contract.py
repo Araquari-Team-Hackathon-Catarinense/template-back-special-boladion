@@ -7,14 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('company_django_app', '0003_alter_employee_user'),
-        ('parking_django_app', '0001_initial'),
+        # ('company_django_app', '0003_alter_employee_user'),
+        ("parking_django_app", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='parkingsector',
-            name='contract',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='sectors', to='company_django_app.contract'),
+            model_name="parkingsector",
+            name="contract",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="sectors",
+                to="company_django_app.contract",
+            ),
         ),
     ]

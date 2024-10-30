@@ -32,7 +32,6 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
         )
         contract = data.get("contract", None)
 
-        # Validação no caso de criação
         if not self.instance:
             if not sector_type:
                 raise serializers.ValidationError("Sector Type is required.")
@@ -43,7 +42,6 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
             elif sector_type == "ROTATIVE":
                 data["contract"] = None
 
-        # Validação no caso de atualização
         else:
             if "sector_type" in data:
                 if sector_type == "CONTRACT" and contract is None:

@@ -11,9 +11,6 @@ from core.populate.infra.populate_django_app.management.commands import (
     populate_packings,
     populate_parking_sectors,
     populate_parkings,
-    populate_users,
-)
-from core.populate.infra.populate_django_app.management.commands._product import (
     populate_products,
     populate_purchase_sale_orders,
     populate_transports_contract,
@@ -139,4 +136,5 @@ class Command(BaseCommand):
         self.__handle_contracts()
         self.__handle_orders()
         self.__handle_parkings()
+        self.__handle_purchase_sale_orders()
         self.stdout.write(self.style.SUCCESS("OK"))

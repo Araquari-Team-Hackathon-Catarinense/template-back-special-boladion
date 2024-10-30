@@ -24,6 +24,7 @@ class TestRetrieveParkingAPI:
             "slots": parking.slots,
             "company": str(parking.company.id),
             "sectors": [],
+            "operations": [],
         }
         assert response.status_code == 200
         assert json.loads(response.content) == expected_data
