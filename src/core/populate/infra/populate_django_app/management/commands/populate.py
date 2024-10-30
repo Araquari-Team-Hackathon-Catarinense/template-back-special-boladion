@@ -2,15 +2,17 @@
 from django.core.management.base import BaseCommand, CommandError, CommandParser
 
 from core.populate.infra.populate_django_app.management.commands import (
-    populate_bodies,
     populate_companies,
     populate_contracts,
     populate_measurement_units,
-    populate_modalities,
     populate_packings,
     populate_products,
     populate_purchase_sale_orders,
     populate_users,
+)
+from core.populate.infra.populate_django_app.management.commands._vehicle import (
+    populate_bodies,
+    populate_modalities,
 )
 
 
