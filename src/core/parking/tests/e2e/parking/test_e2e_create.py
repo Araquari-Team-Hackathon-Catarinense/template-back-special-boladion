@@ -12,6 +12,7 @@ from core.parking.infra.parking_django_app.models import Parking
 class TestListAPI:
     def test_create_a_valid_parking(self) -> None:
         url: str = "/api/parkings/"
+
         cnpj: str = gen.cnpj()
         company: Company = Company.objects.create(
             name="Company 1",

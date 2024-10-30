@@ -39,7 +39,7 @@ class ParkingSectorViewSet(ModelViewSet):
     def get_queryset(self):
         company_id = self.request.headers.get("X-Company-Id", None)
         if company_id:
-            return ParkingSector.objects.filter(company__id=company_id)
+            return ParkingSector.objects.filter(parking__company__id=company_id)
         raise CompanyNotInHeader
 
     def get_serializer_class(self):
@@ -55,7 +55,7 @@ class OperationViewSet(ModelViewSet):
     def get_queryset(self):
         company_id = self.request.headers.get("X-Company-Id", None)
         if company_id:
-            return Operation.objects.filter(company__id=company_id)
+            return Operation.objects.filter(parking__company__id=company_id)
         raise CompanyNotInHeader
 
     def get_serializer_class(self):

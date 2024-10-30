@@ -13,9 +13,9 @@ class TestListAPI:
     def test_list_parkings(self) -> None:
         company: Company = baker.make(Company)
         created_parkings = baker.make(Parking, _quantity=3, company=company, slots=0)
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         url = "/api/parkings/"
-        response = APIClient().get(url)
+        response = APIClient().get(url, **headers)
 
         expected_data = {
             "total": 3,

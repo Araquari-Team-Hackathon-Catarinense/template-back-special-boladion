@@ -14,7 +14,7 @@ class TestPatchParkingAPI:
         company: Company = baker.make(Company)
 
         parking: Parking = baker.make(Parking, company=company, slots=0)
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         url = f"/api/parkings/{str(parking.id)}/"
 
         new_data = {
@@ -22,7 +22,7 @@ class TestPatchParkingAPI:
             "company": str(company.id),
         }
 
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
 
         expected_data = {
             "id": str(parking.id),
@@ -34,28 +34,32 @@ class TestPatchParkingAPI:
         assert json.loads(response.content) == expected_data
 
     def test_if_throw_error_when_retrieving_an_invalid_parking(self) -> None:
+        company: Company = baker.make(Company)
         url = "/api/parkings/12345678-1234-1234-1234-123456789012/"
         new_data = {
             "description": "New Description",
             "company": "12345678-1234-1234-1234-123456789012",
         }
-        response = APIClient().patch(url, new_data, format="json")
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
+        response = APIClient().patch(url, new_data, format="json", **headers)
         assert response.status_code == 404
         assert json.loads(response.content) == {
             "detail": "No Parking matches the given query."
         }
 
     def test_if_throw_error_when_pass_a_invalid_company(self) -> None:
-        parking: Parking = baker.make(Parking)
-
+        company: Company = baker.make(Company)
+        parking: Parking = baker.make(Parking, company=company)
         url = f"/api/parkings/{str(parking.id)}/"
+
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         new_data = {
             "description": "New Description",
             "company": "12345678-1234-1234-1234-123456789012",
         }
 
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
 
         assert response.status_code == 400
         assert "company" in response.json()
@@ -68,7 +72,7 @@ class TestPatchParkingAPI:
         company: Company = baker.make(Company)
 
         parking: Parking = baker.make(Parking, company=company, slots=0)
-
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         url = f"/api/parkings/{str(parking.id)}/"
 
         new_data = {
@@ -77,7 +81,7 @@ class TestPatchParkingAPI:
             "company": str(company.id),
         }
 
-        response = APIClient().patch(url, new_data, format="json")
+        response = APIClient().patch(url, new_data, format="json", **headers)
 
         expected_data = {
             "id": str(parking.id),

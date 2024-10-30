@@ -1,17 +1,17 @@
 import json
 
-from django_project.settings import BASE_URL
 import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
+from django_project.settings import BASE_URL
 
 
 @pytest.mark.django_db
 class TestListAPI:
     def test_list_companies(self) -> None:
-        created_companies = baker.make(Company, _quantity=3, person_type='PJ')
+        created_companies = baker.make(Company, _quantity=3, person_type="PJ")
 
         url = "/api/companies/"
         response = APIClient().get(url)
