@@ -2,17 +2,16 @@
 from django.core.management.base import BaseCommand, CommandError, CommandParser
 
 from core.populate.infra.populate_django_app.management.commands import (
+    populate_bodies,
     populate_companies,
     populate_contracts,
     populate_measurement_units,
+    populate_modalities,
     populate_packings,
     populate_products,
     populate_purchase_sale_orders,
+    populate_transports,
     populate_users,
-)
-from core.populate.infra.populate_django_app.management.commands._vehicle import (
-    populate_bodies,
-    populate_modalities,
 )
 
 
@@ -61,6 +60,11 @@ class Command(BaseCommand):
             help="Populate the purchase data",
         )
         parser.add_argument(
+            "--transports",
+            action="store_true",
+            help="Populate the transports data",
+        )
+        parser.add_argument(
             "--all", action="store_true", help="Populate all data available"
         )
 
@@ -82,6 +86,8 @@ class Command(BaseCommand):
                 self.__handle_vehicles()
             if options.get("contracts"):
                 self.__handle_contracts()
+            if options.get("transports"):
+                self.__handle_transports()
             if options.get("purchase_sale_orders"):
                 self.__handle_purchase_sale_orders()
 
@@ -132,6 +138,11 @@ class Command(BaseCommand):
         populate_purchase_sale_orders()
         self.stdout.write(self.style.SUCCESS("OK"))
 
+    def __handle_transports(self):
+        self.stdout.write("Populating transports data...", ending="")
+        populate_transports()
+        self.stdout.write(self.style.SUCCESS("OK"))
+
     def __handle_all(self):
         self.stdout.write("Populating all data...", ending="")
         self.__handle_companies()
@@ -142,4 +153,5 @@ class Command(BaseCommand):
         self.__handle_vehicles()
         self.__handle_contracts()
         self.__handle_purchase_sale_orders()
+        self.__handle_transports()
         self.stdout.write(self.style.SUCCESS("OK"))

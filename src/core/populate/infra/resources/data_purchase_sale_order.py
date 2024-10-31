@@ -27,7 +27,7 @@ def generate_purchase_sale_orders():
         client = random.choice(Company.objects.exclude(id=company.id))
         operation_terminal = random.choice(Company.objects.exclude(id=company.id))
 
-        for _ in range(random.randint(1, 5)):
+        for _ in range(random.randint(3, 10)):
             product = random.choice(products_instances)
             measurement_unit = random.choice(MeasurementUnit.objects.all())
             packing = random.choice(Packing.objects.all())

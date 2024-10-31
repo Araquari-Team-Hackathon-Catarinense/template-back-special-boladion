@@ -1,4 +1,4 @@
-from core.order.infra.order_django_app.models import Contract
+from core.company.infra.company_django_app.models import Contract
 from core.populate.infra.resources.data_contracts import generate_contract_data
 
 
