@@ -113,7 +113,7 @@ class PurchaseSaleOrderUnitModelInt(unittest.TestCase):
             "measurement_unit": measurement_unit,
             "packing": packing,
             "quantity": 10.5,
-            "balance": 5.0,
+            "balance": 10.5,
             "operation_terminal": operation_terminal,
             "operation_type": "purchase",
         }
