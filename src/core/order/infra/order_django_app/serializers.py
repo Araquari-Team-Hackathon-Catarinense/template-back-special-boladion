@@ -6,6 +6,7 @@ from core.order.infra.order_django_app.models import (
     MeasurementUnit,
     Packing,
     PurchaseSaleOrder,
+    TransportContract,
 )
 
 
@@ -101,6 +102,54 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "O terminal de operação deve ser uma empresa com um contrato do tipo TERMINAL "
                 "com a empresa fornecedora ou cliente, ou ser a própria empresa fornecedora ou cliente."
+            )
+
+        return data
+
+
+class TransportContractListSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    company = serializers.CharField(source="company.id", read_only=True)
+    carrier = serializers.CharField(source="carrier.id", read_only=True)
+    purchase_sale_order = serializers.CharField(
+        source="purchase_sale_order.id", read_only=True
+    )
+    balance = serializers.FloatField(read_only=True)
+    quantity = serializers.FloatField(read_only=True)
+
+
+class TransportContractCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TransportContract
+        fields = [
+            "id",
+            "company",
+            "carrier",
+            "purchase_sale_order",
+            "balance",
+            "quantity",
+        ]
+        read_only_fields = ["id"]
+
+    def validate(self, data) -> dict:
+        company = data.get("company")
+        carrier = data.get("carrier")
+        purchase_sale_order = data.get("purchase_sale_order")
+
+        if not Contract.objects.filter(
+            source_company=company,
+            target_company=carrier,
+            contract_type="TRANSPORTADORA",
+        ).exists():
+            raise serializers.ValidationError(
+                "A transportadora deve ser uma empresa com um contrato do tipo TRANSPORTADORA com a empresa fornecedora."
+            )
+
+        if not PurchaseSaleOrder.objects.filter(
+            id=purchase_sale_order.id, company=company
+        ).exists():
+            raise serializers.ValidationError(
+                "A ordem de compra/venda deve ser uma ordem da empresa fornecedora."
             )
 
         return data
