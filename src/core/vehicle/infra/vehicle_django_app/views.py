@@ -6,10 +6,18 @@ from rest_framework.viewsets import ModelViewSet
 
 from core.uploader.infra.uploader_django_app.models import Document
 from core.uploader.infra.uploader_django_app.serializers import DocumentUploadSerializer
-from core.vehicle.infra.vehicle_django_app.models import Body, Modality, Vehicle
+from core.vehicle.infra.vehicle_django_app.models import (
+    Body,
+    Composition,
+    Modality,
+    Vehicle,
+)
 from core.vehicle.infra.vehicle_django_app.serializers import (
     BodyCreateSerializer,
     BodyListSerializer,
+    CompositionCreateSerializer,
+    CompositionDetailSerializer,
+    CompositionListSerializer,
     ModalityCreateSerializer,
     ModalityListSerializer,
     VehicleCreateSerializer,
@@ -64,3 +72,15 @@ class VehicleViewSet(ModelViewSet):
             {"message": "Documento adicionado com sucesso"},
             status=status.HTTP_201_CREATED,
         )
+
+
+class CompositionViewSet(ModelViewSet):
+    queryset = Composition.objects.all()
+    http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return CompositionListSerializer
+        elif self.action == "retrieve":
+            return CompositionDetailSerializer
+        return CompositionCreateSerializer

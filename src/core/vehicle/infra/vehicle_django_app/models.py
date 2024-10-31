@@ -67,3 +67,11 @@ class Vehicle(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.license}, {self.chassis}, {self.renavam}, {self.vehicle_type}"
+
+
+class Composition(models.Model):
+    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
+    axle = models.IntegerField()
+    gross_weight = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)

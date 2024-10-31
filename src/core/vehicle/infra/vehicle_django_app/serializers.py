@@ -1,7 +1,12 @@
 from rest_framework import serializers
 
 from core.uploader.infra.uploader_django_app.serializers import DocumentSerializer
-from core.vehicle.infra.vehicle_django_app.models import Body, Modality, Vehicle
+from core.vehicle.infra.vehicle_django_app.models import (
+    Body,
+    Composition,
+    Modality,
+    Vehicle,
+)
 
 
 class BodyListSerializer(serializers.Serializer):
@@ -99,3 +104,24 @@ class VehicleDocumentSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         pass
+
+
+class CompositionListSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    axle = serializers.IntegerField(read_only=True)
+    is_active = serializers.BooleanField(read_only=True)
+
+
+class CompositionDetailSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    axle = serializers.IntegerField(read_only=True)
+    gross_weight = serializers.IntegerField(read_only=True)
+    date = serializers.DateTimeField(read_only=True)
+    is_active = serializers.BooleanField(read_only=True)
+
+
+class CompositionCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Composition
+        fields = ["id", "axle", "gross_weight", "date", "is_active"]
+        read_only_fields = ["id", "date"]
