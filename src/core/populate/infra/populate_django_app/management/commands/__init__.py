@@ -1,9 +1,11 @@
 from ._company import populate_companies
 from ._contract import populate_contracts
-from ._measurement_unit import populate_measurement_units
-from ._packing import populate_packings
+from ._order import (
+    populate_measurement_units,
+    populate_packings,
+    populate_purchase_sale_orders,
+    populate_transports_contract,
+)
 from ._product import populate_products
-from ._purchase_sale_order import populate_purchase_sale_orders
-from ._transport_contracts import populate_transports
 from ._user import populate_users
 from ._vehicle import populate_bodies, populate_modalities

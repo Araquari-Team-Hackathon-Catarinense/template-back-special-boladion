@@ -1,6 +1,5 @@
 from pylint.checkers.utils import is_super
 
-
 valid_uuids = [
     "c13b8ed0-33c0-4b56-9512-f3178a3c17e2",
     "3b795b52-5541-48fc-82fe-1441f42b318d",
@@ -18,7 +17,7 @@ valid_uuids = [
     "3d1da362-2b2a-4a63-bd12-24bc06d8fc62",
     "960e899a-2a03-46ff-985e-1fa022feb4eb",
     "21cac52f-b975-4172-bcba-334cd9da0265",
-    "58e719ce-b5da-4336-9884-7917b973b570"
+    "58e719ce-b5da-4336-9884-7917b973b570",
 ]
 
 users_data = [
@@ -28,7 +27,8 @@ users_data = [
         "email": "admin@empresa.com",
         "is_active": True,
         "is_superuser": True,
-        "password": "admin"
+        "is_staff": True,
+        "password": "admin",
     },
     {
         "id": valid_uuids[1],
@@ -36,7 +36,7 @@ users_data = [
         "email": "user1@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user1"
+        "password": "user1",
     },
     {
         "id": valid_uuids[2],
@@ -44,7 +44,7 @@ users_data = [
         "email": "user2@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user2"
+        "password": "user2",
     },
     {
         "id": valid_uuids[3],
@@ -52,7 +52,7 @@ users_data = [
         "email": "user3@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user3"
+        "password": "user3",
     },
     {
         "id": valid_uuids[4],
@@ -60,7 +60,7 @@ users_data = [
         "email": "user4@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user4"
+        "password": "user4",
     },
     {
         "id": valid_uuids[5],
@@ -68,7 +68,7 @@ users_data = [
         "email": "user5@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user5"
+        "password": "user5",
     },
     {
         "id": valid_uuids[6],
@@ -76,7 +76,7 @@ users_data = [
         "email": "user6@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user6"
+        "password": "user6",
     },
     {
         "id": valid_uuids[7],
@@ -84,7 +84,7 @@ users_data = [
         "email": "user7@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user7"
+        "password": "user7",
     },
     {
         "id": valid_uuids[8],
@@ -92,7 +92,7 @@ users_data = [
         "email": "user8@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user8"
+        "password": "user8",
     },
     {
         "id": valid_uuids[9],
@@ -100,7 +100,7 @@ users_data = [
         "email": "user9@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user9"
+        "password": "user9",
     },
     {
         "id": valid_uuids[10],
@@ -108,7 +108,7 @@ users_data = [
         "email": "user10@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user10"
+        "password": "user10",
     },
     {
         "id": valid_uuids[11],
@@ -116,7 +116,7 @@ users_data = [
         "email": "user11@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user11"
+        "password": "user11",
     },
     {
         "id": valid_uuids[12],
@@ -124,7 +124,7 @@ users_data = [
         "email": "user12@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user12"
+        "password": "user12",
     },
     {
         "id": valid_uuids[13],
@@ -132,7 +132,7 @@ users_data = [
         "email": "user13@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user13"
+        "password": "user13",
     },
     {
         "id": valid_uuids[14],
@@ -140,7 +140,7 @@ users_data = [
         "email": "user14@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user14"
+        "password": "user14",
     },
     {
         "id": valid_uuids[15],
@@ -148,6 +148,6 @@ users_data = [
         "email": "user15@empresa.com",
         "is_active": True,
         "is_superuser": False,
-        "password": "user15"
-    }
+        "password": "user15",
+    },
 ]
