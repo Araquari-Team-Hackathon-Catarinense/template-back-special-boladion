@@ -1,9 +1,7 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from core.__seedwork__.infra.django_app.models import BaseModel
-from core.company.domain.value_objects import ContractType
-from core.company.infra.company_django_app.models import Company, Contract
+from core.company.infra.company_django_app.models import Company
 from core.order.domain.value_objects import OperationType
 from core.product.infra.product_django_app.models import Product
 
@@ -80,3 +78,15 @@ class PurchaseSaleOrder(BaseModel):
 
     def __str__(self):
         return f"{self.company.name} - {self.client.name}"
+
+
+class TransportContract(BaseModel):
+    company = models.ForeignKey(
+        Company, on_delete=models.PROTECT, related_name="transport_contracts"
+    )
+    carrier = models.ForeignKey(
+        Company, on_delete=models.PROTECT, related_name="carrier_contracts"
+    )
+    purchase_sale_order = models.ForeignKey(PurchaseSaleOrder, on_delete=models.PROTECT)
+    quantity = models.FloatField(blank=True, null=True)
+    balance = models.FloatField(blank=True, null=True)

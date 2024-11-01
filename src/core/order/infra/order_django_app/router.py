@@ -4,6 +4,7 @@ from core.order.infra.order_django_app.views import (
     MeasurementUnitViewSet,
     PackingViewSet,
     PurchaseSaleOrderViewSet,
+    TransportContractViewSet,
 )
 
 router = DefaultRouter()
@@ -14,4 +15,7 @@ router.register(
 router.register(r"packings", PackingViewSet, basename="packing")
 router.register(
     r"purchase-sale-orders", PurchaseSaleOrderViewSet, basename="purchase-sale-order"
+)
+router.register(
+    r"transport-contracts", TransportContractViewSet, basename="transport-contract"
 )
