@@ -4,7 +4,8 @@ import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from core.company.infra.company_django_app.models import Company
+from core.company.infra.company_django_app.models import Company, Contract
+from core.company.infra.company_django_app.serializers import ContractListSerializer
 from core.parking.infra.parking_django_app.models import Parking, ParkingSector
 
 
@@ -82,9 +83,9 @@ class TestPatchParkingSectorAPI:
     ) -> None:
         company: Company = baker.make(Company)
         parking: Parking = baker.make(Parking, company=company, slots=0)
-
+        contract: Contract = baker.make(Contract)
         parking_sector: ParkingSector = baker.make(
-            ParkingSector, parking=parking, sector_type="CONTRACT", contract=10
+            ParkingSector, parking=parking, sector_type="CONTRACT", contract=contract
         )
 
         url = f"/api/parking-sectors/{str(parking_sector.id)}/"
@@ -119,10 +120,12 @@ class TestPatchParkingSectorAPI:
         url = f"/api/parking-sectors/{str(parking_sector.id)}/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
+        contract: Contract = baker.make(Contract)
+
         new_data = {
             "description": "New Description",
             "sector_type": "CONTRACT",
-            "contract": 10,
+            "contract": contract.id,
         }
 
         response = APIClient().patch(url, new_data, format="json", **headers)
@@ -133,7 +136,7 @@ class TestPatchParkingSectorAPI:
             "sector_type": new_data["sector_type"],
             "qty_slots": parking_sector.qty_slots,
             "parking": str(parking_sector.parking.id),
-            "contract": 10,
+            "contract": str(contract.id),
         }
         assert response.status_code == 200
         assert json.loads(response.content) == expected_data

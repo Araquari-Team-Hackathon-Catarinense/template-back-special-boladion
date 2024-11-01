@@ -3,8 +3,9 @@ import unittest
 
 import pytest
 from django.db import models
+from model_bakery import baker
 
-from core.company.infra.company_django_app.models import Company
+from core.company.infra.company_django_app.models import Company, Contract
 from core.parking.infra.parking_django_app.models import Parking, ParkingSector
 
 
@@ -46,6 +47,10 @@ class TestParkingSectorModelInt(unittest.TestCase):
         self.assertIsInstance(parking_field, models.ForeignKey)
         self.assertEqual(parking_field.related_model, Parking)
 
+        contract_field: models.ForeignKey = ParkingSector.contract.field
+        self.assertIsInstance(contract_field, models.ForeignKey)
+        self.assertEqual(contract_field.related_model, Contract)
+
     def test_create(self):
         company = Company.objects.create(
             name="Company",
@@ -56,13 +61,14 @@ class TestParkingSectorModelInt(unittest.TestCase):
             description="Parking",
             company=company,
         )
+        contract = baker.make(Contract)
         arrange = {
             "id": "af46842e-027d-4c91-b259-3a3642144ba4",
             "description": "Parking Sector",
             "qty_slots": 100,
             "sector_type": "CONTRACT",
             "parking": parking,
-            "contract": 1,
+            "contract": contract,
         }
 
         parking_sector = ParkingSector.objects.create(**arrange)

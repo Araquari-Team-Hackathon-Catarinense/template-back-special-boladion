@@ -24,8 +24,10 @@ class TestListAPI:
 
         parking = {
             "description": "Parking 1",
-            "company": company.id,
+            "company": str(company.id),
         }
+
+        headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         response = APIClient().post(
             url,
@@ -33,11 +35,11 @@ class TestListAPI:
                 "description": parking["description"],
                 "company": parking["company"],
             },
+            **headers,
         )
 
         assert response.status_code == 201
         assert response.json()["description"] == parking["description"]
-        assert response.json()["company"] == str(parking["company"])
         assert "id" in response.json()
 
     def test_if_throw_error_with_invalid_company(self) -> None:

@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from core.company.infra.company_django_app.serializers import ContractListSerializer
+
 from .models import Operation, Parking, ParkingSector
 
 
@@ -8,13 +10,10 @@ class ParkingSectorListSerializer(serializers.Serializer):
     description = serializers.CharField(read_only=True)
     sector_type = serializers.CharField(read_only=True)
     qty_slots = serializers.IntegerField(read_only=True)
-    contract = serializers.IntegerField(read_only=True, allow_null=True)
-    # contract = serializers.UUIDField(read_only=True, allow_null=True, source="contract.id")
+    contract = ContractListSerializer(read_only=True, allow_null=True)
 
 
 class ParkingSectorCreateSerializer(serializers.ModelSerializer):
-    contract = serializers.IntegerField(required=False, allow_null=True)
-
     class Meta:
         model = ParkingSector
         fields = [
@@ -33,7 +32,6 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
         )
         contract = data.get("contract", None)
 
-        # Validação no caso de criação
         if not self.instance:
             if not sector_type:
                 raise serializers.ValidationError("Sector Type is required.")
@@ -44,7 +42,6 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
             elif sector_type == "ROTATIVE":
                 data["contract"] = None
 
-        # Validação no caso de atualização
         else:
             if "sector_type" in data:
                 if sector_type == "CONTRACT" and contract is None:
@@ -62,33 +59,6 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
         return data
 
 
-class ParkingListSerializer(serializers.Serializer):
-    id = serializers.UUIDField(read_only=True)
-    description = serializers.CharField(read_only=True)
-    slots = serializers.IntegerField(read_only=True)
-    company = serializers.UUIDField(read_only=True, source="company.id")
-
-
-class ParkingDetailSerializer(serializers.Serializer):
-    id = serializers.UUIDField(read_only=True)
-    company = serializers.UUIDField(read_only=True, source="company.id")
-    description = serializers.CharField(read_only=True)
-    slots = serializers.IntegerField(read_only=True)
-    sectors = ParkingSectorListSerializer(many=True, read_only=True)
-
-
-class ParkingCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Parking
-        fields = [
-            "id",
-            "description",
-            "slots",
-            "company",
-        ]
-        read_only_fields = ["id", "slots"]
-
-
 class OperationListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     name = serializers.CharField(read_only=True)
@@ -103,3 +73,33 @@ class OperationCreateSerializer(serializers.ModelSerializer):
             "parking",
         ]
         read_only_fields = ["id"]
+
+
+class ParkingListSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    description = serializers.CharField(read_only=True)
+    slots = serializers.IntegerField(read_only=True)
+    company = serializers.UUIDField(read_only=True, source="company.id")
+
+
+class ParkingDetailSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    company = serializers.UUIDField(read_only=True, source="company.id")
+    description = serializers.CharField(read_only=True)
+    slots = serializers.IntegerField(read_only=True)
+    sectors = ParkingSectorListSerializer(many=True, read_only=True)
+    parking_sectors = ParkingSectorListSerializer(many=True, read_only=True)
+    operations = OperationListSerializer(many=True, read_only=True)
+
+
+class ParkingCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Parking
+        fields = [
+            "id",
+            "description",
+            "slots",
+            "company",
+        ]
+        read_only_fields = ["id", "slots"]
+        extra_kwargs = {"company": {"write_only": True}}

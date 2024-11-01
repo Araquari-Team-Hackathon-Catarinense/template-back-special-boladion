@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 
-from core.company.infra.company_django_app.models import Company
+from core.company.infra.company_django_app.models import Company, Contract
 from core.parking.domain.value_objects import SectorType
 
 
@@ -31,10 +31,9 @@ class ParkingSector(models.Model):
     parking = models.ForeignKey(
         Parking, on_delete=models.CASCADE, related_name="sectors"
     )
-    # contract = models.ForeignKey(
-    #     Contract, on_delete=models.CASCADE, related_name="sectors"
-    # )
-    contract = models.IntegerField(blank=True, null=True)
+    contract = models.ForeignKey(
+        Contract, on_delete=models.CASCADE, related_name="sectors", null=True
+    )
 
     class Meta:
         db_table: str = "parking_sector"

@@ -23,7 +23,11 @@ class TestParkingSectorListSerializer:
             company=company,
         )
         parking_sectors = baker.make(
-            ParkingSector, _quantity=3, parking=parking, sector_type="ROTATIVE"
+            ParkingSector,
+            _quantity=3,
+            parking=parking,
+            sector_type="ROTATIVE",
+            contract=None,
         )
         serializer = ParkingSectorListSerializer(parking_sectors, many=True)
         assert serializer.data == [

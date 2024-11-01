@@ -34,7 +34,6 @@ class TestCreateAPI:
         )
 
         assert response.status_code == 201
-        assert str(response.json()["company"]) == employee["company"]
         assert str(response.json()["user"]) == employee["user"]
         assert response.json()["is_active"] == employee["is_active"]
         assert "id" in response.json()

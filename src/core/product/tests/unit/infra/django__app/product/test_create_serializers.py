@@ -50,8 +50,8 @@ class TestProductCreateSerializer:
         serializer = ProductCreateSerializer(data=data)
         assert serializer.is_valid() is False
         assert (
-            "Já existe um produto com esse códico"
-            in serializer.errors["non_field_errors"][0]
+            "product com este internal code já existe"
+            in serializer.errors["internal_code"][0]
         )
 
     def test_create_serializer_with_more_products(self) -> None:

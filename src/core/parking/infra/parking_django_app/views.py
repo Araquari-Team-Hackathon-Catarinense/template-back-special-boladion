@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework.viewsets import ModelViewSet
 
 from core.__seedwork__.domain.exceptions import CompanyNotInHeader
@@ -14,12 +15,14 @@ from core.parking.infra.parking_django_app.serializers import (
 from .models import Operation, Parking, ParkingSector
 
 
+@extend_schema(tags=["parking"])
 class ParkingViewSet(ModelViewSet):
     queryset = Parking.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
 
     def get_queryset(self):
-        company_id = self.request.headers.get("X-Company-Id", None)
+        company_id = getattr(self.request, "company_id", None)
+
         if company_id:
             return Parking.objects.filter(company__id=company_id)
         raise CompanyNotInHeader
@@ -32,12 +35,14 @@ class ParkingViewSet(ModelViewSet):
         return ParkingCreateSerializer
 
 
+@extend_schema(tags=["parking"])
 class ParkingSectorViewSet(ModelViewSet):
     queryset = ParkingSector.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
 
     def get_queryset(self):
-        company_id = self.request.headers.get("X-Company-Id", None)
+        company_id = getattr(self.request, "company_id", None)
+
         if company_id:
             return ParkingSector.objects.filter(parking__company__id=company_id)
         raise CompanyNotInHeader
@@ -48,12 +53,14 @@ class ParkingSectorViewSet(ModelViewSet):
         return ParkingSectorCreateSerializer
 
 
+@extend_schema(tags=["parking"])
 class OperationViewSet(ModelViewSet):
     queryset = Operation.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
 
     def get_queryset(self):
-        company_id = self.request.headers.get("X-Company-Id", None)
+        company_id = getattr(self.request, "company_id", None)
+
         if company_id:
             return Operation.objects.filter(parking__company__id=company_id)
         raise CompanyNotInHeader
