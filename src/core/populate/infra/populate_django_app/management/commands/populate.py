@@ -136,5 +136,4 @@ class Command(BaseCommand):
         self.__handle_contracts()
         self.__handle_orders()
         self.__handle_parkings()
-        self.__handle_purchase_sale_orders()
         self.stdout.write(self.style.SUCCESS("OK"))

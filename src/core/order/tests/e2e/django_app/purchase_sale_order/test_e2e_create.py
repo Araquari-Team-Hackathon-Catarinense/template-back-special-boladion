@@ -53,7 +53,6 @@ class TestCreatePurchaseSaleOrderAPITest:
         )
 
         assert response.status_code == status.HTTP_201_CREATED
-        assert response.json()["company"] == operation_data["company"]
         assert response.json()["client"] == operation_data["client"]
         assert (
             response.json()["operation_terminal"]

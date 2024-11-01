@@ -19,7 +19,6 @@ class TestPatchParkingAPI:
 
         new_data = {
             "description": "New Description",
-            "company": str(company.id),
         }
 
         response = APIClient().patch(url, new_data, format="json", **headers)
@@ -28,7 +27,6 @@ class TestPatchParkingAPI:
             "id": str(parking.id),
             "description": new_data["description"],
             "slots": parking.slots,
-            "company": str(parking.company.id),
         }
         assert response.status_code == 200
         assert json.loads(response.content) == expected_data
@@ -78,7 +76,6 @@ class TestPatchParkingAPI:
         new_data = {
             "description": "New Description",
             "slots": 10,
-            "company": str(company.id),
         }
 
         response = APIClient().patch(url, new_data, format="json", **headers)
@@ -87,7 +84,6 @@ class TestPatchParkingAPI:
             "id": str(parking.id),
             "description": new_data["description"],
             "slots": 0,
-            "company": str(parking.company.id),
         }
         assert response.status_code == 200
         assert json.loads(response.content) == expected_data

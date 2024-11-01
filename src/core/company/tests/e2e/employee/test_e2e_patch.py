@@ -23,7 +23,6 @@ class TestPatchAPI:
 
         expected_data = {
             "id": str(employees[0].id),
-            "company": str(employees[0].company.id),
             "user": str(employees[0].user.id),
             "is_active": new_data["is_active"],
         }
