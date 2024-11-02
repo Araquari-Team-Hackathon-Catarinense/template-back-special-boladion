@@ -14,6 +14,7 @@ class CompanyListSerializer(serializers.Serializer):
     trade_name = serializers.CharField(read_only=True)
     person_type = serializers.CharField(read_only=True)
     document_number = serializers.CharField(read_only=True)
+    address = serializers.JSONField(read_only=True)
     is_active = serializers.BooleanField(read_only=True)
     avatar = serializers.SerializerMethodField(read_only=True)
 
@@ -107,12 +108,12 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
     def validate_document_number(self, value: str) -> str:
         if self.initial_data["person_type"] == "PJ":
             if not cnpj.validate(value):
-                raise serializers.ValidationError("Invalid CNPJ.")
+                raise serializers.ValidationError("CNPJ inválido.")
         elif self.initial_data["person_type"] == "PF":
             if not cpf.validate(value):
-                raise serializers.ValidationError("Invalid CPF.")
+                raise serializers.ValidationError("CPF inválido.")
         elif not cpfcnpj.validate(value):
-            raise serializers.ValidationError("Invalid document number.")
+            raise serializers.ValidationError("Documento inválido.")
         return value
 
 
