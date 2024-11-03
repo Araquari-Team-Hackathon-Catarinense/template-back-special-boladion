@@ -19,8 +19,16 @@ class DocumentUploadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Document
-        fields = ["attachment_key", "file", "description", "uploaded_on", "type", "url"]
-        read_only_fields = ["attachment_key", "uploaded_on", "url"]
+        fields = [
+            "attachment_key",
+            "file",
+            "description",
+            "uploaded_on",
+            "type",
+            "url",
+            "id",
+        ]
+        read_only_fields = ["attachment_key", "uploaded_on", "url", "id"]
         extra_kwargs = {"file": {"write_only": True}, "type": {"allow_null": True}}
 
     def validate(self, attrs):
@@ -49,8 +57,8 @@ class DocumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Document
-        fields = ["url", "description", "uploaded_on", "attachment_key"]
-        read_only_fields = ["url", "attachment_key", "uploaded_on"]
+        fields = ["url", "description", "uploaded_on", "attachment_key", "id"]
+        read_only_fields = ["url", "attachment_key", "uploaded_on", "id"]
 
     def create(self, validated_data):
         raise NotImplementedError(
