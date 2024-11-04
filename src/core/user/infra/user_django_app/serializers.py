@@ -1,7 +1,3 @@
-from typing import List
-
-from dill import source
-from django.contrib.auth import authenticate
 from pycpfcnpj import cpf
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import AuthUser, TokenObtainPairSerializer
@@ -92,6 +88,14 @@ class UserCreateSerializer(serializers.ModelSerializer):
         if not cpf.validate(value):
             raise serializers.ValidationError("Invalid CPF.")
         return value
+
+    def create(self, validated_data):
+        password = validated_data.pop("password", None)
+        user = User(**validated_data)
+        if password:
+            user.set_password(password)
+        validated_data["password"] = user.password
+        return super().create(validated_data)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
