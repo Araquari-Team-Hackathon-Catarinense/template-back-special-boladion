@@ -60,7 +60,7 @@ class TestListAPI:
 
         assert response.status_code == 400
         assert "document_number" in response.json()
-        assert "Invalid CNPJ." in response.json()["document_number"][0]
+        assert "CNPJ inválido." in response.json()["document_number"][0]
 
     def test_if_throw_a_error_with_invalid_person_type_and_document_number_size(
         self,
@@ -92,4 +92,4 @@ class TestListAPI:
             in response.json()["person_type"][0]
         )
         assert "document_number" in response.json()
-        assert "Invalid document number." in response.json()["document_number"][0]
+        assert "Documento inválido." in response.json()["document_number"][0]

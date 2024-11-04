@@ -16,6 +16,11 @@ from core.populate.infra.populate_django_app.management.commands import (
     populate_transports_contract,
     populate_users,
 )
+from core.populate.infra.populate_django_app.management.commands._vehicle import (
+    populate_bodies,
+    populate_modalities,
+    populate_vehicles,
+)
 
 
 class Command(BaseCommand):
@@ -113,6 +118,7 @@ class Command(BaseCommand):
         self.stdout.write("Populating vehicles data...", ending="")
         populate_bodies()
         populate_modalities()
+        populate_vehicles()
         self.stdout.write(self.style.SUCCESS("OK"))
 
     def __handle_contracts(self):
