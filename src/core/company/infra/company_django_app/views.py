@@ -1,3 +1,6 @@
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from core.__seedwork__.domain.exceptions import CompanyNotInHeader
@@ -10,6 +13,8 @@ from core.company.infra.company_django_app.serializers import (
     EmployeeCreateSerializer,
     EmployeeListSerializer,
 )
+from core.uploader.infra.uploader_django_app.models import Document
+from core.uploader.infra.uploader_django_app.serializers import DocumentUploadSerializer
 
 from .models import Company, Contract, Employee
 
@@ -24,6 +29,17 @@ class CompanyViewSet(ModelViewSet):
         elif self.action == "retrieve":
             return CompanyDetailSerializer
         return CompanyCreateSerializer
+
+    @action(detail=True, methods=["post"], url_path="upload-documents")
+    def upload_documents(self, request, pk=None):
+        data = request.data.copy()
+        data["file"] = request.FILES.get("file")
+        serializer = DocumentUploadSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        company: Company = self.get_object()
+        company.documents.add(serializer.instance)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class EmployeeViewSet(ModelViewSet):

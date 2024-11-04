@@ -5,7 +5,10 @@ from core.uploader.infra.uploader_django_app.serializers import DocumentUploadSe
 
 
 class CreateViewSet(
-    mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    viewsets.GenericViewSet,
+    mixins.DestroyModelMixin,
 ):
     pass
 
