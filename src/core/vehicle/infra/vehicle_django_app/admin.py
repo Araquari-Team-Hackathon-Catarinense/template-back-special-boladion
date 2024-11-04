@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from core.vehicle.infra.vehicle_django_app.models import Body, Modality, Vehicle
+
+admin.site.register(Body)
+admin.site.register(Modality)
+admin.site.register(Vehicle)

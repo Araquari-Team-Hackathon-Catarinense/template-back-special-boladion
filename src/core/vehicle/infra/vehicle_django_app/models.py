@@ -59,6 +59,7 @@ class Vehicle(BaseModel):
         blank=True,
         related_name="modality",
     )
+    documents = models.ManyToManyField(Document, related_name="+")
 
     class Meta:
         db_table = "vehicle"
@@ -66,17 +67,3 @@ class Vehicle(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.license}, {self.chassis}, {self.renavam}, {self.vehicle_type}"
-
-
-class VehicleDocument(BaseModel):
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.PROTECT)
-    document = models.ForeignKey(Document, on_delete=models.PROTECT)
-    description = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        db_table = "vehicle_document"
-        verbose_name_plural = "vehicle_documents"
-        unique_together = [["vehicle", "document"]]
-
-    def __str__(self) -> str:
-        return f"{self.vehicle}, {self.document}, {self.description}"
