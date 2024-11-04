@@ -12,7 +12,7 @@ class TestVehicleModelInt(unittest.TestCase):
 
     def test_mapping(self):
         table_name = Vehicle._meta.db_table
-        self.assertEqual(table_name, "vehicle_django_app_vehicle")
+        self.assertEqual(table_name, "vehicle")
 
         fields_name = tuple(field.name for field in Vehicle._meta.fields)
         self.assertEqual(
@@ -88,10 +88,13 @@ class TestVehicleModelInt(unittest.TestCase):
 
         modality_field: models.ForeignKey = Vehicle.modality.field
         self.assertIsInstance(modality_field, models.ForeignKey)
-
         self.assertTrue(modality_field.null)
         self.assertTrue(modality_field.blank)
         self.assertEqual(modality_field._related_name, "modality")
+
+        documents_field: models.ManyToManyField = Vehicle.documents.field
+        self.assertIsInstance(documents_field, models.ManyToManyField)
+        self.assertEqual(documents_field._related_name, "+")
 
     def test_create(self):
         # Dados de exemplo para o teste
