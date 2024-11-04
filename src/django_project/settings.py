@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "corsheaders",
     "safedelete",
+    "django_filters",
     "core.company.infra.company_django_app",
     "core.parking.infra.parking_django_app",
     "core.populate.infra.populate_django_app",
@@ -154,6 +155,7 @@ REST_FRAMEWORK = {
     #     "rest_framework.permissions.DjangoModelPermissions",
     # ],
     "DEFAULT_SCHEMA_CLASS": "django_project.schema_class.SchemaWithCompany",
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
 SIMPLE_JWT = {
