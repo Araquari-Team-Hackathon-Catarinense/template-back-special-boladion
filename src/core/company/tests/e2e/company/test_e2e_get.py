@@ -32,6 +32,7 @@ class TestListAPI:
                     "trade_name": company.trade_name,
                     "person_type": company.person_type,
                     "document_number": company.document_number,
+                    "address": company.address,
                     "is_active": company.is_active,
                     "avatar": BASE_URL + company.avatar.url if company.avatar else None,
                 }
