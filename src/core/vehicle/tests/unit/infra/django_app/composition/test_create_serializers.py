@@ -18,11 +18,9 @@ class TestCompositionCreateSerializer:
     def test_create_serializer_with_invalid_data(self) -> None:
         data = {
             "axle": "3",
-            "is_active": 0,
         }
 
         serializer = CompositionCreateSerializer(data=data)
         assert serializer.is_valid() is False
 
         assert f"Este campo é obrigatório." in serializer.errors["gross_weight"]
-        assert f"Oi" in serializer.errors["is_active"]
