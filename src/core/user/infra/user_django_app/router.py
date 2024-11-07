@@ -6,3 +6,4 @@ app_name = "core.user.infra.user_django_app"
 
 router = DefaultRouter()
 router.register("users", views.UserViewSet, basename="user")
+router.register("drivers", views.DriverViewSet, basename="driver")

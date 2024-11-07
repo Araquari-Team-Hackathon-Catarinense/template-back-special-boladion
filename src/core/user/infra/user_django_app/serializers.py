@@ -1,13 +1,14 @@
+import datetime
+
 from pycpfcnpj import cpf
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import AuthUser, TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import Token
 
-from core.company.infra.company_django_app.models import Employee
 from core.uploader.infra.uploader_django_app.admin import Document
 from django_project.settings import BASE_URL
 
-from .models import User
+from .models import Driver, User
 
 
 class UserDetailSerializer(serializers.Serializer):
@@ -152,3 +153,40 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     #         raise serializers.ValidationError('Must include "email" and "password"')
 
     #     return super().validate(attrs)
+
+
+class DriverSerializerList(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    license_number = serializers.CharField(read_only=True)
+    license_category = serializers.CharField(read_only=True)
+    valid_until_license = serializers.DateField(read_only=True)
+    phone = serializers.CharField(read_only=True)
+    user = serializers.UUIDField(source="user_id", read_only=True)
+
+    def create(self, validated_data):
+        return NotImplementedError
+
+    def update(self, instance, validated_data):
+        return NotImplementedError
+
+
+class DriverSerializerCreate(serializers.ModelSerializer):
+    class Meta:
+        model = Driver
+        fields = [
+            "license_number",
+            "license_category",
+            "valid_until_license",
+            "phone",
+            "user",
+        ]
+        read_only_fields = ["id"]
+
+    def validate(self, attrs):
+        valid_until_license = attrs.get("valid_until_license")
+        date = datetime.date.today()
+        if valid_until_license < date:
+            raise serializers.ValidationError(
+                "A Data de validade da CNH não pode ser menor que a data atual."
+            )
+        return attrs
