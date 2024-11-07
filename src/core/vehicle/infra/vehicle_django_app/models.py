@@ -1,5 +1,6 @@
 import uuid
 
+from celery.app import base
 from django.db import models
 
 from core.__seedwork__.infra.django_app.models import BaseModel
@@ -30,6 +31,20 @@ class Modality(models.Model):
 
     def __str__(self) -> str:
         return f"{self.description}, {self.axle}"
+
+
+class Composition(BaseModel):
+    axle = models.IntegerField()
+    gross_weight = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "composition"
+        verbose_name_plural = "compositions"
+
+    def __str__(self) -> str:
+        return f"{self.axle}, {self.gross_weight}, {self.date}, {self.is_active}"
 
 
 class Vehicle(BaseModel):
@@ -67,3 +82,20 @@ class Vehicle(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.license}, {self.chassis}, {self.renavam}, {self.vehicle_type}"
+
+
+class VehicleComposition(models.Model):
+    vehicle = models.ForeignKey(
+        Vehicle, on_delete=models.CASCADE, related_name="vehicle"
+    )
+    composition = models.ForeignKey(
+        Composition, on_delete=models.CASCADE, related_name="composition"
+    )
+    sequence = models.IntegerField()
+
+    class Meta:
+        db_table = "vehicle_composition"
+        verbose_name_plural = "vehicles_compositions"
+
+    def __str__(self) -> str:
+        return f"{self.vehicle}, {self.composition}"

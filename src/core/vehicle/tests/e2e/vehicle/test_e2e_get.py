@@ -13,8 +13,6 @@ class TestVehicleDetailAPI:
     def test_detail_vehicle(self) -> None:
         vehicle: Vehicle = baker.make(
             Vehicle,
-            created_at=datetime.now(timezone.utc),
-            updated_at=datetime.now(timezone.utc),
         )
 
         url = f"/api/vehicles/{str(vehicle.id)}/"
@@ -23,26 +21,9 @@ class TestVehicleDetailAPI:
         # Extrair os dados de resposta JSON
         response_data = response.json()
 
-        response_data["created_at"] = (
-            datetime.fromisoformat(response_data["created_at"])
-            .astimezone(timezone.utc)
-            .isoformat()
-        )
-        response_data["updated_at"] = (
-            datetime.fromisoformat(response_data["updated_at"])
-            .astimezone(timezone.utc)
-            .isoformat()
-        )
-
         # Normalizar as datas em UTC
         expected_data = {
             "id": str(vehicle.id),
-            "created_at": vehicle.created_at.astimezone(timezone.utc).isoformat(),
-            "updated_at": (
-                vehicle.updated_at.astimezone(timezone.utc).isoformat()
-                if vehicle.updated_at
-                else None
-            ),
             "license": vehicle.license,
             "chassis": vehicle.chassis,
             "renavam": vehicle.renavam,
