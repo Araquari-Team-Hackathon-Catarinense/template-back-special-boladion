@@ -4,7 +4,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from core.__seedwork__.infra.django_app.models import BaseModel
 from core.uploader.infra.uploader_django_app.admin import Document
+from core.user.domain.value_objects import DriveLicenseCategoryType
 
 from .managers import CustomUserManager
 
@@ -44,3 +46,17 @@ class User(AbstractUser):
         verbose_name = "User"
         verbose_name_plural = "Users"
         ordering = ["-date_joined"]
+
+
+class Driver(BaseModel):
+    LICENSE_CATEGORY_CHOICES = [
+        (license_category.name, license_category.value)
+        for license_category in DriveLicenseCategoryType
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    license_number = models.CharField(max_length=20, null=True)
+    license_category = models.CharField(
+        max_length=50, null=True, blank=True, choices=LICENSE_CATEGORY_CHOICES
+    )
+    valid_until_license = models.DateField(null=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
