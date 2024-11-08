@@ -6,8 +6,14 @@ from rest_framework.viewsets import ModelViewSet
 
 from core.uploader.infra.uploader_django_app.serializers import DocumentUploadSerializer
 
-from .models import User
-from .serializers import UserCreateSerializer, UserDetailSerializer, UserListSerializer
+from .models import Driver, User
+from .serializers import (
+    DriverSerializerCreate,
+    DriverSerializerList,
+    UserCreateSerializer,
+    UserDetailSerializer,
+    UserListSerializer,
+)
 
 
 @extend_schema(tags=["user"])
@@ -36,3 +42,16 @@ class UserViewSet(ModelViewSet):
         user.avatar = serializer.instance
         user.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class DriverViewSet(ModelViewSet):
+    queryset = Driver.objects.all()
+    serializer_class = DriverSerializerList
+    http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return DriverSerializerCreate
+        if self.action == "patch":
+            return DriverSerializerCreate
+        return DriverSerializerList

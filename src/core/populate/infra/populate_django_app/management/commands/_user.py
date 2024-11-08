@@ -1,5 +1,5 @@
-from core.populate.infra.resources.data_user import users_data
-from core.user.infra.user_django_app.models import User
+from core.populate.infra.resources.data_user import drivers_data, users_data
+from core.user.infra.user_django_app.models import Driver, User
 
 
 def populate_users() -> None:
@@ -11,3 +11,11 @@ def populate_users() -> None:
     for user in users_to_create:
         user.set_password(user.password)
         user.save()
+
+
+def populate_drivers() -> None:
+    if Driver.objects.exists():
+        return
+    if User.objects.exists():
+        drivers_to_create: list[Driver] = [Driver(**data) for data in drivers_data]
+        Driver.objects.bulk_create(drivers_to_create)
