@@ -54,7 +54,7 @@ class Driver(BaseModel):
         for license_category in DriveLicenseCategoryType
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    license_number = models.CharField(max_length=20, null=True)
+    license_number = models.CharField(max_length=20, null=True, unique=True)
     license_category = models.CharField(
         max_length=50, null=True, blank=True, choices=LICENSE_CATEGORY_CHOICES
     )
