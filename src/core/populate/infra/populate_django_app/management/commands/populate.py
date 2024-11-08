@@ -5,6 +5,7 @@ from core.populate.infra.populate_django_app.management.commands import (
     populate_bodies,
     populate_companies,
     populate_contracts,
+    populate_drivers,
     populate_measurement_units,
     populate_modalities,
     populate_operations,
@@ -15,10 +16,6 @@ from core.populate.infra.populate_django_app.management.commands import (
     populate_purchase_sale_orders,
     populate_transports_contract,
     populate_users,
-)
-from core.populate.infra.populate_django_app.management.commands._vehicle import (
-    populate_bodies,
-    populate_modalities,
     populate_vehicles,
 )
 
@@ -74,6 +71,8 @@ class Command(BaseCommand):
                 self.__handle_companies()
             if options.get("users"):
                 self.__handle_users()
+            if options.get("drivers"):
+                self.__handle_drivers()
             if options.get("products"):
                 self.__handle_products()
             if options.get("vehicles"):
@@ -99,6 +98,11 @@ class Command(BaseCommand):
     def __handle_users(self):
         self.stdout.write("Populating users data...", ending="")
         populate_users()
+        self.stdout.write(self.style.SUCCESS("OK"))
+
+    def __handle_drivers(self):
+        self.stdout.write("Populating drivers data...", ending="")
+        populate_drivers()
         self.stdout.write(self.style.SUCCESS("OK"))
 
     def __handle_orders(self):
@@ -137,6 +141,7 @@ class Command(BaseCommand):
         self.stdout.write("Populating all data...", ending="")
         self.__handle_companies()
         self.__handle_users()
+        self.__handle_drivers()
         self.__handle_products()
         self.__handle_vehicles()
         self.__handle_contracts()

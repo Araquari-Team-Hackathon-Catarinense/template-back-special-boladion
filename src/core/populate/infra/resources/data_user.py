@@ -1,5 +1,3 @@
-from pylint.checkers.utils import is_super
-
 valid_uuids = [
     "c13b8ed0-33c0-4b56-9512-f3178a3c17e2",
     "3b795b52-5541-48fc-82fe-1441f42b318d",
@@ -18,6 +16,20 @@ valid_uuids = [
     "960e899a-2a03-46ff-985e-1fa022feb4eb",
     "21cac52f-b975-4172-bcba-334cd9da0265",
     "58e719ce-b5da-4336-9884-7917b973b570",
+]
+
+valid_drivers_uuids = [
+    "f1a2b3c4-d5e6-7f8a-9b0c-d1e2f3a4b5c6",
+    "b6c7d8e9-f0a1-2b3c-4d5e-6f7a8b9c0d1e",
+    "c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f",
+    "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+    "e8f9a0b1-c2d3-4e5f-6a7b-8c9d0e1f2a3b",
+    "f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c",
+    "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "b3c4d5e6-f7a8-9b0c-1d2e-3f4a5b6c7d8e",
+    "c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f",
+    "d7e8f9a0-b1c2-3d4e-5f6a-7b8c9d0e1f2a",
+    "e3f4a5b6-c7d8-9e0f-1a2b-3c4d5e6f7a80",
 ]
 
 users_data = [
@@ -149,5 +161,85 @@ users_data = [
         "is_active": True,
         "is_superuser": False,
         "password": "user15",
+    },
+]
+
+
+drivers_data = [
+    {
+        "id": valid_drivers_uuids[0],
+        "user_id": valid_uuids[1],
+        "license_number": "123456789",
+        "license_category": "A",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[1],
+        "user_id": valid_uuids[2],
+        "license_number": "987654321",
+        "license_category": "B",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[2],
+        "user_id": valid_uuids[3],
+        "license_number": "111111111",
+        "license_category": "C",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[3],
+        "user_id": valid_uuids[4],
+        "license_number": "222222222",
+        "license_category": "D",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[4],
+        "user_id": valid_uuids[5],
+        "license_number": "333333333",
+        "license_category": "E",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[5],
+        "user_id": valid_uuids[6],
+        "license_number": "444444444",
+        "license_category": "A",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[6],
+        "user_id": valid_uuids[7],
+        "license_number": "555555555",
+        "license_category": "B",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[7],
+        "user_id": valid_uuids[8],
+        "license_number": "666666666",
+        "license_category": "C",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[8],
+        "user_id": valid_uuids[9],
+        "license_number": "777777777",
+        "license_category": "D",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[9],
+        "user_id": valid_uuids[10],
+        "license_number": "888888888",
+        "license_category": "E",
+        "valid_until_license": "2023-12-31",
+    },
+    {
+        "id": valid_drivers_uuids[10],
+        "user_id": valid_uuids[11],
+        "license_number": "999999999",
+        "license_category": "A",
     },
 ]
