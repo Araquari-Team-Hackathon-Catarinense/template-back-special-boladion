@@ -29,6 +29,7 @@ from core.vehicle.infra.vehicle_django_app.serializers import (
 )
 
 
+@extend_schema(tags=["Vehicle"])
 class BodyViewSet(ModelViewSet):
     queryset = Body.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -39,6 +40,7 @@ class BodyViewSet(ModelViewSet):
         return BodyCreateSerializer
 
 
+@extend_schema(tags=["Vehicle"])
 class ModalityViewSet(ModelViewSet):
     queryset = Modality.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -49,6 +51,7 @@ class ModalityViewSet(ModelViewSet):
         return ModalityCreateSerializer
 
 
+@extend_schema(tags=["Vehicle"])
 class VehicleViewSet(ModelViewSet):
     queryset = Vehicle.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -77,6 +80,7 @@ class VehicleViewSet(ModelViewSet):
         )
 
 
+@extend_schema(tags=["Vehicle"])
 class CompositionViewSet(ModelViewSet):
     queryset = Composition.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -100,6 +104,8 @@ class CompositionViewSet(ModelViewSet):
 
 
 @extend_schema(
+    tags=["Vehicle"],
+    summary="Retorna a composição de veículos a partir de placas",
     parameters=[
         OpenApiParameter(
             name="license",
@@ -107,7 +113,7 @@ class CompositionViewSet(ModelViewSet):
             location=OpenApiParameter.QUERY,
             required=True,
         )
-    ]
+    ],
 )
 class VehicleCompositionApiView(APIView):
     def get(self, request) -> Response:
@@ -133,6 +139,7 @@ class VehicleCompositionApiView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@extend_schema(tags=["Vehicle"])
 class VehicleCompositionViewSet(ModelViewSet):
     queryset = VehicleComposition.objects.all()
     http_method_names = ["post"]

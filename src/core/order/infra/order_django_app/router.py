@@ -11,13 +11,19 @@ from core.order.infra.order_django_app.views import (
 router = DefaultRouter()
 
 router.register(
-    r"measurement-units", MeasurementUnitViewSet, basename="measurement-unit"
+    r"order/measurement-units",
+    MeasurementUnitViewSet,
+    basename="order-measurement-unit",
 )
-router.register(r"packings", PackingViewSet, basename="packing")
+router.register(r"order/packings", PackingViewSet, basename="order-packing")
 router.register(
-    r"purchase-sale-orders", PurchaseSaleOrderViewSet, basename="purchase-sale-order"
+    r"order/purchase-sale-orders",
+    PurchaseSaleOrderViewSet,
+    basename="order-purchase-sale-order",
 )
 router.register(
-    r"transport-contracts", TransportContractViewSet, basename="transport-contract"
+    r"order/transport-contracts",
+    TransportContractViewSet,
+    basename="order-transport-contract",
 )
 router.register(r"trips", TripViewSet, basename="trip")

@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, parsers, viewsets
 
 from core.uploader.infra.uploader_django_app.models import Document
@@ -13,6 +14,7 @@ class CreateViewSet(
     pass
 
 
+@extend_schema(tags=["Uploader"])
 class DocumentUploadViewSet(CreateViewSet):
     queryset = Document.objects.all()  #  pylint: disable=no-member
     serializer_class = DocumentUploadSerializer

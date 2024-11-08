@@ -5,5 +5,6 @@ from core.user.infra.user_django_app import views  # pylint: disable=global-stat
 app_name = "core.user.infra.user_django_app"
 
 router = DefaultRouter()
-router.register("users", views.UserViewSet, basename="user")
-router.register("drivers", views.DriverViewSet, basename="driver")
+
+router.register("user/drivers", views.DriverViewSet, basename="user-driver")
+router.register("user/users", views.UserViewSet, basename="user-users")

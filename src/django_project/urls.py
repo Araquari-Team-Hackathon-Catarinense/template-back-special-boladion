@@ -22,7 +22,7 @@ MODE = os.getenv("MODE")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include(router.urls)),
+    path("api/v1/", include(router.urls)),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/swagger/",
@@ -34,12 +34,24 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
-    path("api/forget_password/", forget_password, name="forget_password"),
-    path("api/reset_password/", reset_password, name="reset_password"),
-    path("api/validate_token/", validate_token, name="validate_token"),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("api/get-vehicle-composition/", VehicleCompositionApiView.as_view()),
+    path("api/v1/user/forget_passwords/", forget_password, name="user-forget_password"),
+    path("api/v1/user/reset_passwords/", reset_password, name="user-reset_password"),
+    path("api/v1/user/validate_tokens/", validate_token, name="user-validate_token"),
+    path(
+        "api/v1/user/token/",
+        TokenObtainPairView.as_view(),
+        name="user-token_obtain_pair",
+    ),
+    path(
+        "api/v1/user/token/refresh/",
+        TokenRefreshView.as_view(),
+        name="user-token_refresh",
+    ),
+    path(
+        "api/v1/vehicle/get-vehicle-composition/",
+        VehicleCompositionApiView.as_view(),
+        name="vehicle-get-vehicle-composition",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

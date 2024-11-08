@@ -19,7 +19,7 @@ from core.user.infra.user_django_app.models import User
 from ..tasks.send_forget_password_email import send_forget_password_email
 
 
-@extend_schema(tags=["forget_password"])
+@extend_schema(tags=["user"])
 @api_view(["POST"])
 @throttle_classes([AnonRateThrottle])
 @permission_classes([AllowAny])
