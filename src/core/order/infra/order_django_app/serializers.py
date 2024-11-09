@@ -50,7 +50,7 @@ class PurchaseSaleOrderListSerializer(serializers.Serializer):
     measurement_unit = serializers.CharField(
         source="measurement_unit.description", read_only=True
     )
-    packing = serializers.UUIDField(source="packing.id", read_only=True)
+    packing = serializers.CharField(source="packing.description", read_only=True)
     quantity = serializers.FloatField(read_only=True)
     balance = serializers.FloatField(read_only=True)
     operation_type = serializers.CharField(read_only=True)
