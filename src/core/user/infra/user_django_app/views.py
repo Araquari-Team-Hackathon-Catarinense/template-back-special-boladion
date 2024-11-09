@@ -9,6 +9,7 @@ from core.uploader.infra.uploader_django_app.serializers import DocumentUploadSe
 from .models import Driver, User
 from .serializers import (
     DriverSerializerCreate,
+    DriverSerializerDetail,
     DriverSerializerList,
     UserCreateSerializer,
     UserDetailSerializer,
@@ -52,6 +53,8 @@ class DriverViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
             return DriverSerializerCreate
-        if self.action == "patch":
+        if self.action == "partial_update":
             return DriverSerializerCreate
+        if self.action == "retrieve":
+            return DriverSerializerDetail
         return DriverSerializerList
