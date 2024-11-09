@@ -36,8 +36,8 @@ def populate_packings() -> None:
 
 
 def populate_purchase_sale_orders() -> None:
-    # if PurchaseSaleOrder.objects.exists():
-    #     return
+    if PurchaseSaleOrder.objects.exists():
+        return
 
     purchase_sale_orders_to_create = [
         PurchaseSaleOrder(**data) for data in generate_purchase_sale_orders()

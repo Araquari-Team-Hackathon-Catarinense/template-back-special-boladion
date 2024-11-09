@@ -1,6 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
 
 from core.__seedwork__.domain.exceptions import CompanyNotInHeader
+from core.order.infra.order_django_app.filters import (
+    MeasurementUnitFilter,
+    PackingFilter,
+    PurchaseSaleOrderFilter,
+)
 from core.order.infra.order_django_app.models import (
     MeasurementUnit,
     Packing,
@@ -22,6 +27,7 @@ from core.order.infra.order_django_app.serializers import (
 class MeasurementUnitViewSet(ModelViewSet):
     queryset = MeasurementUnit.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
+    filterset_class = MeasurementUnitFilter
 
     def get_queryset(self):
         company_id = getattr(self.request, "company_id", None)
@@ -39,6 +45,7 @@ class MeasurementUnitViewSet(ModelViewSet):
 class PackingViewSet(ModelViewSet):
     queryset = Packing.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
+    filterset_class = PackingFilter
 
     def get_queryset(self):
         company_id = getattr(self.request, "company_id", None)
@@ -56,6 +63,7 @@ class PackingViewSet(ModelViewSet):
 class PurchaseSaleOrderViewSet(ModelViewSet):
     queryset = PurchaseSaleOrder.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
+    filterset_class = PurchaseSaleOrderFilter
 
     def get_queryset(self):
         company_id = getattr(self.request, "company_id", None)

@@ -9,6 +9,7 @@ class SchemaWithCompany(AutoSchema):
             type=str,
             location=OpenApiParameter.HEADER,
             description="`UUID of company Id",
+            default="51134a9e-ab9b-4d4d-9b34-905250b459a1",
         )
     ]
 
