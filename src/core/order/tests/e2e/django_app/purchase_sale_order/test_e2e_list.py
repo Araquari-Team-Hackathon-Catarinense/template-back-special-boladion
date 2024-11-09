@@ -50,15 +50,14 @@ class TestPurchaseSaleOrderListAPI:
             "results": [
                 {
                     "id": str(order.id),
-                    "company": str(order.company.id),
-                    "client": str(order.client.id),
-                    "product": str(order.product.id),
-                    "packing": str(order.packing.id),
+                    "client": str(order.client.name),
+                    "product": str(order.product.description),
+                    "packing": str(order.packing.description),
                     "measurement_unit": str(order.measurement_unit.description),
                     "quantity": order.quantity,
                     "balance": order.balance,
                     "operation_type": order.operation_type,
-                    "operation_terminal": str(order.operation_terminal.id),
+                    "operation_terminal": str(order.operation_terminal.name),
                 }
                 for order in created_orders
             ],

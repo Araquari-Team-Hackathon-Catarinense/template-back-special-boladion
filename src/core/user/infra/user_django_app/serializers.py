@@ -38,6 +38,12 @@ class UserDetailSerializer(serializers.Serializer):
         return NotImplementedError
 
 
+class ParcialUserSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    name = serializers.CharField()
+    cpf = serializers.CharField()
+
+
 class UserListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     email = serializers.EmailField()
@@ -155,13 +161,13 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     #     return super().validate(attrs)
 
 
-class DriverSerializerList(serializers.Serializer):
+class DriverListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     license_number = serializers.CharField(read_only=True)
     license_category = serializers.CharField(read_only=True)
     valid_until_license = serializers.DateField(read_only=True)
     phone = serializers.CharField(read_only=True)
-    user = serializers.UUIDField(source="user_id", read_only=True)
+    user = ParcialUserSerializer(read_only=True)
 
     def create(self, validated_data):
         return NotImplementedError
@@ -170,7 +176,7 @@ class DriverSerializerList(serializers.Serializer):
         return NotImplementedError
 
 
-class DriverSerializerCreate(serializers.ModelSerializer):
+class DriverCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Driver
         fields = [
