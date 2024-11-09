@@ -67,7 +67,6 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
             "measurement_unit",
             "packing",
             "quantity",
-            "balance",
             "operation_terminal",
             "operation_type",
         ]
@@ -79,12 +78,20 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
         client = data.get("client")
         operation_terminal = data.get("operation_terminal")
 
+        errors = list()
+
         if not Contract.objects.filter(
             source_company=company, target_company=client, contract_type="CLIENTE"
         ).exists():
-            raise serializers.ValidationError(
-                "O cliente deve ser uma empresa com um contrato do tipo CLIENTE com a empresa fornecedora."
+            errors.append(
+                {
+                    "field": "client",
+                    "message": "O cliente deve ser uma empresa com um contrato do tipo CLIENTE com a empresa fornecedora.",
+                }
             )
+
+        print(operation_terminal, company, client)
+        print(operation_terminal in [company, client])
 
         if not (
             Contract.objects.filter(
@@ -99,12 +106,17 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
             )
             .filter(target_company=client)
             .exists()
-            or operation_terminal in {company.id, client.id}
+            or operation_terminal in [company, client]
         ):
-            raise serializers.ValidationError(
-                "O terminal de operação deve ser uma empresa com um contrato do tipo TERMINAL "
-                "com a empresa fornecedora ou cliente, ou ser a própria empresa fornecedora ou cliente."
+            errors.append(
+                {
+                    "field": "operation_terminal",
+                    "message": "O terminal de operação deve ser uma empresa com um contrato do tipo TERMINAL com a empresa fornecedora ou com o cliente ou ser a própria empresa fornecedora ou cliente.",
+                }
             )
+
+        if errors:
+            raise serializers.ValidationError(errors)
 
         return data
 
