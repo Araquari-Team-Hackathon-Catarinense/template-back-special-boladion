@@ -6,6 +6,7 @@ from core.populate.infra.populate_django_app.management.commands import (
     populate_companies,
     populate_contracts,
     populate_drivers,
+    populate_employee,
     populate_measurement_units,
     populate_modalities,
     populate_operations,
@@ -83,6 +84,8 @@ class Command(BaseCommand):
                 self.__handle_orders()
             if options.get("parkings"):
                 self.__handle_parkings()
+            if options.get("employees"):
+                self.__handle_employee()
 
             self.stdout.write(self.style.SUCCESS("\nTudo populado com sucesso! :D"))
         except CommandError as exc:
@@ -98,6 +101,12 @@ class Command(BaseCommand):
     def __handle_users(self):
         self.stdout.write("Populating users data...", ending="")
         populate_users()
+
+        self.stdout.write(self.style.SUCCESS("OK"))
+
+    def __handle_employee(self):
+        self.stdout.write("Populating employees data...", ending="")
+        populate_employee()
         self.stdout.write(self.style.SUCCESS("OK"))
 
     def __handle_drivers(self):
@@ -141,6 +150,7 @@ class Command(BaseCommand):
         self.stdout.write("Populating all data...", ending="")
         self.__handle_companies()
         self.__handle_users()
+        self.__handle_employee()
         self.__handle_drivers()
         self.__handle_products()
         self.__handle_vehicles()
