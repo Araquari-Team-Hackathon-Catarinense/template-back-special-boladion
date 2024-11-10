@@ -39,7 +39,7 @@ def populate_employee() -> None:
     print("Creating employees...")
     employees_to_create = []
 
-    for _ in range(10):
+    for _ in range(35):
         company = random.choice(companies)
         user = random.choice(users)
 
