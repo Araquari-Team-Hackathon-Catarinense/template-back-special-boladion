@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from core.uploader.infra.uploader_django_app.serializers import DocumentUploadSerializer
+from core.user.infra.user_django_app.filters import UserFilter
 
 from .models import Driver, User
 from .serializers import (
@@ -21,6 +22,7 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
     authentication_classes = []
+    filterset_class = UserFilter
 
     def get_serializer_class(self):
         if self.action == "list":
