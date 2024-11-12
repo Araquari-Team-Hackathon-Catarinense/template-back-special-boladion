@@ -19,13 +19,23 @@ class TestParkingSectorModelInt(unittest.TestCase):
         fields_name = tuple(field.name for field in ParkingSector._meta.fields)
         self.assertEqual(
             fields_name,
-            ("id", "description", "qty_slots", "sector_type", "parking", "contract"),
+            (
+                "deleted_at",
+                "deleted_by_cascade",
+                "created_at",
+                "updated_at",
+                "id",
+                "description",
+                "qty_slots",
+                "sector_type",
+                "parking",
+                "contract",
+            ),
         )
 
         id_field: models.UUIDField = ParkingSector.id.field
         self.assertIsInstance(id_field, models.UUIDField)
         self.assertTrue(id_field.primary_key)
-        self.assertTrue(id_field.editable)
 
         description_field: models.CharField = ParkingSector.description.field
         self.assertIsInstance(description_field, models.CharField)
@@ -50,6 +60,12 @@ class TestParkingSectorModelInt(unittest.TestCase):
         contract_field: models.ForeignKey = ParkingSector.contract.field
         self.assertIsInstance(contract_field, models.ForeignKey)
         self.assertEqual(contract_field.related_model, Contract)
+
+        created_at_field: models.DateTimeField = ParkingSector.created_at.field
+        self.assertIsInstance(created_at_field, models.DateTimeField)
+
+        updated_at_field: models.DateTimeField = ParkingSector.updated_at.field
+        self.assertIsInstance(updated_at_field, models.DateTimeField)
 
     def test_create(self):
         company = Company.objects.create(

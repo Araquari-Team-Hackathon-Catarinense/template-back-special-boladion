@@ -18,13 +18,20 @@ class TestOperationModelInt(unittest.TestCase):
         fields_name = tuple(field.name for field in Operation._meta.fields)
         self.assertEqual(
             fields_name,
-            ("id", "name", "parking"),
+            (
+                "deleted_at",
+                "deleted_by_cascade",
+                "created_at",
+                "updated_at",
+                "id",
+                "name",
+                "parking",
+            ),
         )
 
         id_field: models.UUIDField = Operation.id.field
         self.assertIsInstance(id_field, models.UUIDField)
         self.assertTrue(id_field.primary_key)
-        self.assertTrue(id_field.editable)
 
         name_field: models.CharField = Operation.name.field
         self.assertIsInstance(name_field, models.CharField)
@@ -35,6 +42,12 @@ class TestOperationModelInt(unittest.TestCase):
         parking_field: models.ForeignKey = Operation.parking.field
         self.assertIsInstance(parking_field, models.ForeignKey)
         self.assertEqual(parking_field.related_model, Parking)
+
+        created_at_field: models.DateTimeField = Operation.created_at.field
+        self.assertIsInstance(created_at_field, models.DateTimeField)
+
+        updated_at_field: models.DateTimeField = Operation.updated_at.field
+        self.assertIsInstance(updated_at_field, models.DateTimeField)
 
     def test_create(self):
         company = Company.objects.create(

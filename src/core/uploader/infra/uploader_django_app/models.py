@@ -3,6 +3,7 @@ import uuid
 
 from django.db import models
 
+from core.__seedwork__.infra.django_app.models import BaseModel
 from core.uploader.domain.files import get_content_type
 from core.uploader.domain.value_objects import DocumentType
 

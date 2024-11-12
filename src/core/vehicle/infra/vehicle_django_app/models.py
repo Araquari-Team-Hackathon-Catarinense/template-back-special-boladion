@@ -1,6 +1,3 @@
-import uuid
-
-from celery.app import base
 from django.db import models
 
 from core.__seedwork__.infra.django_app.models import BaseModel
@@ -8,8 +5,7 @@ from core.uploader.infra.uploader_django_app.models import Document
 from core.vehicle.domain.value_objects import VehicleType
 
 
-class Body(models.Model):
-    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
+class Body(BaseModel):
     description = models.CharField(max_length=45)
 
     class Meta:
@@ -20,8 +16,7 @@ class Body(models.Model):
         return f"{self.description}"
 
 
-class Modality(models.Model):
-    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
+class Modality(BaseModel):
     description = models.CharField(max_length=45)
     axle = models.IntegerField()
 
@@ -84,7 +79,7 @@ class Vehicle(BaseModel):
         return f"{self.license}, {self.chassis}, {self.renavam}, {self.vehicle_type}"
 
 
-class VehicleComposition(models.Model):
+class VehicleComposition(BaseModel):
     vehicle = models.ForeignKey(
         Vehicle, on_delete=models.CASCADE, related_name="vehicle"
     )

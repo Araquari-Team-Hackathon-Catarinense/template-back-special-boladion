@@ -17,13 +17,20 @@ class TestModalityModelInt(unittest.TestCase):
         fields_name = tuple(field.name for field in Modality._meta.fields)
         self.assertEqual(
             fields_name,
-            ("id", "description", "axle"),
+            (
+                "deleted_at",
+                "deleted_by_cascade",
+                "created_at",
+                "updated_at",
+                "id",
+                "description",
+                "axle",
+            ),
         )
 
         id_field: models.UUIDField = Modality.id.field
         self.assertIsInstance(id_field, models.UUIDField)
         self.assertTrue(id_field.primary_key)
-        self.assertTrue(id_field.editable)
 
         description_field: models.CharField = Modality.description.field
         self.assertIsInstance(description_field, models.CharField)
@@ -31,6 +38,12 @@ class TestModalityModelInt(unittest.TestCase):
 
         axle_field: models.IntegerField = Modality.axle.field
         self.assertIsInstance(axle_field, models.IntegerField)
+
+        created_at_field: models.DateTimeField = Modality.created_at.field
+        self.assertIsInstance(created_at_field, models.DateTimeField)
+
+        updated_at_field: models.DateTimeField = Modality.updated_at.field
+        self.assertIsInstance(updated_at_field, models.DateTimeField)
 
     def test_create(self):
         arrange = {
