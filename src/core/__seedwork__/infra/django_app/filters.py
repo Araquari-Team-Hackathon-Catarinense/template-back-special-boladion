@@ -24,7 +24,9 @@ class BaseFilter(filters.FilterSet):
         except ValueError as exc:
             raise ValueError(f"Invalid field {field}") from exc
 
-    def global_search_for_strings_and_numbers(self, queryset, name, value):
+    def global_search_for_strings_and_numbers(
+        self, queryset, name, value
+    ):  # pylint: disable=unused-argument
         """
         Executa uma busca global insensível a acentos e caixa, utilizando `get_matching_ids`
         para verificar os dados normalizados.
@@ -33,7 +35,7 @@ class BaseFilter(filters.FilterSet):
         query = Q()
         matching_ids = set()  # Usado para armazenar IDs de correspondência
 
-        for field in queryset.model._meta.fields:
+        for field in queryset.model._meta.fields:  # pylint: disable=protected-access
             field_name = field.name
             try:
                 if isinstance(field, (models.CharField, models.TextField)):

@@ -5,6 +5,7 @@ def get_matching_ids(queryset, field, normalized_value):
     """
     Retorna os IDs dos objetos no queryset onde o campo especificado
     contém o valor normalizado (ignorando acentos e diferenças de caixa).
+    deixando tudo em minisculo e sem acentos.
     """
     return [
         item.id
