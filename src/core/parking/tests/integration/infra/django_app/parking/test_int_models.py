@@ -19,6 +19,10 @@ class TestParkingModelInt(unittest.TestCase):
         self.assertEqual(
             fields_name,
             (
+                "deleted_at",
+                "deleted_by_cascade",
+                "created_at",
+                "updated_at",
                 "id",
                 "description",
                 "slots",
@@ -29,7 +33,6 @@ class TestParkingModelInt(unittest.TestCase):
         id_field: models.UUIDField = Parking.id.field
         self.assertIsInstance(id_field, models.UUIDField)
         self.assertTrue(id_field.primary_key)
-        self.assertTrue(id_field.editable)
 
         description_field: models.CharField = Parking.description.field
         self.assertIsInstance(description_field, models.CharField)
@@ -44,6 +47,12 @@ class TestParkingModelInt(unittest.TestCase):
         company_field: models.ForeignKey = Parking.company.field
         self.assertIsInstance(company_field, models.ForeignKey)
         self.assertEqual(company_field.related_model, Company)
+
+        created_at_field: models.DateTimeField = Parking.created_at.field
+        self.assertIsInstance(created_at_field, models.DateTimeField)
+
+        updated_at_field: models.DateTimeField = Parking.updated_at.field
+        self.assertIsInstance(updated_at_field, models.DateTimeField)
 
     def test_create(self):
         company = Company.objects.create(

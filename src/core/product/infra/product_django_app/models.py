@@ -1,12 +1,10 @@
-import uuid
-
 from django.db import models
 
+from core.__seedwork__.infra.django_app.models import BaseModel
 from core.company.infra.company_django_app.models import Company
 
 
-class Product(models.Model):
-    id = models.UUIDField(primary_key=True, editable=True, default=uuid.uuid4)
+class Product(BaseModel):
     description = models.CharField(max_length=200)
     internal_code = models.CharField(max_length=45, unique=True)
     is_active = models.BooleanField(default=True)
