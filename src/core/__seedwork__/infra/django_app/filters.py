@@ -33,14 +33,13 @@ class BaseFilter(filters.FilterSet):
         """
         normalized_value = unidecode(value).lower()
         query = Q()
-        matching_ids = set()  # Usado para armazenar IDs de correspondência
+        matching_ids = set()
 
-        for field in queryset.model._meta.fields:  # pylint: disable=protected-access
+        for field in queryset.model._meta.fields:
             field_name = field.name
             try:
                 if isinstance(field, (models.CharField, models.TextField)):
                     query |= Q(**{f"{field_name}__icontains": normalized_value})
-                    # Verificação insensível a acentos
                     matching_ids.update(
                         get_matching_ids(queryset, field_name, normalized_value)
                     )
@@ -61,7 +60,6 @@ class BaseFilter(filters.FilterSet):
                 elif isinstance(field, models.ForeignKey):
                     query |= Q(**{f"{field_name}__id__icontains": normalized_value})
 
-                    # Checar campos do modelo relacionado
                     related_model = field.related_model
                     if hasattr(related_model, "name"):
                         related_field_name = f"{field_name}__name"
@@ -73,20 +71,21 @@ class BaseFilter(filters.FilterSet):
                                 queryset, related_field_name, normalized_value
                             )
                         )
-                    elif hasattr(related_model, "description"):
+
+                    if hasattr(related_model, "description"):
                         related_field_description = f"{field_name}__description"
                         query |= Q(
                             **{
                                 f"{related_field_description}__icontains": normalized_value
                             }
                         )
-                    else:
-                        related_field_description = f"{field_name}__id"
 
-                        matching_ids.update(
-                            get_matching_ids(
-                                queryset, related_field_description, normalized_value
-                            )
+                    if hasattr(related_model, "document_number"):
+                        related_field_document_number = f"{field_name}__document_number"
+                        query |= Q(
+                            **{
+                                f"{related_field_document_number}__icontains": normalized_value
+                            }
                         )
             except ValueError as exc:
                 raise ValueError(f"Invalid field {field_name}") from exc

@@ -7,9 +7,10 @@ def get_matching_ids(queryset, field, normalized_value):
     contém o valor normalizado (ignorando acentos e diferenças de caixa).
     deixando tudo em minisculo e sem acentos.
     """
+
     return [
-        item.id
-        for item in queryset
-        if getattr(item, field) is not None
-        and normalized_value in unidecode(getattr(item, field)).lower()
+        item["id"]
+        for item in queryset.values("id", field)
+        if item[field] is not None
+        and normalized_value in unidecode(item[field]).lower()
     ]
