@@ -9,13 +9,9 @@ class Normalizer:
         Para valores numéricos, converte o valor para string.
         """
         if isinstance(value, (int, float)):
-            # Converte o número para string antes de normalizar
             normalized_value = str(value)
         else:
-            # Converte para string e aplica unidecode e lower
             normalized_value = unidecode(str(value)).lower()
 
-        print(
-            f"Valor original: {value} | Valor normalizado: {normalized_value}"
-        )  # Log para depuração
+        print(f"Valor original: {value} | Valor normalizado: {normalized_value}")
         return normalized_value
