@@ -1,6 +1,6 @@
 from django_filters.rest_framework.filters import CharFilter
 
-from core.__seedwork__.infra.django_app.filters import BaseFilter
+from core.__seedwork__.infra.django_app.basefilter import BaseFilter
 from core.user.infra.user_django_app.models import User
 
 
