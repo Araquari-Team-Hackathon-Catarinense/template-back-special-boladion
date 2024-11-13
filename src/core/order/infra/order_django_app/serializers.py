@@ -85,13 +85,9 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
         ).exists():
             errors.append(
                 {
-                    "field": "client",
-                    "message": "O cliente deve ser uma empresa com um contrato do tipo CLIENTE com a empresa fornecedora.",
+                    "client": "O cliente deve ser uma empresa com um contrato do tipo CLIENTE com a empresa fornecedora.",
                 }
             )
-
-        print(operation_terminal, company, client)
-        print(operation_terminal in [company, client])
 
         if not (
             Contract.objects.filter(
@@ -110,8 +106,7 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
         ):
             errors.append(
                 {
-                    "field": "operation_terminal",
-                    "message": "O terminal de operação deve ser uma empresa com um contrato do tipo TERMINAL com a empresa fornecedora ou com o cliente ou ser a própria empresa fornecedora ou cliente.",
+                    "operation_terminal": "O terminal de operação deve ser uma empresa com um contrato do tipo TERMINAL com a empresa fornecedora ou com o cliente ou ser a própria empresa fornecedora ou cliente.",
                 }
             )
 
@@ -156,14 +151,22 @@ class TransportContractCreateSerializer(serializers.ModelSerializer):
             contract_type="TRANSPORTADORA",
         ).exists():
             raise serializers.ValidationError(
-                "A transportadora deve ser uma empresa com um contrato do tipo TRANSPORTADORA com a empresa fornecedora."
+                [
+                    {
+                        "carrier": "A transportadora deve ser uma empresa com um contrato do tipo TRANSPORTADORA com a empresa fornecedora."
+                    }
+                ]
             )
 
         if not PurchaseSaleOrder.objects.filter(
             id=purchase_sale_order.id, company=company
         ).exists():
             raise serializers.ValidationError(
-                "A ordem de compra/venda deve ser uma ordem da empresa fornecedora."
+                [
+                    {
+                        "purchase_sale_order": "A ordem de compra/venda deve pertencer à empresa fornecedora."
+                    }
+                ]
             )
 
         return data

@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from .models import Operation, Parking, ParkingSector
@@ -38,10 +39,12 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
 
         if not self.instance:
             if not sector_type:
-                raise serializers.ValidationError("Sector Type is required.")
+                raise serializers.ValidationError(
+                    [{"sector_type": "Informe o tipo do setor."}]
+                )
             if sector_type == "CONTRACT" and contract is None:
                 raise serializers.ValidationError(
-                    "Contract is required for CONTRACT type."
+                    [{"contract": "Adicione um contrato para este setor."}]
                 )
             elif sector_type == "ROTATIVE":
                 data["contract"] = None
@@ -50,12 +53,14 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
             if "sector_type" in data:
                 if sector_type == "CONTRACT" and contract is None:
                     raise serializers.ValidationError(
-                        "Contract is required for CONTRACT type."
+                        [{"contract": "Adicione um contrato para este setor."}]
                     )
                 elif sector_type == "ROTATIVE":
                     data["contract"] = None
                 elif sector_type not in ("CONTRACT", "ROTATIVE"):
-                    raise serializers.ValidationError("Sector Type is invalid.")
+                    raise serializers.ValidationError(
+                        [{"sector_type": "Tipo de setor inválido."}]
+                    )
             elif "contract" in data:
                 if self.instance.sector_type == "ROTATIVE":
                     data["contract"] = None

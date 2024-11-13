@@ -108,12 +108,18 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
     def validate_document_number(self, value: str) -> str:
         if self.initial_data["person_type"] == "PJ":
             if not cnpj.validate(value):
-                raise serializers.ValidationError("CNPJ inválido.")
+                raise serializers.ValidationError(
+                    [{"document_number": "CNPJ inválido."}]
+                )
         elif self.initial_data["person_type"] == "PF":
             if not cpf.validate(value):
-                raise serializers.ValidationError("CPF inválido.")
+                raise serializers.ValidationError(
+                    [{"document_number": "CPF inválido."}]
+                )
         elif not cpfcnpj.validate(value):
-            raise serializers.ValidationError("Documento inválido.")
+            raise serializers.ValidationError(
+                [{"document_number": "CPF/CNPJ inválido."}]
+            )
         return value
 
 

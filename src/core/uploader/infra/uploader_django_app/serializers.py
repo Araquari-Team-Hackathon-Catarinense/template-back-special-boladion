@@ -44,7 +44,9 @@ class DocumentUploadSerializer(serializers.ModelSerializer):
     def validate_file(self, value):
         valid_content_types = CONTENT_TYPE_DOCUMENTS
         if get_content_type(value) not in valid_content_types:
-            raise serializers.ValidationError("Invalid or corrupted document.")
+            raise serializers.ValidationError(
+                [{"file": "Arquivo inválido ou corrompido."}]
+            )
         return value
 
 

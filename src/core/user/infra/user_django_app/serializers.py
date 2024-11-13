@@ -93,7 +93,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def validate_cpf(self, value: str) -> str:
         if not cpf.validate(value):
-            raise serializers.ValidationError("Invalid CPF.")
+            raise serializers.ValidationError([{"cpf": "CPF inválido."}])
         return value
 
     def create(self, validated_data):
@@ -193,6 +193,6 @@ class DriverCreateSerializer(serializers.ModelSerializer):
         date = datetime.date.today()
         if valid_until_license < date:
             raise serializers.ValidationError(
-                "A Data de validade da CNH não pode ser menor que a data atual."
+                [{"valid_until_license": "Data de validade expirada."}]
             )
         return attrs
