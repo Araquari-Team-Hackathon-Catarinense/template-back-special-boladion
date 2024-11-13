@@ -61,38 +61,34 @@ class SearchClass:
         matching_ids.update(
             get_matching_ids(self.queryset, f"{field_name}_id", self.normalized_value)
         )
-        print("matching_ids", matching_ids)
 
         related_model_fields = {
             field.name
             for field in related_model._meta.get_fields()  # pylint: disable=protected-access
         }
-        print("related_model_fields", related_model_fields)
 
         if "name" in related_model_fields:
-            print("related_model.name")
+
             query |= Q(**{f"{field_name}__name__icontains": self.normalized_value})
 
         try:
             if "description" in related_model_fields:
-                print("related_model.description")
+
                 query |= Q(
                     **{f"{field_name}__description__icontains": self.normalized_value}
                 )
         except AttributeError:
-            print("Description field not found, using ID")
+
             query |= Q(**{f"{field_name}_id__icontains": self.normalized_value})
 
         try:
             if "document_number" in related_model_fields:
-                print("related_model.document_number")
                 query |= Q(
                     **{
                         f"{field_name}__document_number__icontains": self.normalized_value
                     }
                 )
         except AttributeError:
-            print("Document number field not found, using ID")
             query |= Q(**{f"{field_name}_id__icontains": self.normalized_value})
 
         return query

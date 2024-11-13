@@ -34,7 +34,7 @@ class BaseFilter(filters.FilterSet):
         normalized_value = Normalizer.normalize_value(value)
         query = Q()
         matching_ids = set()
-        print("normalized value", normalized_value)
+
         for field in queryset.model._meta.fields:  # pylint: disable=protected-access
             search_class = SearchClass(queryset, field, normalized_value)
             query |= search_class.apply_search(matching_ids)

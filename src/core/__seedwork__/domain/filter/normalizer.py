@@ -12,6 +12,4 @@ class Normalizer:
             normalized_value = str(value)
         else:
             normalized_value = unidecode(str(value)).lower()
-
-        print(f"Valor original: {value} | Valor normalizado: {normalized_value}")
         return normalized_value
