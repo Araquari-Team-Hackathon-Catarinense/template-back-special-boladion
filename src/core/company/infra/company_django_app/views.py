@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from core.__seedwork__.domain.exceptions import CompanyNotInHeader
-from core.company.infra.company_django_app.filters import CompanyFilter
+from core.company.infra.company_django_app.filters import CompanyFilter, ContractFilter
 from core.company.infra.company_django_app.serializers import (
     CompanyCreateSerializer,
     CompanyDetailSerializer,
@@ -64,6 +64,7 @@ class EmployeeViewSet(ModelViewSet):
 class ContractViewSet(ModelViewSet):
     queryset = Contract.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
+    filterset_class = ContractFilter
 
     def get_queryset(self):
         company_id = self.request.headers.get("X-Company-Id", None)
