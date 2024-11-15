@@ -15,7 +15,7 @@ MODE = os.getenv("MODE")
 SECRET_KEY = os.getenv("SECRET_KEY", "g0_wu2u9w19u4_ej=x*i%jz1ye=t1s$3ax#met!u!=^1x#x2o0")
 DEBUG = os.getenv("DEBUG", "False")
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["*"]
+CSRF_TRUSTED_ORIGINS = ["http://*, https://*"]
 
 API_URL = os.getenv("API_URL", "http://localhost:8000")
 BASE_URL = os.getenv("API_URL", "http://localhost:8000")
