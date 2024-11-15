@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "Running post-checkout scripts..."
+repo_root=$(git rev-parse --show-toplevel)
+env_file="$repo_root/.env"
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+staging_values=("dev" "prod" "staging")
+
+if [[ " ${staging_values[@]} " =~ " ${current_branch} " ]]; then
+    MODE=staging
+else
+    MODE=dev
+fi
+
+if [ -f "$env_file" ]; then
+
+    if grep -q "^MODE=" "$env_file"; then
+        sed -i 's/^MODE=.*/MODE='"$MODE"'/' "$env_file"
+    else
+        echo "MODE=$MODE" >> "$env_file"
+    fi
+else
+    
+    echo "MODE=$MODE" > "$env_file"
+fi
+
+echo "Arquivo .env atualizado com sucesso!"

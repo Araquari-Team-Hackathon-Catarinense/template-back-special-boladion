@@ -1,20 +1,24 @@
 import os
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
+import dj_database_url
 
 from corsheaders.defaults import default_headers
 
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MODE = os.getenv("MODE")
 
-SECRET_KEY = "django-insecure-^#1(%4li!hy9yk1ntdtti4d^1-!#4t$qf6n6e12+w1qvbezp6s"
+SECRET_KEY = os.getenv("SECRET_KEY", "g0_wu2u9w19u4_ej=x*i%jz1ye=t1s$3ax#met!u!=^1x#x2o0")
+DEBUG = os.getenv("DEBUG", "False")
+ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ["http://*, https://*"]
 
-DEBUG = True
-
-ALLOWED_HOSTS = ["0.0.0.0", "localhost"]
-
-BASE_URL = "http://localhost:8000"
-
+API_URL = os.getenv("API_URL", "http://localhost:8000")
+BASE_URL = os.getenv("API_URL", "http://localhost:8000")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -71,19 +75,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "django_project.wsgi.application"
 
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+if MODE == "dev":
+    DATABASES = {
+         "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL_DEV", "sqlite://f{BASE_DIR}/db.sqlite3")
+    )}
+elif MODE == "staging":
+    DATABASES = {
+         "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL_STAGING", "sqlite://f{BASE_DIR}/db.sqlite3")
+    )}
+else:
+    DATABASES = {
+         "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL", "sqlite://f{BASE_DIR}/db.sqlite3")
+    )}
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -100,26 +111,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
-
 LANGUAGE_CODE = "pt-br"
-
 TIME_ZONE = "America/Sao_Paulo"
-
 USE_I18N = True
-
 USE_TZ = True
 
+
 CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5000",
-    "http://0.0.0.0:8000",
-]
-
-
 CORS_ALLOW_HEADERS = (
     *default_headers,
     "X-Company-Id",
@@ -138,8 +138,6 @@ MEDIA_URL = "/media/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 AUTH_USER_MODEL = "user_django_app.User"
 
