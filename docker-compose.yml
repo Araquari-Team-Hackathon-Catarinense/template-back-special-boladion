@@ -1,6 +1,30 @@
 version: '3'
 
 services:
+  db:
+    image: postgres:13
+    container_name: virtual-truck-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: virtual_truck
+    ports:
+    - "15432:5432"
+
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: virtual-truck-rabbitmq
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_DEFINITIONS_FILE: /etc/rabbitmq/definitions.json
+    volumes:
+      - ./.docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+    restart: always
+
   app:
     build: .
     container_name: virtual-truck-backend
@@ -9,4 +33,3 @@ services:
     - .:/home/python/app
     ports:
     - "8000:8000"
-  
