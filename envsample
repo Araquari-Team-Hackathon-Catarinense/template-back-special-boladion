@@ -1,0 +1,13 @@
+MODE=dev|staging
+DEBUG=True|False
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=email do app gmail do projeto
+EMAIL_HOST_PASSWORD=senha do app gmail do projeto
+
+SECRET_KEY=AnySecretKeyDjangoApp
+
+DATABASE_URL_STAGING=postgres://user:pass@host:port/dbname
+DATABASE_URL_DEV=sqlite:///path/sqlite_file
