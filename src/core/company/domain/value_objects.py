@@ -8,8 +8,8 @@ class PersonType(StrEnum):
 
 @unique
 class ContractType(StrEnum):
-    FORNECEDOR= "Fornecedor"
-    CLIENTE ="Cliente"
-    TRANSPORTADORA ="Transportadora"
-    ARMAZEM = "Armazem"
-    TERMINAL = "Terminal"
+    FORNECEDOR= "FORNECEDOR"
+    CLIENTE ="CLIENTE"
+    TRANSPORTADORA ="TRANSPORTADORA"
+    ARMAZEM = "ARMAZEM"
+    TERMINAL = "TERMINAL"
