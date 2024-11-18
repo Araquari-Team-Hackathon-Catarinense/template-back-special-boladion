@@ -6,6 +6,7 @@ from rest_framework_simplejwt.serializers import AuthUser, TokenObtainPairSerial
 from rest_framework_simplejwt.tokens import Token
 
 from core.uploader.infra.uploader_django_app.admin import Document
+from core.uploader.infra.uploader_django_app.serializers import DocumentSerializer
 from django_project.settings import BASE_URL
 
 from .models import Driver, User
@@ -77,6 +78,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         allow_null=True,
         write_only=True,
     )
+    avatar = DocumentSerializer(read_only=True)
 
     class Meta:
         model = User
@@ -88,8 +90,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "cpf",
             "address",
             "avatar_attachment_key",
+            "avatar",
         ]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "avatar"]
 
     def validate_cpf(self, value: str) -> str:
         if not cpf.validate(value):
