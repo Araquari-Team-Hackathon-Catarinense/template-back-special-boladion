@@ -62,7 +62,7 @@ class CompanyViewSet(ModelViewSet):
                 company.avatar.delete()
             company.avatar = serializer.instance
             company.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return super().retrieve(request)
         except Exception as e:
             print(e)
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
