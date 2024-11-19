@@ -85,6 +85,10 @@ elif MODE == "staging":
          "default": dj_database_url.config(
         default=os.getenv("DATABASE_URL_STAGING", "sqlite://f{BASE_DIR}/db.sqlite3")
     )}
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+    # STATICFILES_STORAGE = os.getenv("STATICFILES_STORAGE")
+    # MEDIA_URL = os.getenv("MEDIA_URL", "/images/")
+
 else:
     DATABASES = {
          "default": dj_database_url.config(
