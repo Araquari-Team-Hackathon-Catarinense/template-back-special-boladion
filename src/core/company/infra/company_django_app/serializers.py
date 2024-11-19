@@ -81,7 +81,10 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
     avatar = serializers.SerializerMethodField(read_only=True)
 
     def get_avatar(self, obj):
-        if not obj.avatar:
+        if isinstance(obj, dict):
+            if obj.get("avatar") is None:
+                return None
+        if obj.avatar is None:
             return None
         url = BASE_URL + obj.avatar.url
         return url

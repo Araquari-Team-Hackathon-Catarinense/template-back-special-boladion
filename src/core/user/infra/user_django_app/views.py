@@ -31,7 +31,12 @@ class UserViewSet(ModelViewSet):
             return UserDetailSerializer
         return UserCreateSerializer
 
-    @action(detail=True, methods=["post"], url_path="upload-avatar")
+    @action(
+        detail=True,
+        methods=["post"],
+        url_path="upload-avatar",
+        serializer_class=DocumentUploadSerializer,
+    )
     def upload_avatar(self, request, pk=None):
         try:
             user: User = self.get_object()
@@ -50,7 +55,7 @@ class UserViewSet(ModelViewSet):
                 user.avatar.delete()
             user.avatar = serializer.instance
             user.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return super().retrieve(request)
         except Exception as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
