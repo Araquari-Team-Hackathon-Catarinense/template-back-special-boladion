@@ -33,17 +33,26 @@ class UserViewSet(ModelViewSet):
 
     @action(detail=True, methods=["post"], url_path="upload-avatar")
     def upload_avatar(self, request, pk=None):
-        data = request.data.copy()
-        data["file"] = request.FILES.get("file")
-        serializer = DocumentUploadSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        user: User = self.get_object()
-        if user.avatar:
-            user.avatar.delete()
-        user.avatar = serializer.instance
-        user.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        try:
+            user: User = self.get_object()
+            data = request.data.copy()
+            if (
+                "description" not in data
+                or data["description"] is None
+                or data["description"] == ""
+            ):
+                data["description"] = f"Avatar do usuario {user.name}"
+            data["file"] = request.FILES.get("file")
+            serializer = DocumentUploadSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            if user.avatar:
+                user.avatar.delete()
+            user.avatar = serializer.instance
+            user.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 
 class DriverViewSet(ModelViewSet):

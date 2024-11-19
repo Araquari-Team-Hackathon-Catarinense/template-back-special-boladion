@@ -43,6 +43,30 @@ class CompanyViewSet(ModelViewSet):
         company.documents.add(serializer.instance)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    @action(detail=True, methods=["post"], url_path="upload-avatar")
+    def upload_avatar(self, request, pk=None):
+        try:
+            company: Company = self.get_object()
+            data = request.data.copy()
+            if (
+                "description" not in data
+                or data["description"] is None
+                or data["description"] == ""
+            ):
+                data["description"] = f"Avatar da empresa {company.name}"
+            data["file"] = request.FILES.get("file")
+            serializer = DocumentUploadSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            if company.avatar:
+                company.avatar.delete()
+            company.avatar = serializer.instance
+            company.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(e)
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
 
 class EmployeeViewSet(ModelViewSet):
     queryset = Employee.objects.all()

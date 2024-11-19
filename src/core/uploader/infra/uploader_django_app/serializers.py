@@ -29,7 +29,10 @@ class DocumentUploadSerializer(serializers.ModelSerializer):
             "id",
         ]
         read_only_fields = ["attachment_key", "uploaded_on", "url", "id"]
-        extra_kwargs = {"file": {"write_only": True}, "type": {"allow_null": True}}
+        extra_kwargs = {
+            "file": {"write_only": True},
+            "type": {"allow_null": True},
+        }
 
     def validate(self, attrs):
         content_type = get_content_type(attrs["file"])
