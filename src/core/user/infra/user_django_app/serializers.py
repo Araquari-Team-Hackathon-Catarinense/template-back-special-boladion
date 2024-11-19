@@ -6,7 +6,6 @@ from rest_framework_simplejwt.serializers import AuthUser, TokenObtainPairSerial
 from rest_framework_simplejwt.tokens import Token
 
 from core.uploader.infra.uploader_django_app.admin import Document
-from core.uploader.infra.uploader_django_app.serializers import DocumentSerializer
 from django_project.settings import BASE_URL
 
 from .models import Driver, User
@@ -78,7 +77,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
         allow_null=True,
         write_only=True,
     )
-    avatar = DocumentSerializer(read_only=True)
+    avatar = serializers.SerializerMethodField(read_only=True)
+
+    def get_avatar(self, obj):
+        if isinstance(obj, dict):
+            if obj.get("avatar") is None:
+                return None
+        if obj.avatar is None:
+            return None
+        url = BASE_URL + obj.avatar.url
+        return url
 
     class Meta:
         model = User
