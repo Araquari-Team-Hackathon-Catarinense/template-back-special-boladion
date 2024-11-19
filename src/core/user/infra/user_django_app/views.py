@@ -41,7 +41,7 @@ class UserViewSet(ModelViewSet):
                 or data["description"] is None
                 or data["description"] == ""
             ):
-                data["description"] = f"Avatar da empresa {user.name}"
+                data["description"] = f"Avatar do usuario {user.name}"
             data["file"] = request.FILES.get("file")
             serializer = DocumentUploadSerializer(data=data)
             serializer.is_valid(raise_exception=True)

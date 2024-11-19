@@ -32,7 +32,6 @@ class DocumentUploadSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "file": {"write_only": True},
             "type": {"allow_null": True},
-            "description": {"required": False, "allow_blank": True, "allow_null": True},
         }
 
     def validate(self, attrs):
