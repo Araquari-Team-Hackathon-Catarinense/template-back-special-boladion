@@ -1,3 +1,4 @@
+from django.forms import model_to_dict
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.decorators import action
@@ -35,9 +36,8 @@ class UserViewSet(ModelViewSet):
         detail=True,
         methods=["post"],
         url_path="upload-avatar",
-        serializer_class=DocumentUploadSerializer,
     )
-    def upload_avatar(self, request, pk=None):
+    def upload_avatar(self, request, pk=None, *args, **kwargs):
         try:
             user: User = self.get_object()
             data = request.data.copy()
@@ -55,7 +55,8 @@ class UserViewSet(ModelViewSet):
                 user.avatar.delete()
             user.avatar = serializer.instance
             user.save()
-            return super().retrieve(request)
+            user_detail_serializer = UserDetailSerializer(user)
+            return Response(user_detail_serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
