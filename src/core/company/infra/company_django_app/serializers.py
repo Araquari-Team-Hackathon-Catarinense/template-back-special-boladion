@@ -1,3 +1,4 @@
+from dill import source
 from pycpfcnpj import cnpj, cpf, cpfcnpj
 from rest_framework import serializers
 
@@ -154,6 +155,16 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
 class ContractCompanyInfoSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     name = serializers.CharField(read_only=True)
+    avatar = serializers.SerializerMethodField(read_only=True)
+
+    def get_avatar(self, obj):
+        if isinstance(obj, dict):
+            if obj.get("avatar") is None:
+                return None
+        if obj.avatar is None:
+            return None
+        url = BASE_URL + obj.avatar.url
+        return url
 
 
 class ContractListSerializer(serializers.Serializer):

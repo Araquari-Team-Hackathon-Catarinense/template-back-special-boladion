@@ -1,3 +1,4 @@
+from dill import source
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
@@ -5,6 +6,7 @@ from .models import Operation, Parking, ParkingSector
 
 
 class ParkingSectorContractInfoSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
     company_id = serializers.UUIDField(read_only=True, source="target_company.id")
     company_name = serializers.CharField(read_only=True, source="target_company.name")
     contract_type = serializers.CharField(read_only=True)
@@ -16,6 +18,7 @@ class ParkingSectorListSerializer(serializers.Serializer):
     sector_type = serializers.CharField(read_only=True)
     qty_slots = serializers.IntegerField(read_only=True)
     contract = ParkingSectorContractInfoSerializer(read_only=True, allow_null=True)
+    parking = serializers.CharField(source="parking.description", read_only=True)
 
 
 class ParkingSectorCreateSerializer(serializers.ModelSerializer):
@@ -71,6 +74,7 @@ class ParkingSectorCreateSerializer(serializers.ModelSerializer):
 class OperationListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     name = serializers.CharField(read_only=True)
+    parking = serializers.CharField(source="parking.description", read_only=True)
 
 
 class OperationCreateSerializer(serializers.ModelSerializer):
