@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models import Q, Sum
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
 
 from core.__seedwork__.infra.django_app.models import BaseModel
 from core.company.infra.company_django_app.models import Company
@@ -93,6 +96,9 @@ class TransportContract(BaseModel):
     quantity = models.FloatField(blank=True, null=True)
     balance = models.FloatField(blank=True, null=True)
 
+    def __str__(self) -> str:
+        return f"{self.purchase_sale_order.company.name} - {self.purchase_sale_order.client.name}, {self.quantity}, {self.balance}"
+
 
 class Trip(BaseModel):
     transport_contract = models.ForeignKey(
@@ -107,3 +113,59 @@ class Trip(BaseModel):
     driver = models.ForeignKey(
         Driver, on_delete=models.PROTECT, null=True, related_name="driver_trips"
     )
+
+    def __str__(self) -> str:
+        return f"{self.transport_contract.purchase_sale_order.company.name} - {self.transport_contract.purchase_sale_order.client.name}, {self.quantity}"
+
+
+@receiver(pre_save, sender=Trip)
+def balance(instance, **kwargs) -> None:  # pylint: disable=unused-argument
+    if instance.deleted_at is None:
+        transport_contract = instance.transport_contract
+        if instance.quantity <= 0 or instance.quantity is None:
+            raise ValueError("A quantidade não pode ser menor ou igual a zero.")
+        else:
+            if (
+                instance.quantity > transport_contract.balance
+                and instance._state.adding
+            ):  # pylint: disable=protected-access
+                raise ValueError(
+                    "A quantidade não pode ser maior que o saldo restante."
+                )
+            elif instance._state.adding is False:  # pylint: disable=protected-access
+                old_trip = Trip.objects.get(id=instance.id)
+                a = transport_contract.balance + old_trip.quantity
+                if instance.quantity > a:
+                    raise ValueError(
+                        "A quantidade não pode ser maior que o saldo restante."
+                    )
+
+            filtered_trips = transport_contract.trips.filter(~Q(id=instance.id))
+
+            if filtered_trips.count() == 0:
+                transport_contract.balance = (
+                    transport_contract.quantity - instance.quantity
+                )
+            else:
+                transport_contract.balance = (
+                    transport_contract.quantity
+                    - instance.quantity
+                    - filtered_trips.aggregate(Sum("quantity"))["quantity__sum"]
+                )
+
+            transport_contract.save()
+
+
+@receiver(post_save, sender=Trip)
+def balance_delete(instance, **kwargs) -> None:  # pylint: disable=unused-argument
+    if instance.deleted_at is not None:
+        transport_contract = instance.transport_contract
+        if transport_contract.trips.count() == 0:
+            transport_contract.balance = transport_contract.quantity
+            transport_contract.save()
+        else:
+            transport_contract.balance = (
+                transport_contract.quantity
+                - transport_contract.trips.aggregate(Sum("quantity"))["quantity__sum"]
+            )
+            transport_contract.save()
