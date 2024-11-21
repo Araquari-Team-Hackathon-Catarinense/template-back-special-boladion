@@ -11,6 +11,7 @@ from core.order.infra.order_django_app.models import (
     Packing,
     PurchaseSaleOrder,
     TransportContract,
+    Trip,
 )
 from core.order.infra.order_django_app.serializers import (
     MeasurementUnitCreateSerializer,
@@ -21,6 +22,9 @@ from core.order.infra.order_django_app.serializers import (
     PurchaseSaleOrderListSerializer,
     TransportContractCreateSerializer,
     TransportContractListSerializer,
+    TripCreateSerializer,
+    TripDetailSerializer,
+    TripListSerializer,
 )
 
 
@@ -92,3 +96,25 @@ class TransportContractViewSet(ModelViewSet):
         if self.action in ["list", "retrieve"]:
             return TransportContractListSerializer
         return TransportContractCreateSerializer
+
+
+class TripViewSet(ModelViewSet):
+    queryset = Trip.objects.all()
+    http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_queryset(self):
+        company_id = getattr(self.request, "company_id", None)
+        print(company_id)
+        if company_id:
+            return Trip.objects.filter(
+                transport_contract__company__id=company_id
+            ).distinct()
+
+        raise CompanyNotInHeader
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return TripListSerializer
+        elif self.action == "retrieve":
+            return TripDetailSerializer
+        return TripCreateSerializer
