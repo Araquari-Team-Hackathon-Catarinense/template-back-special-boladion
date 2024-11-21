@@ -4,6 +4,8 @@ from core.__seedwork__.infra.django_app.models import BaseModel
 from core.company.infra.company_django_app.models import Company
 from core.order.domain.value_objects import OperationType
 from core.product.infra.product_django_app.models import Product
+from core.user.infra.user_django_app.models import Driver
+from core.vehicle.infra.vehicle_django_app.models import Composition
 
 
 class MeasurementUnit(BaseModel):
@@ -90,3 +92,18 @@ class TransportContract(BaseModel):
     purchase_sale_order = models.ForeignKey(PurchaseSaleOrder, on_delete=models.PROTECT)
     quantity = models.FloatField(blank=True, null=True)
     balance = models.FloatField(blank=True, null=True)
+
+
+class Trip(BaseModel):
+    transport_contract = models.ForeignKey(
+        TransportContract, on_delete=models.PROTECT, null=True, related_name="trips"
+    )
+    quantity = models.FloatField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    order_number = models.CharField(max_length=45, blank=True, null=True)
+    vehicle = models.ForeignKey(
+        Composition, on_delete=models.PROTECT, null=True, related_name="vehicle_trips"
+    )
+    driver = models.ForeignKey(
+        Driver, on_delete=models.PROTECT, null=True, related_name="driver_trips"
+    )
