@@ -2,6 +2,7 @@ import uuid
 
 import pytest
 from model_bakery import baker
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.vehicle.infra.vehicle_django_app.models import (
@@ -46,8 +47,8 @@ class TestListAPI:
         print(response.json())
         assert response.status_code == 400
 
-    def test_create_with_invalid_vehicle_because_sequence_need_to_be_zero(args) -> None:
-        url: str = "/api/vehicle-composition/"
+    def test_create_with_invalid_vehicle_because_sequence_need_to_be_zero(self) -> None:
+        url = "/api/vehicle-composition/"
 
         vehicle = baker.make(Vehicle, vehicle_type=VehicleType.TRACIONADORA)
         composition = baker.make(Composition)
@@ -62,7 +63,15 @@ class TestListAPI:
         )
 
         assert response.status_code == 400
+
+        response_data = response.json()
+        print("Response Data:", response_data)
+
+        # assert (
+        #     "sequence" in response_data
+        # ), "Chave 'sequence' não encontrada na resposta."
+
         assert (
-            "A unidade tracionadora deve ter sequence igual a 0."
-            in response.json()["non_field_errors"]
+            response_data["sequence"][0]
+            == "A unidade tracionadora deve ter sequence igual a 0."
         )

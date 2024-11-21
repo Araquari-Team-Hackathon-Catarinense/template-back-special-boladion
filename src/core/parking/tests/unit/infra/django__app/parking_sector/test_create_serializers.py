@@ -70,12 +70,12 @@ class TestParkingCreateSerializer:
 
     def test_create_serializer_with_invalid_data_of_sector_type_contract(self) -> None:
         cnpj = gen.cnpj()
-        company: Company = Company.objects.create(
+        company = Company.objects.create(
             name="Company",
             person_type="PJ",
             document_number=cnpj,
         )
-        parking: Parking = Parking.objects.create(
+        parking = Parking.objects.create(
             description="Meu Estacionamento",
             company=company,
         )
@@ -87,7 +87,20 @@ class TestParkingCreateSerializer:
         }
         serializer = ParkingSectorCreateSerializer(data=data)
         assert serializer.is_valid() is False
-        assert "Contract is required" in serializer.errors["non_field_errors"][0]
+
+        errors_list = serializer.errors.get("errors", [])
+
+        assert len(errors_list) > 0
+
+        contract_error_found = False
+
+        for error in errors_list:
+            if "contract" in error:
+                contract_error_found = True
+                assert error["contract"] == "Adicione um contrato para este setor."
+                break
+
+        assert contract_error_found, "'contract' não está presente em serializer.errors"
 
     def test_if_a_new_uuid_is_generated_with_more_parking_sectors(self) -> None:
         cnpj = gen.cnpj()
