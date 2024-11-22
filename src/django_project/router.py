@@ -4,6 +4,7 @@ from core.company.infra.company_django_app.router import router as company_route
 from core.order.infra.order_django_app.router import router as order_router
 from core.parking.infra.parking_django_app.router import router as parking_router
 from core.product.infra.product_django_app.router import router as product_router
+from core.service.infra.service_django_app.router import router as service_router
 from core.uploader.infra.uploader_django_app.router import router as uploader_router
 from core.user.infra.user_django_app.router import router as user_router
 from core.vehicle.infra.vehicle_django_app.router import router as vehicle_router
@@ -16,3 +17,4 @@ router.registry.extend(uploader_router.registry)
 router.registry.extend(user_router.registry)
 router.registry.extend(product_router.registry)
 router.registry.extend(vehicle_router.registry)
+router.registry.extend(service_router.registry)
