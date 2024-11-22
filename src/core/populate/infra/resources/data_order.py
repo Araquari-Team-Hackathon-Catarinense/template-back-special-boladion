@@ -39,7 +39,7 @@ def generate_packings():
     packings = []
 
     for company in Company.objects.all():
-        for index in range(3):
+        for _ in range(3):
             packing = {
                 "id": str(uuid.uuid4()),
                 "description": faker.word(),
@@ -135,48 +135,50 @@ def generate_transports():
                 transport_records.append(transport)
 
         except Exception as e:
-            print(f"An error occurred for company ID {company_info['id']}: {e}")
+            print(f"An error occurred for company ID {company.id}: {e}")
 
     return transport_records
 
 
 def generate_trips():
     trips = []
+    vehicles = Composition.objects.all()
+    drivers = Driver.objects.all()
+
     for company in Company.objects.all():
-        for _ in range(3):
-            transport_contracts = TransportContract.objects.filter(company=company)
-            if not transport_contracts.exists():
-                print(f"No transport contracts found for company ID: {company.id}")
-                continue
-            transport_contract = random.choice(transport_contracts)
+        transport_contracts = TransportContract.objects.filter(company=company)
+        if not transport_contracts.exists():
+            print(f"No transport contracts found for company ID: {company.id}")
+            continue
 
-            vehicles = Composition.objects.all()
-            if not vehicles.exists():
-                print("No vehicles found")
-                continue
-            vehicle = random.choice(vehicles)
+        for transport_contract in transport_contracts:
 
-            drivers = Driver.objects.all()
-            if not drivers.exists():
-                print("No drivers found")
-                continue
-            driver = random.choice(drivers)
+            for _ in range(3):
 
-            print("passou aqui")
-            quantity = round(random.uniform(1, 10), 2)
-            date = faker.date_between(start_date="-1y", end_date="today")
-            order_number = faker.word()
+                if not vehicles.exists():
+                    print("No vehicles found")
+                    continue
+                vehicle = random.choice(vehicles)
 
-            trip = {
-                "id": str(uuid.uuid4()),
-                "transport_contract": transport_contract,
-                "quantity": quantity,
-                "date": date,
-                "order_number": order_number,
-                "vehicle": vehicle,
-                "driver": driver,
-            }
-            trips.append(trip)
+                if not drivers.exists():
+                    print("No drivers found")
+                    continue
+                driver = random.choice(drivers)
+
+                quantity = transport_contract.quantity / 4
+                date = faker.date_between(start_date="-1y", end_date="today")
+                order_number = faker.word()
+
+                trip = {
+                    "id": str(uuid.uuid4()),
+                    "transport_contract": transport_contract,
+                    "quantity": quantity,
+                    "date": date,
+                    "order_number": order_number,
+                    "vehicle": vehicle,
+                    "driver": driver,
+                }
+                trips.append(trip)
 
     return trips
 

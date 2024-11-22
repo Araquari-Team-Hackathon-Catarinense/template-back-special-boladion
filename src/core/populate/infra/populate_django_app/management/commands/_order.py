@@ -74,9 +74,9 @@ def populate_compositions() -> None:
 def populate_trip() -> None:
     if TransportContract.objects.exists():
         print("Creating Trip...")
-        trips_to_create = [Trip(**data) for data in generate_trips()]
         try:
-            Trip.objects.bulk_create(trips_to_create)
+            for data in generate_trips():
+                Trip.objects.create(**data)
         except Exception as e:
             print(f"Error creating Trip: {e}")
             traceback.print_exc()

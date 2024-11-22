@@ -147,7 +147,6 @@ def balance(instance, **kwargs) -> None:  # pylint: disable=unused-argument
                     transport_contract.quantity - instance.quantity
                 )
             else:
-                print("estou aqui amigo")
                 transport_contract.balance = (
                     transport_contract.quantity
                     - instance.quantity
