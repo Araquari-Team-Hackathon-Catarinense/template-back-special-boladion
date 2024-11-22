@@ -1,4 +1,5 @@
 import uuid
+from datetime import date
 
 bodies_data = [
     {"description": "Baú", "id": "d77b81f3-8eaa-4b08-a8f4-a60524a3d40f"},

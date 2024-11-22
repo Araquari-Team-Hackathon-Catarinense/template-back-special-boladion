@@ -1,16 +1,20 @@
 import traceback
 
 from core.order.infra.order_django_app.models import (
+    Composition,
     MeasurementUnit,
     Packing,
     PurchaseSaleOrder,
     TransportContract,
+    Trip,
 )
 from core.populate.infra.resources.data_order import (
+    composition_data,
     generate_measurement_units,
     generate_packings,
     generate_purchase_sale_orders,
     generate_transports,
+    generate_trips,
 )
 
 
@@ -57,3 +61,33 @@ def populate_transports_contract() -> None:
         print(f"Error creating TransportContract: {e}")
         traceback.print_exc()
         return
+
+
+def populate_compositions() -> None:
+    if Composition.objects.exists():
+        return
+
+    for composition in composition_data:
+        Composition.objects.create(**composition)
+
+
+def populate_trip() -> None:
+    if TransportContract.objects.exists():
+        print("Creating Trip...")
+        trips_to_create = [Trip(**data) for data in generate_trips()]
+        try:
+            Trip.objects.bulk_create(trips_to_create)
+        except Exception as e:
+            print(f"Error creating Trip: {e}")
+            traceback.print_exc()
+            return
+    else:
+        print("No TransportContract to create Trip")
+        return
+
+
+def populate_composition() -> None:
+    if Composition.objects.exists():
+
+        return
+    pass
