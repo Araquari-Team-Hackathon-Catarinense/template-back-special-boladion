@@ -11,6 +11,9 @@ class Service(BaseModel):
         Parking, on_delete=models.PROTECT, related_name="services"
     )
 
+    def __str__(self) -> str:
+        return f"{self.description} - {self.parking.description} - {self.parking.company.name}"
+
     class Meta:
         db_table: str = "service"
         verbose_name_plural: str = "services"

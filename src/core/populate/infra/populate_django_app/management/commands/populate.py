@@ -16,6 +16,7 @@ from core.populate.infra.populate_django_app.management.commands import (
     populate_parkings,
     populate_products,
     populate_purchase_sale_orders,
+    populate_services,
     populate_transports_contract,
     populate_trip,
     populate_users,
@@ -63,6 +64,11 @@ class Command(BaseCommand):
             help="Populate the parkings data",
         )
         parser.add_argument(
+            "--services",
+            action="store_true",
+            help="Populate the services data",
+        )
+        parser.add_argument(
             "--all", action="store_true", help="Populate all data available"
         )
 
@@ -88,6 +94,8 @@ class Command(BaseCommand):
                 self.__handle_parkings()
             if options.get("employees"):
                 self.__handle_employee()
+            if options.get("services"):
+                self.__handle_services()
 
             self.stdout.write(self.style.SUCCESS("\nTudo populado com sucesso! :D"))
         except CommandError as exc:
@@ -150,6 +158,11 @@ class Command(BaseCommand):
         populate_operations()
         self.stdout.write(self.style.SUCCESS("OK"))
 
+    def __handle_services(self):
+        self.stdout.write("Populating services data...", ending="")
+        populate_services()
+        self.stdout.write(self.style.SUCCESS("OK"))
+
     def __handle_all(self):
         self.stdout.write("Populating all data...", ending="")
         self.__handle_companies()
@@ -161,4 +174,5 @@ class Command(BaseCommand):
         self.__handle_contracts()
         self.__handle_orders()
         self.__handle_parkings()
+        self.__handle_services()
         self.stdout.write(self.style.SUCCESS("OK"))
