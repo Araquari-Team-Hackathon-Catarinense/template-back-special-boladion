@@ -7,7 +7,7 @@ from core.user.infra.user_django_app.models import Driver, User
 
 
 @pytest.mark.django_db
-class TestCreatePurchaseSaleOrderAPITest:
+class TestCreateDriverAPITest:
     def test_create_valid_driver(self):
         user: User = baker.make(User)
 
