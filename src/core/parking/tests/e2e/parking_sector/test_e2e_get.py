@@ -36,6 +36,7 @@ class TestParkingSectorListAPI:
                     "description": parking_sector.description,
                     "sector_type": parking_sector.sector_type,
                     "qty_slots": parking_sector.qty_slots,
+                    "parking": parking_sector.parking.description,
                     "contract": None,
                 }
                 for parking_sector in created_parking_sectors

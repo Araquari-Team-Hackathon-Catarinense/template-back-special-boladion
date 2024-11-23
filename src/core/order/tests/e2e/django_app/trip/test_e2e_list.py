@@ -1,6 +1,5 @@
 import pytest
 from model_bakery import baker
-from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
@@ -13,7 +12,9 @@ from core.vehicle.infra.vehicle_django_app.models import Composition
 class TestListTripAPI:
     def test_list_trips(self):
         company = baker.make(Company)
-        transport_contract = baker.make(TransportContract, company=company)
+        transport_contract = baker.make(
+            TransportContract, company=company, balance=1000.0, quantity=10.0
+        )
         driver = baker.make(Driver)
         composition = baker.make(Composition)
 
@@ -25,7 +26,7 @@ class TestListTripAPI:
             transport_contract=transport_contract,
             driver=driver,
             vehicle=composition,
-            quantity=10.0,
+            quantity=1.0,
             _quantity=3,
         )
 

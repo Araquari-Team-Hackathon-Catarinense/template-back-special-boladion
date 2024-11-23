@@ -36,6 +36,7 @@ class TestParkingSectorListSerializer:
                 "description": parking_sector.description,
                 "qty_slots": parking_sector.qty_slots,
                 "sector_type": parking_sector.sector_type,
+                "parking": parking.description,
                 "contract": None,
             }
             for parking_sector in parking_sectors
@@ -65,5 +66,6 @@ class TestParkingSectorListSerializer:
             "description": parking_sector.description,
             "qty_slots": parking_sector.qty_slots,
             "sector_type": parking_sector.sector_type,
+            "parking": parking.description,
             "contract": None,
         }

@@ -13,23 +13,17 @@ url = "/api/operations/"
 @pytest.mark.django_db
 class TestOperationListAPI:
     def test_list_operation(self) -> None:
-        # Criação de dados para o teste
+
         company: Company = baker.make(Company)
         parking: Parking = baker.make(Parking, company=company)
-        created_operations = baker.make(
-            Operation, _quantity=3, parking=parking
-        )  # Note a mudança de `created_operation` para `created_operations`
+        created_operations = baker.make(Operation, _quantity=3, parking=parking)
 
-        # Define a URL correta para a API
-        url = "/api/operations/"  # Substitua pelo endpoint correto
+        url = "/api/operations/"
 
-        # Cabeçalho da requisição
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
-        # Faz a requisição GET
         response = APIClient().get(url, **headers)
 
-        # Prepara os dados esperados
         expected_data = {
             "total": 3,
             "num_pages": 1,
@@ -43,12 +37,12 @@ class TestOperationListAPI:
                 {
                     "id": str(operation.id),
                     "name": operation.name,
+                    "parking": operation.parking.description,
                 }
                 for operation in created_operations
             ],
         }
 
-        # Verificações
         assert response.status_code == 200
         assert len(response.json()["results"]) == 3
         assert response.json() == expected_data

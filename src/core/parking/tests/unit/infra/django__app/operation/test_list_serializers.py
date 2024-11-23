@@ -17,6 +17,7 @@ class TestOperationListSerializer:
             {
                 "id": str(operation.id),
                 "name": operation.name,
+                "parking": parking.description,
             }
             for operation in operations
         ]
@@ -34,4 +35,5 @@ class TestOperationListSerializer:
         assert serializer.data == {
             "id": str(operation.id),
             "name": operation.name,
+            "parking": parking.description,
         }
