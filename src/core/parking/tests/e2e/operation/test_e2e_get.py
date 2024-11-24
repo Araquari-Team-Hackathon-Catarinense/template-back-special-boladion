@@ -13,7 +13,6 @@ url = "/api/operations/"
 @pytest.mark.django_db
 class TestOperationListAPI:
     def test_list_operation(self) -> None:
-
         company: Company = baker.make(Company)
         parking: Parking = baker.make(Parking, company=company)
         created_operations = baker.make(Operation, _quantity=3, parking=parking)
@@ -37,7 +36,7 @@ class TestOperationListAPI:
                 {
                     "id": str(operation.id),
                     "name": operation.name,
-                    "parking": operation.parking.description,
+                    "parking": parking.description,
                 }
                 for operation in created_operations
             ],
