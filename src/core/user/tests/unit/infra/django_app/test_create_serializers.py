@@ -29,7 +29,9 @@ class TestUserCreateSerializer:
         }
         serializer = UserCreateSerializer(data=data)
         assert serializer.is_valid() is False
-        assert "Invalid CPF." in serializer.errors["cpf"]
+        assert "cpf" in serializer.errors
+        cpf_errors = serializer.errors["cpf"]
+        assert any("CPF inválido." in error.get("cpf", "") for error in cpf_errors)
 
     def test_create_serializer_with_one_more_user(self) -> None:
         cpf1 = gen.cpf()

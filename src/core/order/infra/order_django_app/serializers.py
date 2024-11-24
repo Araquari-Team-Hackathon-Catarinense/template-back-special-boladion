@@ -1,18 +1,24 @@
 from rest_framework import serializers
 
-from core.company.domain.value_objects import ContractType
 from core.company.infra.company_django_app.models import Contract
 from core.order.infra.order_django_app.models import (
     MeasurementUnit,
     Packing,
     PurchaseSaleOrder,
     TransportContract,
+    Trip,
 )
 
 
 class MeasurementUnitListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     description = serializers.CharField(read_only=True)
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
 
 
 class MeasurementUnitCreateSerializer(serializers.ModelSerializer):
@@ -26,6 +32,12 @@ class MeasurementUnitCreateSerializer(serializers.ModelSerializer):
 class PackingListSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     description = serializers.CharField(read_only=True)
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
 
 
 class PackingCreateSerializer(serializers.ModelSerializer):
@@ -55,6 +67,12 @@ class PurchaseSaleOrderListSerializer(serializers.Serializer):
     balance = serializers.FloatField(read_only=True)
     operation_type = serializers.CharField(read_only=True)
 
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
 
 class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -73,10 +91,10 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ["id"]
         extra_kwargs = {"company": {"write_only": True}}
 
-    def validate(self, data) -> dict:
-        company = data.get("company")
-        client = data.get("client")
-        operation_terminal = data.get("operation_terminal")
+    def validate(self, attrs) -> dict:
+        company = attrs.get("company")
+        client = attrs.get("client")
+        operation_terminal = attrs.get("operation_terminal")
 
         errors = list()
 
@@ -113,7 +131,7 @@ class PurchaseSaleOrderCreateSerializer(serializers.ModelSerializer):
         if errors:
             raise serializers.ValidationError(errors)
 
-        return data
+        return attrs
 
 
 class TransportContractListSerializer(serializers.Serializer):
@@ -125,6 +143,12 @@ class TransportContractListSerializer(serializers.Serializer):
     )
     balance = serializers.FloatField(read_only=True)
     quantity = serializers.FloatField(read_only=True)
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
 
 
 class TransportContractCreateSerializer(serializers.ModelSerializer):
@@ -140,10 +164,10 @@ class TransportContractCreateSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id"]
 
-    def validate(self, data) -> dict:
-        company = data.get("company")
-        carrier = data.get("carrier")
-        purchase_sale_order = data.get("purchase_sale_order")
+    def validate(self, attrs) -> dict:
+        company = attrs.get("company")
+        carrier = attrs.get("carrier")
+        purchase_sale_order = attrs.get("purchase_sale_order")
 
         if not Contract.objects.filter(
             source_company=company,
@@ -169,4 +193,52 @@ class TransportContractCreateSerializer(serializers.ModelSerializer):
                 ]
             )
 
-        return data
+        return attrs
+
+
+class TripListSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    transport_contract = serializers.CharField(
+        source="transport_contract.id", read_only=True
+    )
+    driver = serializers.CharField(source="driver.id", read_only=True)
+    vehicle = serializers.CharField(source="composition.id", read_only=True)
+    quantity = serializers.FloatField(read_only=True)
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+
+class TripCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trip
+        fields = [
+            "id",
+            "transport_contract",
+            "vehicle",
+            "quantity",
+            "date",
+            "order_number",
+        ]
+        read_only_fields = ["id"]
+
+
+class TripDetailSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    transport_contract = serializers.UUIDField(
+        source="transport_contract.id", read_only=True
+    )
+    driver = serializers.UUIDField(source="driver.id", read_only=True)
+    vehicle = serializers.CharField(source="vehicle.id", read_only=True)
+    quantity = serializers.FloatField(read_only=True)
+    date = serializers.DateField(read_only=True)
+    order_number = serializers.CharField(read_only=True)
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass

@@ -59,8 +59,15 @@ class TestListAPI:
         )
 
         assert response.status_code == 400
-        assert "document_number" in response.json()
-        assert "CNPJ inválido." in response.json()["document_number"][0]
+
+        response_data = response.json()
+        assert "document_number" in response_data
+
+        errors_list = response_data["document_number"]
+        first_error = errors_list[0]
+        error_message = first_error.get("document_number", "")
+
+        assert "CNPJ inválido." == error_message
 
     def test_if_throw_a_error_with_invalid_person_type_and_document_number_size(
         self,
@@ -76,20 +83,25 @@ class TestListAPI:
 
         response = APIClient().post(
             url,
-            {
-                "name": company["name"],
-                "trade_name": company["trade_name"],
-                "person_type": company["person_type"],
-                "is_active": company["is_active"],
-                "document_number": company["document_number"],
-            },
+            company,
         )
 
         assert response.status_code == 400
-        assert "person_type" in response.json()
+
+        response_data = response.json()
+
+        # Verifica o erro em 'person_type'
+        assert "person_type" in response_data
         assert (
             f'"{company["person_type"]}" não é um escolha válido.'
-            in response.json()["person_type"][0]
+            in response_data["person_type"]
         )
-        assert "document_number" in response.json()
-        assert "Documento inválido." in response.json()["document_number"][0]
+
+        # Verifica o erro em 'document_number'
+        assert "document_number" in response_data
+
+        document_number_errors = response_data["document_number"]
+        first_error = document_number_errors[0]
+        error_message = first_error.get("document_number", "")
+
+        assert error_message == "CPF/CNPJ inválido."

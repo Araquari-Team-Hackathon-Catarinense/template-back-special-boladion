@@ -4,6 +4,7 @@ from django.core.management.base import BaseCommand, CommandError, CommandParser
 from core.populate.infra.populate_django_app.management.commands import (
     populate_bodies,
     populate_companies,
+    populate_compositions,
     populate_contracts,
     populate_drivers,
     populate_employee,
@@ -16,6 +17,7 @@ from core.populate.infra.populate_django_app.management.commands import (
     populate_products,
     populate_purchase_sale_orders,
     populate_transports_contract,
+    populate_trip,
     populate_users,
     populate_vehicles,
 )
@@ -120,6 +122,8 @@ class Command(BaseCommand):
         populate_packings()
         populate_purchase_sale_orders()
         populate_transports_contract()
+        populate_compositions()
+        populate_trip()
         self.stdout.write(self.style.SUCCESS("OK"))
 
     def __handle_products(self):

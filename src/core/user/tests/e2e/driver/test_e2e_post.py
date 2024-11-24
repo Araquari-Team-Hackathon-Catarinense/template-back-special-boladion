@@ -7,7 +7,7 @@ from core.user.infra.user_django_app.models import Driver, User
 
 
 @pytest.mark.django_db
-class TestCreatePurchaseSaleOrderAPITest:
+class TestCreateDriverAPITest:
     def test_create_valid_driver(self):
         user: User = baker.make(User)
 
@@ -47,7 +47,5 @@ class TestCreatePurchaseSaleOrderAPITest:
         print(response.json())
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert response.json() == {
-            "non_field_errors": [
-                "A Data de validade da CNH não pode ser menor que a data atual."
-            ]
+            "errors": [{"valid_until_license": "Data de validade expirada."}]
         }

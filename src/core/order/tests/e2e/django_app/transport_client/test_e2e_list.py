@@ -19,14 +19,13 @@ class TestTransportContractListAPI:
         carrier = baker.make(Company, id=uuid.uuid4())
         purchase_sale_order = baker.make(PurchaseSaleOrder)
 
-        # Criação de múltiplos contratos sem o campo `quantity`
         created_contracts = baker.make(
             TransportContract,
             company=company,
             carrier=carrier,
             purchase_sale_order=purchase_sale_order,
-            balance=10.0,  # Apenas o campo balance é necessário
-            _quantity=3,  # Gera uma lista de 3 contratos
+            balance=10.0,
+            _quantity=3,
         )
 
         url = "/api/transport-contracts/"
@@ -40,7 +39,6 @@ class TestTransportContractListAPI:
         assert response_data["total"] == 3
         assert len(response_data["results"]) == 3
 
-        # Itere sobre os contratos e valide os dados essenciais
         for i, contract in enumerate(created_contracts):
             response_contract = response_data["results"][i]
             assert response_contract["company"] == str(contract.company.id)

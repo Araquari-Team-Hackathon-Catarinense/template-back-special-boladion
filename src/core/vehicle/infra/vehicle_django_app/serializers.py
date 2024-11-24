@@ -153,11 +153,7 @@ class VechicleCompositionCreateSerializer(serializers.ModelSerializer):
 
             if sequence != 0:
                 raise serializers.ValidationError(
-                    [
-                        {
-                            "sequence": "A unidade tracionadora deve ter sequence igual a 0."
-                        }
-                    ]
+                    {"sequence": "A unidade tracionadora deve ter sequence igual a 0."}
                 )
 
             tracionadora_exists = VehicleComposition.objects.filter(

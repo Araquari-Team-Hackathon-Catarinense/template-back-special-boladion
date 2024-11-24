@@ -1,13 +1,17 @@
 import random
 import uuid
+from datetime import date
 
 from faker import Faker
 
 from core.company.infra.company_django_app.models import Company, Contract
 from core.order.infra.order_django_app.models import (
+    Composition,
+    Driver,
     MeasurementUnit,
     Packing,
     PurchaseSaleOrder,
+    TransportContract,
 )
 from core.product.infra.product_django_app.models import Product
 
@@ -35,7 +39,7 @@ def generate_packings():
     packings = []
 
     for company in Company.objects.all():
-        for index in range(3):
+        for _ in range(3):
             packing = {
                 "id": str(uuid.uuid4()),
                 "description": faker.word(),
@@ -131,6 +135,95 @@ def generate_transports():
                 transport_records.append(transport)
 
         except Exception as e:
-            print(f"An error occurred for company ID {company_info['id']}: {e}")
+            print(f"An error occurred for company ID {company.id}: {e}")
 
     return transport_records
+
+
+def generate_trips():
+    trips = []
+    vehicles = Composition.objects.all()
+    drivers = Driver.objects.all()
+
+    for company in Company.objects.all():
+        transport_contracts = TransportContract.objects.filter(company=company)
+        if not transport_contracts.exists():
+            print(f"No transport contracts found for company ID: {company.id}")
+            continue
+
+        for transport_contract in transport_contracts:
+
+            for _ in range(3):
+
+                if not vehicles.exists():
+                    print("No vehicles found")
+                    continue
+                vehicle = random.choice(vehicles)
+
+                if not drivers.exists():
+                    print("No drivers found")
+                    continue
+                driver = random.choice(drivers)
+
+                quantity = transport_contract.quantity / 4
+                date = faker.date_between(start_date="-1y", end_date="today")
+                order_number = faker.word()
+
+                trip = {
+                    "id": str(uuid.uuid4()),
+                    "transport_contract": transport_contract,
+                    "quantity": quantity,
+                    "date": date,
+                    "order_number": order_number,
+                    "vehicle": vehicle,
+                    "driver": driver,
+                }
+                trips.append(trip)
+
+    return trips
+
+
+composition_data = [
+    {
+        "id": str(uuid.uuid4()),
+        "axle": 4,
+        "gross_weight": 16000,
+        "date": date(2021, 1, 1),
+        "is_active": True,
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "axle": 5,
+        "gross_weight": 15000,
+        "date": date(2021, 1, 1),
+        "is_active": True,
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "axle": 6,
+        "gross_weight": 14000,
+        "date": date(2021, 1, 1),
+        "is_active": True,
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "axle": 7,
+        "gross_weight": 13000,
+        "date": date(2021, 1, 1),
+        "is_active": True,
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "axle": 8,
+        "gross_weight": 12000,
+        "date": date(2021, 1, 1),
+        "is_active": True,
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "axle": 9,
+        "gross_weight": 11000,
+        "date": date(2021, 1, 1),
+        "is_active": True,
+    },
+]

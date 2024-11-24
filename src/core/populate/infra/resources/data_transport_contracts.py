@@ -20,7 +20,7 @@
 # purchase_sale_orders = PurchaseSaleOrder.objects.all()
 
 
-# def generate_transports():
+# def generate_transports_contracts():
 #     transport_records = []
 #     for index, company_info in enumerate(companies_data):
 #         try:
