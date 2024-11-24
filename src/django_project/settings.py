@@ -164,7 +164,10 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "django_project.schema_class.SchemaWithCompany",
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "NON_FIELD_ERRORS_KEY": "errors",
-    "DEFAULT_RENDERER_CLASSES": ("django_project.renderers.CustomORJSONRenderer",),
+    "DEFAULT_RENDERER_CLASSES": (
+        "django_project.renderers.CustomORJSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",  # Interface gráfica que o rafinha gosta
+    ),
 }
 
 SIMPLE_JWT = {
