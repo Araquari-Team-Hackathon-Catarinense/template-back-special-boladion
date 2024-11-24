@@ -6,7 +6,9 @@ from core.order.infra.order_django_app.models import Trip
 
 
 @receiver(pre_save, sender=Trip)
-def balance(instance, **kwargs) -> None:  # pylint: disable=unused-argument
+def change_transport_balance_when_add_a_new_trip(
+    instance, **kwargs
+) -> None:  # pylint: disable=unused-argument
     if instance.deleted_at is None:
         transport_contract = instance.transport_contract
         if instance.quantity is None or instance.quantity <= 0:
@@ -46,7 +48,9 @@ def balance(instance, **kwargs) -> None:  # pylint: disable=unused-argument
 
 
 @receiver(post_save, sender=Trip)
-def balance_delete(instance, **kwargs) -> None:  # pylint: disable=unused-argument
+def change_transport_balance_when_delete_a_trip(
+    instance, **kwargs
+) -> None:  # pylint: disable=unused-argument
     if instance.deleted_at is not None:
         transport_contract = instance.transport_contract
         if transport_contract.trips.count() == 0:
