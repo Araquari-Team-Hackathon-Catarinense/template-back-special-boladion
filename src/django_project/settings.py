@@ -1,10 +1,10 @@
 import os
 from datetime import timedelta
 from pathlib import Path
-from dotenv import load_dotenv
-import dj_database_url
 
+import dj_database_url
 from corsheaders.defaults import default_headers
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -12,7 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 MODE = os.getenv("MODE")
 
-SECRET_KEY = os.getenv("SECRET_KEY", "g0_wu2u9w19u4_ej=x*i%jz1ye=t1s$3ax#met!u!=^1x#x2o0")
+SECRET_KEY = os.getenv(
+    "SECRET_KEY", "g0_wu2u9w19u4_ej=x*i%jz1ye=t1s$3ax#met!u!=^1x#x2o0"
+)
 DEBUG = os.getenv("DEBUG", "False")
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = ["http://*, https://*"]
@@ -77,23 +79,26 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 
 if MODE == "dev":
     DATABASES = {
-         "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL_DEV", "sqlite://f{BASE_DIR}/db.sqlite3")
-    )}
+        "default": dj_database_url.config(
+            default=os.getenv("DATABASE_URL_DEV", "sqlite://f{BASE_DIR}/db.sqlite3")
+        )
+    }
 elif MODE == "staging":
     DATABASES = {
-         "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL_STAGING", "sqlite://f{BASE_DIR}/db.sqlite3")
-    )}
+        "default": dj_database_url.config(
+            default=os.getenv("DATABASE_URL_STAGING", "sqlite://f{BASE_DIR}/db.sqlite3")
+        )
+    }
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
     # STATICFILES_STORAGE = os.getenv("STATICFILES_STORAGE")
     # MEDIA_URL = os.getenv("MEDIA_URL", "/images/")
 
 else:
     DATABASES = {
-         "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL", "sqlite://f{BASE_DIR}/db.sqlite3")
-    )}
+        "default": dj_database_url.config(
+            default=os.getenv("DATABASE_URL", "sqlite://f{BASE_DIR}/db.sqlite3")
+        )
+    }
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
@@ -189,3 +194,6 @@ EMAIL_PORT = os.getenv("EMAIL_PORT", 587)
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", True)
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "lucasantonete@gmail.com")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "loxe xrdk icwz axgc")
+
+
+API_VERSION = "v1"
