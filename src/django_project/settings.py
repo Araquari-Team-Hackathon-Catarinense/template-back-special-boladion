@@ -164,6 +164,10 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "django_project.schema_class.SchemaWithCompany",
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "NON_FIELD_ERRORS_KEY": "errors",
+    "DEFAULT_RENDERER_CLASSES": (
+        "django_project.renderers.CustomORJSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",  # Interface gráfica que o rafinha gosta
+    ),
 }
 
 SIMPLE_JWT = {
@@ -190,8 +194,8 @@ EMAIL_BACKEND = os.getenv(
     "EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
 )
 EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
-EMAIL_PORT = os.getenv("EMAIL_PORT", 587)
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", True)
+EMAIL_PORT = os.getenv("EMAIL_PORT", 587)  # pylint: disable=invalid-name
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", True)  # pylint: disable=invalid-name
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "lucasantonete@gmail.com")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "loxe xrdk icwz axgc")
 
