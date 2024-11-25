@@ -8,6 +8,6 @@ from core.company.infra.company_django_app.views import (
 
 router = DefaultRouter()
 
-router.register(r"companies", CompanyViewSet, basename="company")
-router.register(r"contracts", ContractViewSet, basename="contract")
-router.register(r"employees", EmployeeViewSet, basename="employee")
+router.register(r"company/companies", CompanyViewSet, basename="company-company")
+router.register(r"company/contracts", ContractViewSet, basename="company-contract")
+router.register(r"company/employees", EmployeeViewSet, basename="company-employee")

@@ -4,4 +4,4 @@ from core.product.infra.product_django_app.views import ProductViewSet
 
 router = DefaultRouter()
 
-router.register("products", ProductViewSet, basename="product")
+router.register("product/products", ProductViewSet, basename="product-products")

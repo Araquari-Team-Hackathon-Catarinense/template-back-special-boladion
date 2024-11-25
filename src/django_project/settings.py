@@ -198,3 +198,6 @@ EMAIL_PORT = os.getenv("EMAIL_PORT", 587)  # pylint: disable=invalid-name
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", True)  # pylint: disable=invalid-name
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "lucasantonete@gmail.com")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "loxe xrdk icwz axgc")
+
+
+API_VERSION = "v1"

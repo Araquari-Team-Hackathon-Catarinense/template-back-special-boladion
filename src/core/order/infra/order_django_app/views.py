@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework.viewsets import ModelViewSet
 
 from core.__seedwork__.domain.exceptions import CompanyNotInHeader
@@ -28,6 +29,7 @@ from core.order.infra.order_django_app.serializers import (
 )
 
 
+@extend_schema(tags=["Order"])
 class MeasurementUnitViewSet(ModelViewSet):
     queryset = MeasurementUnit.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -46,6 +48,7 @@ class MeasurementUnitViewSet(ModelViewSet):
         return MeasurementUnitCreateSerializer
 
 
+@extend_schema(tags=["Order"])
 class PackingViewSet(ModelViewSet):
     queryset = Packing.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -64,6 +67,7 @@ class PackingViewSet(ModelViewSet):
         return PackingCreateSerializer
 
 
+@extend_schema(tags=["Order"])
 class PurchaseSaleOrderViewSet(ModelViewSet):
     queryset = PurchaseSaleOrder.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -82,6 +86,7 @@ class PurchaseSaleOrderViewSet(ModelViewSet):
         return PurchaseSaleOrderCreateSerializer
 
 
+@extend_schema(tags=["Order"])
 class TransportContractViewSet(ModelViewSet):
     queryset = TransportContract.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -98,6 +103,7 @@ class TransportContractViewSet(ModelViewSet):
         return TransportContractCreateSerializer
 
 
+@extend_schema(tags=["Order"])
 class TripViewSet(ModelViewSet):
     queryset = Trip.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]

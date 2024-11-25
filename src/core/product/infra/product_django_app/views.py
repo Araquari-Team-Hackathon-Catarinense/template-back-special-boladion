@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework.viewsets import ModelViewSet
 
 from core.__seedwork__.domain.exceptions import CompanyNotInHeader
@@ -9,6 +10,7 @@ from core.product.infra.product_django_app.serializers import (
 )
 
 
+@extend_schema(tags=["Product"])
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]

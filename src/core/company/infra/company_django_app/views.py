@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -20,6 +21,7 @@ from core.uploader.infra.uploader_django_app.serializers import DocumentUploadSe
 from .models import Company, Contract, Employee
 
 
+@extend_schema(tags=["Core"])
 class CompanyViewSet(ModelViewSet):
     queryset = Company.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -68,6 +70,7 @@ class CompanyViewSet(ModelViewSet):
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(tags=["Company"])
 class EmployeeViewSet(ModelViewSet):
     queryset = Employee.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -85,6 +88,7 @@ class EmployeeViewSet(ModelViewSet):
         return EmployeeCreateSerializer
 
 
+@extend_schema(tags=["Company"])
 class ContractViewSet(ModelViewSet):
     queryset = Contract.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
