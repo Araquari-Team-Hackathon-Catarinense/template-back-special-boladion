@@ -10,5 +10,6 @@ from ._order import (
 )
 from ._parking import populate_operations, populate_parking_sectors, populate_parkings
 from ._product import populate_products
+from ._service import populate_services
 from ._user import populate_drivers, populate_employee, populate_users
 from ._vehicle import populate_bodies, populate_modalities, populate_vehicles

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "core.uploader.infra.uploader_django_app",
     "core.user.infra.user_django_app",
     "core.product.infra.product_django_app",
+    "core.service.infra.service_django_app",
 ]
 
 MIDDLEWARE = [
