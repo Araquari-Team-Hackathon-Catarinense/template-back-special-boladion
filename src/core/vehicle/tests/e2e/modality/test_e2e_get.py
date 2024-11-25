@@ -5,8 +5,9 @@ from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.vehicle.infra.vehicle_django_app.models import Modality
+from django_project.settings import API_VERSION
 
-url = "/api/modalities/"
+url = f"/api/{API_VERSION}/vehicle/modalities/"
 
 
 @pytest.mark.django_db

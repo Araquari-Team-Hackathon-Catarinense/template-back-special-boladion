@@ -5,7 +5,7 @@ from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
-from django_project.settings import BASE_URL
+from django_project.settings import API_VERSION, BASE_URL
 
 
 @pytest.mark.django_db
@@ -13,7 +13,7 @@ class TestRetrieveCompanyAPI:
     def test_retrieve_a_valid_company(self) -> None:
         companies = baker.make(Company, _quantity=3)
 
-        url = f"/api/companies/{companies[0].id}/"
+        url = f"/api/{API_VERSION}/company/companies/{companies[0].id}/"
         response = APIClient().get(url)
 
         expected_data = {
@@ -35,7 +35,7 @@ class TestRetrieveCompanyAPI:
         assert json.loads(response.content) == expected_data
 
     def test_if_throw_error_when_retrieving_an_invalid_company(self) -> None:
-        url = "/api/companies/12345678-1234-1234-1234-123456789012/"
+        url = f"/api/{API_VERSION}/company/companies/12345678-1234-1234-1234-123456789012/"
         response = APIClient().get(url)
         assert response.status_code == 404
         assert json.loads(response.content) == {

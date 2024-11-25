@@ -12,6 +12,7 @@ from core.order.infra.order_django_app.models import (
     PurchaseSaleOrder,
 )
 from core.product.infra.product_django_app.models import Product
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -63,7 +64,7 @@ class TestPurchaseSaleOrderListAPI:
             ],
         }
 
-        url = "/api/purchase-sale-orders/"
+        url = f"/api/{API_VERSION}/order/purchase-sale-orders/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         response = APIClient().get(url, **headers)
 

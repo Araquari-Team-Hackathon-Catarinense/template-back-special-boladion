@@ -6,6 +6,7 @@ from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.vehicle.infra.vehicle_django_app.models import Vehicle
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -15,7 +16,7 @@ class TestVehicleDetailAPI:
             Vehicle,
         )
 
-        url = f"/api/vehicles/{str(vehicle.id)}/"
+        url = f"/api/{API_VERSION}/vehicle/vehicles/{str(vehicle.id)}/"
         response = APIClient().get(url)
 
         # Extrair os dados de resposta JSON

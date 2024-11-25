@@ -7,6 +7,7 @@ from rest_framework.test import APIClient
 from core.company.infra.company_django_app.models import Company, Contract
 from core.company.infra.company_django_app.serializers import ContractListSerializer
 from core.parking.infra.parking_django_app.models import Parking, ParkingSector
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -18,7 +19,7 @@ class TestPatchParkingSectorAPI:
             ParkingSector, parking=parking, sector_type="ROTATIVE"
         )
 
-        url = f"/api/parking-sectors/{str(parking_sector.id)}/"
+        url = f"/api/{API_VERSION}/parking/parking-sectors/{str(parking_sector.id)}/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         new_data = {
             "description": "New Description",
@@ -42,7 +43,7 @@ class TestPatchParkingSectorAPI:
     def test_if_throw_error_when_retrieving_an_invalid_parking_sector(self) -> None:
         company: Company = baker.make(Company)
 
-        url = "/api/parking-sectors/12345678-1234-1234-1234-123456789012/"
+        url = f"/api/{API_VERSION}/parking/parking-sectors/12345678-1234-1234-1234-123456789012/"
         new_data = {
             "description": "New Description",
             "qty_slots": 10,
@@ -62,7 +63,7 @@ class TestPatchParkingSectorAPI:
         )
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
-        url = f"/api/parking-sectors/{str(parking_sector.id)}/"
+        url = f"/api/{API_VERSION}/parking/parking-sectors/{str(parking_sector.id)}/"
 
         new_data = {
             "description": "New Description",
@@ -88,7 +89,7 @@ class TestPatchParkingSectorAPI:
             ParkingSector, parking=parking, sector_type="CONTRACT", contract=contract
         )
 
-        url = f"/api/parking-sectors/{str(parking_sector.id)}/"
+        url = f"/api/{API_VERSION}/parking/parking-sectors/{str(parking_sector.id)}/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         new_data = {"description": "New Description", "sector_type": "ROTATIVE"}
@@ -117,7 +118,7 @@ class TestPatchParkingSectorAPI:
             ParkingSector, parking=parking, sector_type="ROTATIVE"
         )
 
-        url = f"/api/parking-sectors/{str(parking_sector.id)}/"
+        url = f"/api/{API_VERSION}/parking/parking-sectors/{str(parking_sector.id)}/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         contract: Contract = baker.make(Contract)

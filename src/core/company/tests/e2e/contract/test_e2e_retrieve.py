@@ -8,6 +8,7 @@ from PIL import Image
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Contract
+from django_project.settings import API_VERSION
 
 
 def generate_test_document() -> ContentFile:
@@ -37,7 +38,7 @@ class TestRetrieveAPI:
 
         company = contracts[0].source_company
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = f"/api/contracts/{contracts[0].id}/"
+        url = f"/api/{API_VERSION}/company/contracts/{contracts[0].id}/"
         response = APIClient().get(url, **headers)
 
         expected_data = {
@@ -67,7 +68,7 @@ class TestRetrieveAPI:
         company = contracts[0].source_company
 
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = "/api/contracts/12345678-1234-1234-1234-123456789012/"
+        url = f"/api/{API_VERSION}/company/contracts/12345678-1234-1234-1234-123456789012/"
 
         response = APIClient().get(url, **headers)
         assert response.status_code == 404

@@ -5,6 +5,7 @@ from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company, Employee
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -13,7 +14,7 @@ class TestRetrieveAPI:
         company = baker.make(Company)
         employees = baker.make(Employee, company=company, _quantity=3)
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = f"/api/employees/{employees[0].id}/"
+        url = f"/api/{API_VERSION}/company/employees/{employees[0].id}/"
         response = APIClient().get(url, **headers)
 
         expected_data = {
@@ -32,7 +33,7 @@ class TestRetrieveAPI:
         company = baker.make(Company)
 
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = "/api/employees/12345678-1234-1234-1234-123456789012/"
+        url = f"/api/{API_VERSION}/company/employees/12345678-1234-1234-1234-123456789012/"
         response = APIClient().get(url, **headers)
         assert response.status_code == 404
         assert json.loads(response.content) == {

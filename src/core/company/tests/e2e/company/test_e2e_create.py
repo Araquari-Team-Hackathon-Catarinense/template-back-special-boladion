@@ -2,13 +2,13 @@ import pytest
 from pycpfcnpj import gen
 from rest_framework.test import APIClient
 
-from core.company.infra.company_django_app.models import Company
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
 class TestListAPI:
     def test_create_a_valid_company(self) -> None:
-        url: str = "/api/companies/"
+        url: str = f"/api/{API_VERSION}/company/companies/"
         cnpj: str = gen.cnpj()
         company = {
             "name": "Company 1",
@@ -38,7 +38,7 @@ class TestListAPI:
         assert "id" in response.json()
 
     def test_if_throw_error_with_invalid_document_number(self) -> None:
-        url = "/api/companies/"
+        url = f"/api/{API_VERSION}/company/companies/"
         company = {
             "name": "Company 1",
             "trade_name": "Trade Name 1",
@@ -72,7 +72,7 @@ class TestListAPI:
     def test_if_throw_a_error_with_invalid_person_type_and_document_number_size(
         self,
     ) -> None:
-        url = "/api/companies/"
+        url = f"/api/{API_VERSION}/company/companies/"
         company = {
             "name": "Company 1",
             "trade_name": "Trade Name 1",

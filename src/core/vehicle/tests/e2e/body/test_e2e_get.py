@@ -5,8 +5,9 @@ from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.vehicle.infra.vehicle_django_app.models import Body
+from django_project.settings import API_VERSION
 
-url = "/api/bodies/"
+url = f"/api/{API_VERSION}/vehicle/bodies/"
 
 
 @pytest.mark.django_db

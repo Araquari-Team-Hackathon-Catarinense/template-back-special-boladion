@@ -6,6 +6,7 @@ from core.company.infra.company_django_app.models import Company
 from core.order.infra.order_django_app.models import TransportContract, Trip
 from core.user.infra.user_django_app.models import Driver
 from core.vehicle.infra.vehicle_django_app.models import Composition
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -18,7 +19,7 @@ class TestListTripAPI:
         driver = baker.make(Driver)
         composition = baker.make(Composition)
 
-        url = "/api/trips/"
+        url = f"/api/{API_VERSION}/order/trips/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         trips = baker.make(

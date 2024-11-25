@@ -5,6 +5,7 @@ from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company, Employee
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -13,7 +14,7 @@ class TestListAPI:
         company = baker.make(Company)
         created_employees = baker.make(Employee, company=company, _quantity=3)
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = "/api/employees/"
+        url = f"/api/{API_VERSION}/company/employees/"
         response = APIClient().get(
             url,
             **headers,
