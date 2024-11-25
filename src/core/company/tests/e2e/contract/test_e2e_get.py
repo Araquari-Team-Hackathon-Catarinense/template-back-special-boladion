@@ -2,10 +2,10 @@ import json
 
 import pytest
 from model_bakery import baker
-from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company, Contract
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -50,7 +50,7 @@ class TestListAPI:
             ],
         }
 
-        url = "/api/contracts/"
+        url = f"/api/{API_VERSION}/company/contracts/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         response = APIClient().get(url, **headers)
         print(

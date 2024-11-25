@@ -1,16 +1,15 @@
 import pytest
 from model_bakery import baker
-from pycpfcnpj import gen
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
-from core.user.infra.user_django_app.models import User
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
 class TestCreateAPI:
     def test_create_a_valid_contracts(self) -> None:
-        url: str = "/api/contracts/"
+        url: str = f"/api/{API_VERSION}/company/contracts/"
         companies = baker.make(Company, _quantity=2)
         headers = {"HTTP_X_COMPANY_ID": str(companies[0].id)}
 
@@ -32,7 +31,7 @@ class TestCreateAPI:
         assert "id" in response.json()
 
     def test_if_throw_error_with_invalid_target_company(self) -> None:
-        url = "/api/contracts/"
+        url = f"/api/{API_VERSION}/company/contracts/"
         company = baker.make(Company)
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
@@ -53,7 +52,7 @@ class TestCreateAPI:
         )
 
     def test_if_throw_error_with_invalid_contract_type(self) -> None:
-        url = "/api/contracts/"
+        url = f"/api/{API_VERSION}/company/contracts/"
         company = baker.make(Company)
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 

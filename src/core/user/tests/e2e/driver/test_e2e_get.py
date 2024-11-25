@@ -4,6 +4,7 @@ from rest_framework.test import APIClient
 
 from core.user.infra.user_django_app.models import Driver, User
 from core.user.infra.user_django_app.serializers import ParcialUserSerializer
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -15,7 +16,7 @@ class TestDriverListAPI:
             Driver, user=user, license_category="A", valid_until_license="2022-12-12"
         )
 
-        url = "/api/drivers/"
+        url = f"/api/{API_VERSION}/user/drivers/"
 
         client = APIClient()
         response = client.get(url)

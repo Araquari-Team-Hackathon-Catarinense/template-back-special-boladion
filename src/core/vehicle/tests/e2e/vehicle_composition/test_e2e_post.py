@@ -10,12 +10,13 @@ from core.vehicle.infra.vehicle_django_app.models import (
     Vehicle,
     VehicleType,
 )
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
 class TestListAPI:
     def test_create_a_valid_vehicle_composition(self) -> None:
-        url: str = "/api/vehicle-composition/"
+        url: str = f"/api/{API_VERSION}/vehicle/vehicle-composition/"
 
         vehicle = baker.make(Vehicle)
         composition = baker.make(Composition)
@@ -33,7 +34,7 @@ class TestListAPI:
         assert response.status_code == 201
 
     def test_create_a_invalid_vehicle_composition(self) -> None:
-        url: str = "/api/vehicle-composition/"
+        url: str = f"/api/{API_VERSION}/vehicle/vehicle-composition/"
 
         response = APIClient().post(
             url,
@@ -48,7 +49,7 @@ class TestListAPI:
         assert response.status_code == 400
 
     def test_create_with_invalid_vehicle_because_sequence_need_to_be_zero(self) -> None:
-        url = "/api/vehicle-composition/"
+        url = f"/api/{API_VERSION}/vehicle/vehicle-composition/"
 
         vehicle = baker.make(Vehicle, vehicle_type=VehicleType.TRACIONADORA)
         composition = baker.make(Composition)

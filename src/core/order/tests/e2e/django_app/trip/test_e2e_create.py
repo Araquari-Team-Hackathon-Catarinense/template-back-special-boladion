@@ -12,8 +12,9 @@ from core.order.infra.order_django_app.models import (
     Trip,
 )
 from core.user.infra.user_django_app.models import Driver
+from django_project.settings import API_VERSION
 
-url = "/api/trips/"
+url = f"/api/{API_VERSION}/order/trips/"
 
 
 @pytest.mark.django_db

@@ -6,8 +6,9 @@ from rest_framework.test import APIClient
 from core.company.infra.company_django_app.models import Company, Contract
 from core.order.infra.order_django_app.models import MeasurementUnit, Packing
 from core.product.infra.product_django_app.models import Product
+from django_project.settings import API_VERSION
 
-url = "/api/purchase-sale-orders/"
+url = f"/api/{API_VERSION}/order/purchase-sale-orders/"
 
 
 @pytest.mark.django_db
@@ -47,7 +48,7 @@ class TestCreatePurchaseSaleOrderAPITest:
         }
 
         response = APIClient().post(
-            "/api/purchase-sale-orders/",
+            f"/api/{API_VERSION}/order/purchase-sale-orders/",
             operation_data,
             format="json",
         )
@@ -79,7 +80,7 @@ class TestCreatePurchaseSaleOrderAPITest:
             "operation_type": "DESCARGA",
         }
         response = APIClient().post(
-            "/api/purchase-sale-orders/",
+            f"/api/{API_VERSION}/order/purchase-sale-orders/",
             operation_data,
             format="json",
         )

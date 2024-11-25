@@ -6,6 +6,7 @@ from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
 from core.parking.infra.parking_django_app.models import Parking
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -14,7 +15,7 @@ class TestListAPI:
         company: Company = baker.make(Company)
         created_parkings = baker.make(Parking, _quantity=3, company=company, slots=0)
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = "/api/parkings/"
+        url = f"/api/{API_VERSION}/parking/parkings/"
         response = APIClient().get(url, **headers)
 
         expected_data = {

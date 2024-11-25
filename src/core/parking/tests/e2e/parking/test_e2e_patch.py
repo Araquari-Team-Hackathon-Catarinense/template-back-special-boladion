@@ -6,6 +6,7 @@ from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
 from core.parking.infra.parking_django_app.models import Parking
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -15,7 +16,7 @@ class TestPatchParkingAPI:
 
         parking: Parking = baker.make(Parking, company=company, slots=0)
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = f"/api/parkings/{str(parking.id)}/"
+        url = f"/api/{API_VERSION}/parking/parkings/{str(parking.id)}/"
 
         new_data = {
             "description": "New Description",
@@ -33,7 +34,9 @@ class TestPatchParkingAPI:
 
     def test_if_throw_error_when_retrieving_an_invalid_parking(self) -> None:
         company: Company = baker.make(Company)
-        url = "/api/parkings/12345678-1234-1234-1234-123456789012/"
+        url = (
+            f"/api/{API_VERSION}/parking/parkings/12345678-1234-1234-1234-123456789012/"
+        )
         new_data = {
             "description": "New Description",
             "company": "12345678-1234-1234-1234-123456789012",
@@ -48,7 +51,7 @@ class TestPatchParkingAPI:
     def test_if_throw_error_when_pass_a_invalid_company(self) -> None:
         company: Company = baker.make(Company)
         parking: Parking = baker.make(Parking, company=company)
-        url = f"/api/parkings/{str(parking.id)}/"
+        url = f"/api/{API_VERSION}/parking/parkings/{str(parking.id)}/"
 
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
@@ -71,7 +74,7 @@ class TestPatchParkingAPI:
 
         parking: Parking = baker.make(Parking, company=company, slots=0)
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = f"/api/parkings/{str(parking.id)}/"
+        url = f"/api/{API_VERSION}/parking/parkings/{str(parking.id)}/"
 
         new_data = {
             "description": "New Description",

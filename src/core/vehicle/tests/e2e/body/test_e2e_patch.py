@@ -5,6 +5,7 @@ from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.vehicle.infra.vehicle_django_app.models import Body
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -13,7 +14,7 @@ class TestPatchBodyAPI:
 
         body: Body = baker.make(Body)
 
-        url = f"/api/bodies/{str(body.id)}/"
+        url = f"/api/{API_VERSION}/vehicle/bodies/{str(body.id)}/"
 
         new_data = {
             "description": "New body",
@@ -29,7 +30,7 @@ class TestPatchBodyAPI:
         assert json.loads(response.content) == expected_data
 
     def test_if_throw_error_when_retrieving_an_invalid_body(self) -> None:
-        url = "/api/bodies/12345678-1234-1234-1234-123456789012/"
+        url = f"/api/{API_VERSION}/vehicle/bodies/12345678-1234-1234-1234-123456789012/"
         new_data = {
             "description": "New Body",
         }

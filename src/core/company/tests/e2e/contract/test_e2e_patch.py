@@ -4,7 +4,8 @@ import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from core.company.infra.company_django_app.models import Company, Contract
+from core.company.infra.company_django_app.models import Contract
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -14,7 +15,7 @@ class TestPatchAPI:
         contracts = baker.make(Contract, _quantity=3)
         company = contracts[0].source_company
 
-        url = f"/api/contracts/{contracts[0].id}/"
+        url = f"/api/{API_VERSION}/company/contracts/{contracts[0].id}/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         new_data = {
             "contract_type": "TRANSPORTADORA",
@@ -36,7 +37,7 @@ class TestPatchAPI:
         contracts = baker.make(Contract, _quantity=3)
         company = contracts[0].source_company
 
-        url = "/api/contracts/12345678-1234-1234-1234-123456789012/"
+        url = f"/api/{API_VERSION}/company/contracts/12345678-1234-1234-1234-123456789012/"
         new_data = {
             "contract_type": "TRANSPORTADORA",
         }

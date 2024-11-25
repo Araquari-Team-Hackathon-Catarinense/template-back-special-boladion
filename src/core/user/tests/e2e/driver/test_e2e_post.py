@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.user.infra.user_django_app.models import Driver, User
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -20,7 +21,7 @@ class TestCreateDriverAPITest:
         }
 
         response = APIClient().post(
-            "/api/drivers/",
+            f"/api/{API_VERSION}/user/drivers/",
             driver_data,
             format="json",
         )
@@ -40,7 +41,7 @@ class TestCreateDriverAPITest:
         }
 
         response = APIClient().post(
-            "/api/drivers/",
+            f"/api/{API_VERSION}/user/drivers/",
             driver_data,
             format="json",
         )

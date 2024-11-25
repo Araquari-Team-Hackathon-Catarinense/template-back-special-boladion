@@ -5,12 +5,13 @@ from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.vehicle.infra.vehicle_django_app.models import Body, Modality, Vehicle
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
 class TestListAPI:
     def test_create_a_valid_vehicle(self) -> None:
-        url: str = "/api/vehicles/"
+        url: str = f"/api/{API_VERSION}/vehicle/vehicles/"
 
         body: Body = baker.make(Body)
         modality: Modality = baker.make(Modality)
@@ -33,7 +34,7 @@ class TestListAPI:
         assert response.status_code == 201
 
     def test_if_throw_error_with_invalid_vehicle(self) -> None:
-        url = "/api/vehicles/"
+        url = f"/api/{API_VERSION}/vehicle/vehicles/"
 
         body: Body = baker.make(Body)
         modality: Modality = baker.make(Modality)

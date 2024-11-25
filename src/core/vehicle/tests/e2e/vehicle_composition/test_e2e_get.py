@@ -7,6 +7,7 @@ from core.vehicle.infra.vehicle_django_app.models import (
     Vehicle,
     VehicleComposition,
 )
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -19,7 +20,7 @@ class TestVehicleDetailAPI:
             VehicleComposition, vehicle=vehicle, composition=composition, sequence=1
         )
 
-        url = f"/api/get-vehicle-composition/?license={vehicle.license}"
+        url = f"/api/{API_VERSION}/vehicle/get-vehicle-composition/?license={vehicle.license}"
 
         client = APIClient()
 

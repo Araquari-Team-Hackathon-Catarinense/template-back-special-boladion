@@ -7,12 +7,13 @@ from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company, Contract
 from core.parking.infra.parking_django_app.models import Parking, ParkingSector
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
 class TestParkingSectorListAPI:
     def test_create_a_valid_parking(self) -> None:
-        url: str = "/api/parking-sectors/"
+        url: str = f"/api/{API_VERSION}/parking/parking-sectors/"
         cnpj: str = gen.cnpj()
         company: Company = Company.objects.create(
             name="Company 1",
@@ -59,7 +60,7 @@ class TestParkingSectorListAPI:
     def test_if_throw_error_with_invalid_parking(self) -> None:
         company = baker.make(Company)
 
-        url = "/api/parking-sectors/"
+        url = f"/api/{API_VERSION}/parking/parking-sectors/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         parking_sector = {
@@ -90,7 +91,7 @@ class TestParkingSectorListAPI:
         self,
     ) -> None:
 
-        url = "/api/parking-sectors/"
+        url = f"/api/{API_VERSION}/parking/parking-sectors/"
         cnpj: str = gen.cnpj()
         company: Company = Company.objects.create(
             name="Company 1",

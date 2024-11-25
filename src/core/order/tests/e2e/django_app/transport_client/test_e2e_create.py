@@ -4,12 +4,10 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company, Contract
-from core.order.infra.order_django_app.models import (
-    PurchaseSaleOrder,
-    TransportContract,
-)
+from core.order.infra.order_django_app.models import PurchaseSaleOrder
+from django_project.settings import API_VERSION
 
-url = "/api/transport-contracts/"
+url = f"/api/{API_VERSION}/order/transport-contracts/"
 
 
 @pytest.mark.django_db

@@ -1,13 +1,10 @@
-from wsgiref import headers
-
 import pytest
 from model_bakery import baker
-from pycpfcnpj import gen
 from rest_framework.test import APIClient
-from six import b
 
 from core.company.infra.company_django_app.models import Company
 from core.user.infra.user_django_app.models import User
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -22,7 +19,7 @@ class TestCreateAPI:
             "is_active": True,
         }
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url: str = "/api/employees/"
+        url: str = f"/api/{API_VERSION}/company/employees/"
         response = APIClient().post(
             url,
             {
@@ -47,7 +44,7 @@ class TestCreateAPI:
             "user": str(user.id),
             "is_active": True,
         }
-        url = "/api/employees/"
+        url = f"/api/{API_VERSION}/company/employees/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 
         response = APIClient().post(
@@ -65,7 +62,7 @@ class TestCreateAPI:
         assert "O valor “123” não é um UUID válido" in response.json()["company"][0]
 
     def test_if_throw_error_with_invalid_user_id(self) -> None:
-        url = "/api/employees/"
+        url = f"/api/{API_VERSION}/company/employees/"
         company = baker.make(Company)
         employee = {
             "company": str(company.id),
@@ -88,7 +85,7 @@ class TestCreateAPI:
         assert "não é um UUID válido" in response.json()["user"][0]
 
     def test_if_throw_error_with_invalid_is_active(self) -> None:
-        url = "/api/employees/"
+        url = f"/api/{API_VERSION}/company/employees/"
         company = baker.make(Company)
         user = baker.make(User)
         employee = {

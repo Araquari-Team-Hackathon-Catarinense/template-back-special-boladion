@@ -6,12 +6,13 @@ from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
 from core.parking.infra.parking_django_app.models import Parking
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
 class TestListAPI:
     def test_create_a_valid_parking(self) -> None:
-        url: str = "/api/parkings/"
+        url: str = f"/api/{API_VERSION}/parking/parkings/"
 
         cnpj: str = gen.cnpj()
         company: Company = Company.objects.create(
@@ -43,7 +44,7 @@ class TestListAPI:
         assert "id" in response.json()
 
     def test_if_throw_error_with_invalid_company(self) -> None:
-        url = "/api/parkings/"
+        url = f"/api/{API_VERSION}/parking/parkings/"
 
         parking = {
             "description": "Parking 1",
@@ -68,7 +69,7 @@ class TestListAPI:
     def test_if_create_a_parking_by_passing_the_slots(
         self,
     ) -> None:
-        url = "/api/parkings/"
+        url = f"/api/{API_VERSION}/parking/parkings/"
 
         company: Company = Company.objects.create(
             name="Company 1",

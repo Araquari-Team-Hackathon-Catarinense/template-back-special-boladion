@@ -1,13 +1,12 @@
-import json
-
 import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
 from core.parking.infra.parking_django_app.models import Operation, Parking
+from django_project.settings import API_VERSION
 
-url = "/api/operations/"
+url = f"/api/{API_VERSION}/parking/operations/"
 
 
 @pytest.mark.django_db
@@ -17,7 +16,7 @@ class TestOperationListAPI:
         parking: Parking = baker.make(Parking, company=company)
         created_operations = baker.make(Operation, _quantity=3, parking=parking)
 
-        url = "/api/operations/"
+        url = f"/api/{API_VERSION}/parking/operations/"
 
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
 

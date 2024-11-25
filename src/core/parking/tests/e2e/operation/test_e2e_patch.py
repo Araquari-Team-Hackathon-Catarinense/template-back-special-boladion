@@ -6,6 +6,7 @@ from rest_framework.test import APIClient
 
 from core.company.infra.company_django_app.models import Company
 from core.parking.infra.parking_django_app.models import Operation, Parking
+from django_project.settings import API_VERSION
 
 
 @pytest.mark.django_db
@@ -16,7 +17,7 @@ class TestPatchOperationAPI:
 
         operation: Operation = baker.make(Operation, parking=parking)
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = f"/api/operations/{str(operation.id)}/"
+        url = f"/api/{API_VERSION}/parking/operations/{str(operation.id)}/"
 
         new_data = {
             "name": "New Operation",
@@ -34,7 +35,7 @@ class TestPatchOperationAPI:
 
     def test_if_throw_error_when_retrieving_an_invalid_operation(self) -> None:
         company = baker.make(Company)
-        url = "/api/operations/12345678-1234-1234-1234-123456789012/"
+        url = f"/api/{API_VERSION}/parking/operations/12345678-1234-1234-1234-123456789012/"
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
         new_data = {
             "name": "New Name",
@@ -51,7 +52,7 @@ class TestPatchOperationAPI:
 
         operation: Operation = baker.make(Operation, parking=parking)
         headers = {"HTTP_X_COMPANY_ID": str(company.id)}
-        url = f"/api/operations/{str(operation.id)}/"
+        url = f"/api/{API_VERSION}/parking/operations/{str(operation.id)}/"
 
         new_data = {
             "name": "New name",
