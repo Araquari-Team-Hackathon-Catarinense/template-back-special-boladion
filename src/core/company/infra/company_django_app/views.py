@@ -21,7 +21,7 @@ from core.uploader.infra.uploader_django_app.serializers import DocumentUploadSe
 from .models import Company, Contract, Employee
 
 
-@extend_schema(tags=["Company"])
+@extend_schema(tags=["Core"])
 class CompanyViewSet(ModelViewSet):
     queryset = Company.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]

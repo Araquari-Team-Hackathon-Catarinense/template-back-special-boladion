@@ -103,6 +103,7 @@ class TransportContractViewSet(ModelViewSet):
         return TransportContractCreateSerializer
 
 
+@extend_schema(tags=["Order"])
 class TripViewSet(ModelViewSet):
     queryset = Trip.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]

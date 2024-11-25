@@ -14,7 +14,7 @@ class CreateViewSet(
     pass
 
 
-@extend_schema(tags=["Uploader"])
+@extend_schema(tags=["Core"])
 class DocumentUploadViewSet(CreateViewSet):
     queryset = Document.objects.all()  #  pylint: disable=no-member
     serializer_class = DocumentUploadSerializer

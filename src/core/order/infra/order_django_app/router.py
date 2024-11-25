@@ -26,4 +26,4 @@ router.register(
     TransportContractViewSet,
     basename="order-transport-contract",
 )
-router.register(r"trips", TripViewSet, basename="trip")
+router.register(r"order/trips", TripViewSet, basename="order-trip")
