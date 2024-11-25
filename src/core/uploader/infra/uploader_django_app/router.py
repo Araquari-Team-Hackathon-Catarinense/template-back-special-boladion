@@ -5,4 +5,4 @@ from core.uploader.infra.uploader_django_app import views
 app_name = "uploader"
 
 router = DefaultRouter()
-router.register("documents", views.DocumentUploadViewSet)
+router.register("uploader/documents", views.DocumentUploadViewSet)

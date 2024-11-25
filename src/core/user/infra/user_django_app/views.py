@@ -18,7 +18,7 @@ from .serializers import (
 )
 
 
-@extend_schema(tags=["user"])
+@extend_schema(tags=["User"])
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -61,6 +61,7 @@ class UserViewSet(ModelViewSet):
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(tags=["User"])
 class DriverViewSet(ModelViewSet):
     queryset = Driver.objects.all()
     serializer_class = DriverListSerializer

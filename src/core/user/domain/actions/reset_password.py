@@ -18,7 +18,7 @@ from core.user.infra.user_django_app.models import User
 from django_project.settings import TOKEN_EXPIRATION_SECONDS
 
 
-@extend_schema(tags=["forget_password"])
+@extend_schema(tags=["User"])
 @api_view(["POST"])
 @throttle_classes([AnonRateThrottle])
 @authentication_classes([])

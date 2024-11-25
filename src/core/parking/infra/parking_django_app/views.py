@@ -15,7 +15,7 @@ from core.parking.infra.parking_django_app.serializers import (
 from .models import Operation, Parking, ParkingSector
 
 
-@extend_schema(tags=["parking"])
+@extend_schema(tags=["Parking"])
 class ParkingViewSet(ModelViewSet):
     queryset = Parking.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -35,7 +35,7 @@ class ParkingViewSet(ModelViewSet):
         return ParkingCreateSerializer
 
 
-@extend_schema(tags=["parking"])
+@extend_schema(tags=["Parking"])
 class ParkingSectorViewSet(ModelViewSet):
     queryset = ParkingSector.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
@@ -53,7 +53,7 @@ class ParkingSectorViewSet(ModelViewSet):
         return ParkingSectorCreateSerializer
 
 
-@extend_schema(tags=["parking"])
+@extend_schema(tags=["Parking"])
 class OperationViewSet(ModelViewSet):
     queryset = Operation.objects.all()
     http_method_names = ["get", "post", "patch", "delete"]
