@@ -36,14 +36,10 @@ INSTALLED_APPS = [
     "safedelete",
     "django_filters",
     "core.company.infra.company_django_app",
-    "core.parking.infra.parking_django_app",
     "core.populate.infra.populate_django_app",
-    "core.order.infra.order_django_app",
-    "core.vehicle.infra.vehicle_django_app",
     "core.uploader.infra.uploader_django_app",
     "core.user.infra.user_django_app",
-    "core.product.infra.product_django_app",
-    "core.service.infra.service_django_app",
+
 ]
 
 MIDDLEWARE = [
