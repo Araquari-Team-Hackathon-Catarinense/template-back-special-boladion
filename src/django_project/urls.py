@@ -13,7 +13,6 @@ from drf_spectacular.views import (
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from core.user.domain.actions import forget_password, reset_password, validate_token
-from core.vehicle.infra.vehicle_django_app.views import VehicleCompositionApiView
 from django_project.settings import API_VERSION
 
 from .router import router
@@ -60,11 +59,7 @@ urlpatterns = [
         TokenRefreshView.as_view(),
         name="user-token_refresh",
     ),
-    path(
-        f"api/{API_VERSION}/vehicle/get-vehicle-composition/",
-        VehicleCompositionApiView.as_view(),
-        name="vehicle-get-vehicle-composition",
-    ),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
